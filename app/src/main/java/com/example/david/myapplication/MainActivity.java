@@ -16,13 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import org.apache.http.HttpResponse;
-//import org.apache.http.client.ClientProtocolException;
-//import org.apache.http.client.HttpClient;
-//import org.apache.http.client.methods.HttpPost;
-//import org.apache.http.entity.StringEntity;
-//import org.apache.http.impl.client.DefaultHttpClient;
-//import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,59 +27,32 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String tag = "Events";
+    EditText txtuser,txtpassword;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login_gradbk);
         Log.d(tag,"Event a onCreate");
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+        txtuser = (EditText) findViewById(R.id.editText_Usuario);
+        txtpassword = (EditText) findViewById(R.id.editText_Password);
 
-        Button buto1 = (Button) findViewById(R.id.login);
+        Button buto1 = (Button) findViewById(R.id.button_Login);
         buto1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText txtuser = (EditText) findViewById(R.id.username);
-                EditText txtpassword = (EditText) findViewById(R.id.password);
-                String userString = txtuser.getText().toString();
-                String passString = txtpassword.getText().toString();
-                Intent intentOj = new Intent(MainActivity.this, Activity2.class);
-                intentOj.putExtra("userName",userString);
-                intentOj.putExtra("password",passString);
-
-//                HttpClient httpClient = new DefaultHttpClient();
-//                HttpPost post = new HttpPost("http://localhost:8080/myapp/json/login");
-//                post.setHeader("content-type", "application/json");
-//                JSONObject dato = new JSONObject();
-//                ArrayList<String> lista = new ArrayList<>();
-//                lista.add(userString);
-//                lista.add(passString);
-//                try {
-//                    dato.put("lista",lista);
-//                    StringEntity entity = new StringEntity(dato.toString());
-//                    post.setEntity(entity);
-//                    HttpResponse resp = httpClient.execute(post);
-//                    String respStr = EntityUtils.toString(resp.getEntity());
-//                    if (!respStr.equals("true")){
-//                        startActivity(intentOj);
-//                    }else{
-//                        Toast.makeText(MainActivity.this, "Usuario no existente", Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                } catch (ClientProtocolException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-                startActivity(intentOj);
+//                String userString = txtuser.getText().toString();
+//                String passString = txtpassword.getText().toString();
+//                Intent intentOj = new Intent(MainActivity.this, Activity2.class);
+//                intentOj.putExtra("userName",userString);
+//                intentOj.putExtra("password",passString);
+                consumirServicio();
+                //startActivity(intentOj);
                 //Toast.makeText(MainActivity.this, "Usuario no existente", Toast.LENGTH_LONG).show();
             }
         });
-        Button buto2 = (Button) findViewById(R.id.register);
+        Button buto2 = (Button) findViewById(R.id.button_Register);
         buto2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentOj);
             }
         });
+    }
+
+    public boolean consumirServicio(){
+        boolean resp;
+        // ahora ejecutaremos el hilo creado
+        String userName= txtuser.getText().toString();
+        String password= txtpassword.getText().toString();
+
+        ServicioTask2 servicioTask2= new ServicioTask2(this,"http://localhost:8080/myapp/json/login",userName,password);
+        servicioTask2.execute();
+        return true;
     }
 
     @Override
