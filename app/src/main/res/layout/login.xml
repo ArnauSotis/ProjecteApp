@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        app:srcCompat="@drawable/usa_opt" />
+        app:srcCompat="@drawable/upc" />
 
     <EditText
         android:id="@+id/username"

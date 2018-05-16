@@ -1,11 +1,14 @@
 package com.example.david.myapplication;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -19,13 +22,32 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
+    public static final String BASE_URL_LOCAL ="http://localhost:8080/myapp/";
+
+    private TrackAPI trackServices;
+    private Call<Usuario> calluser;
+    private Call<Integer> callLog;
+    private Call<Objeto> callobject;
+
+
     String tag = "Events";
     EditText txtuser,txtpassword;
     @Override
@@ -33,23 +55,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_gradbk);
         Log.d(tag,"Event a onCreate");
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
         txtuser = (EditText) findViewById(R.id.editText_Usuario);
         txtpassword = (EditText) findViewById(R.id.editText_Password);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL_LOCAL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        trackServices = retrofit.create(TrackAPI.class);
 
         Button buto1 = (Button) findViewById(R.id.button_Login);
         buto1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String userString = txtuser.getText().toString();
-//                String passString = txtpassword.getText().toString();
-//                Intent intentOj = new Intent(MainActivity.this, Activity2.class);
-//                intentOj.putExtra("userName",userString);
-//                intentOj.putExtra("password",passString);
-                consumirServicio();
-                //startActivity(intentOj);
-                //Toast.makeText(MainActivity.this, "Usuario no existente", Toast.LENGTH_LONG).show();
+                postLogin();
             }
         });
         Button buto2 = (Button) findViewById(R.id.button_Register);
@@ -62,15 +84,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public boolean consumirServicio(){
-        boolean resp;
-        // ahora ejecutaremos el hilo creado
-        String userName= txtuser.getText().toString();
-        String password= txtpassword.getText().toString();
+    void postLogin(){
+        String user = txtuser.getText().toString();
+        String pass = txtpassword.getText().toString();
 
-        ServicioTask2 servicioTask2= new ServicioTask2(this,"http://localhost:8080/myapp/json/login",userName,password);
-        servicioTask2.execute();
-        return true;
+        Login log = new Login(user,pass);
+        callLog = trackServices.login(log);
+        callLog.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                int statusCode = response.code();
+                Integer i = response.body();
+                if (response.isSuccessful()) {
+                    Toast.makeText (MainActivity.this,"Login correct",Toast.LENGTH_SHORT).show();
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + i);
+                    //obri el proxim layoud que obrira el joc
+                } else {
+                    if(i==0){
+                        Toast.makeText (MainActivity.this,"Wrong Password",Toast.LENGTH_SHORT).show();
+                    }if(i==2){
+                        Toast.makeText (MainActivity.this,"user don't exist",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + i);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                // log error here since request failed
+                Log.d("Request: ", "error loading API" + t.toString());
+            }
+        });
     }
 
     @Override
@@ -92,10 +136,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop (){
+    protected void onStop() {
         super.onStop();
-        Log.d(tag,"Event a onStop");
+//        if (calltrack != null) {
+//            calltrack.cancel();
+//        }
+//        if (callstring != null) {
+//            callstring.cancel();
+//        }
+
     }
+
     @Override
     protected void onDestroy (){
         super.onDestroy();
