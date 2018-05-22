@@ -18,7 +18,7 @@ public interface TrackAPI {
     Call<Objeto> consultarObjeto (@Path("obj") int nomObj);
 
     @POST("json/login")
-    Call<Integer> login (@Body Login login);
+    Call<Boolean> login (@Body Login login);
 
     @POST("json/newUser")
     Call<Boolean> register (@Body Usuario user);

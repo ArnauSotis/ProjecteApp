@@ -22,7 +22,7 @@ public class Register extends AppCompatActivity {
     EditText txtuser, txtpassword;
 
     public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
-    public static final String BASE_URL_LOCAL ="http://localhost:8080/myapp/";
+    //public static final String BASE_URL ="http://localhost:8080/myapp/";
     private TrackAPI trackServices;
     private Call<Boolean> calluser;
 
@@ -31,13 +31,15 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        //escoges el layout
+        setContentView(R.layout.register2);
 
         txtuser = (EditText) findViewById(R.id.newuser);
         txtpassword = (EditText) findViewById(R.id.newpassword);
-
+        Bundle intentdata = getIntent().getExtras();
+        //trackServices = intentdata.getParcelable("conec");
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_LOCAL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

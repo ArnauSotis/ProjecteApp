@@ -3,6 +3,7 @@ package com.example.david.myapplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.CallLog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,11 +41,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
-    public static final String BASE_URL_LOCAL ="http://localhost:8080/myapp/";
-
+    //public static final String BASE_URL ="http://localhost:8080/myapp/";
+    //public static final String BASE_URL ="http://192.168.1.44:8080/myapp/";
     private TrackAPI trackServices;
     private Call<Usuario> calluser;
-    private Call<Integer> callLog;
+    private Call<Boolean> callLog;
     private Call<Objeto> callobject;
 
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         txtpassword = (EditText) findViewById(R.id.editText_Password);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_LOCAL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentOj = new Intent(MainActivity.this, Register.class);
+                //intentOj.putExtra("conec", (Parcelable) trackServices);
                 startActivity(intentOj);
             }
         });
@@ -90,27 +92,25 @@ public class MainActivity extends AppCompatActivity {
 
         Login log = new Login(user,pass);
         callLog = trackServices.login(log);
-        callLog.enqueue(new Callback<Integer>() {
+        callLog.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 int statusCode = response.code();
-                Integer i = response.body();
+                Boolean resp = response.body();
                 if (response.isSuccessful()) {
-                    Toast.makeText (MainActivity.this,"Login correct",Toast.LENGTH_SHORT).show();
-                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + i);
+                    Toast.makeText (MainActivity.this,"Login correct",Toast.LENGTH_LONG).show();
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + resp);
                     //obri el proxim layoud que obrira el joc
+                    Intent intentOj = new Intent(MainActivity.this, Activity2.class);
+                    startActivity(intentOj);
                 } else {
-                    if(i==0){
-                        Toast.makeText (MainActivity.this,"Wrong Password",Toast.LENGTH_SHORT).show();
-                    }if(i==2){
-                        Toast.makeText (MainActivity.this,"user don't exist",Toast.LENGTH_SHORT).show();
-                    }
-                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + i);
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
+                    Toast.makeText (MainActivity.this,"Usuario/password erroneos",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 // log error here since request failed
                 Log.d("Request: ", "error loading API" + t.toString());
             }
