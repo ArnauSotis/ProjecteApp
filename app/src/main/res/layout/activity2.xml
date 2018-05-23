@@ -7,14 +7,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="259dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+
+    <Button
+        android:id="@+id/button_izquierda"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="550dp"
+        android:layout_marginTop="38dp"
+        android:background="@android:color/transparent"
+        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_abajo" />
+
+    <Button
+        android:id="@+id/button_derecha"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="550dp"
+        android:layout_marginTop="25dp"
+        android:background="@android:color/transparent"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_izquierda" />
+
+    <Button
+        android:id="@+id/button_abajo"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="550dp"
+        android:layout_marginTop="22dp"
+        android:background="@android:color/transparent"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_arriba" />
+
+    <Button
+        android:id="@+id/button_arriba"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="550dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

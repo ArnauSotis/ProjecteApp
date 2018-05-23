@@ -10,12 +10,15 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmp,bmp2,bmp3,bmp4,bmp5,bmp6;
+    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
+    private Sprite sprite;
+    private long lastClick;
 
-
+//    private static final int BMP_ROWS = 4;
+//    private static final int BMP_COLUMNS = 3
 
     public GameView(Context context) {
         super(context);
@@ -46,31 +49,60 @@ public class GameView extends SurfaceView {
                     }
                 }
             }
+
         });
 
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.hierba);
-        bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.puente);
-        bmp3 = BitmapFactory.decodeResource(getResources(), R.drawable.agua);
-        bmp4 = BitmapFactory.decodeResource(getResources(), R.drawable.casa1);
-        bmp5 = BitmapFactory.decodeResource(getResources(), R.drawable.arbustoh);
-        bmp6 = BitmapFactory.decodeResource(getResources(), R.drawable.arbustov);
+        bmpHierba = BitmapFactory.decodeResource(getResources(), R.drawable.hierba);
+        bmpPuente = BitmapFactory.decodeResource(getResources(), R.drawable.puente);
+        bmpAgua = BitmapFactory.decodeResource(getResources(), R.drawable.agua);
+        bmpCasa1 = BitmapFactory.decodeResource(getResources(), R.drawable.casa1);
+        bmpArbustoH = BitmapFactory.decodeResource(getResources(), R.drawable.arbustoh);
+        bmpArbustoV = BitmapFactory.decodeResource(getResources(), R.drawable.arbustov);
+        bmpPrincipal = BitmapFactory.decodeResource(getResources(), R.drawable.good1_opt);
+        bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
+        bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
+
+        sprite = new Sprite(this,bmpPrincipal);
     }
 
     //@Override
     protected void dibuja(Canvas canvas, int mapa) {
         canvas.drawColor(Color.BLACK);
+        //alto1080-ancho1920
         int height = getHeight();
         int width = getWidth();
+        //Log.d( "this","alto" + height + "ancho"+width);
         if(mapa==1){
             dibujaMapa1(canvas,height,width);
         }
-        if (x < getWidth() - bmp2.getWidth()) {
+        if (x < getWidth() - bmpPuente.getWidth()) {
             x=x+10;
             if(x>=1500)
                 x=0;
         }
+        canvas.drawBitmap(bmpPuente, x, 50, null);
+        sprite.onDraw(canvas);
+    }
 
-        canvas.drawBitmap(bmp2, x, 50, null);
+    private Sprite createSprite(int resouce) {
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
+        return new Sprite(this,bmp);
+    }
+    @Override
+
+    public boolean onTouchEvent(MotionEvent event) {
+        if (System.currentTimeMillis() - lastClick > 500) {
+            lastClick = System.currentTimeMillis();
+            synchronized (getHolder()) {
+//                    if (sprite.isCollition(event.getX(), event.getY())) {
+//                        sprites.remove(sprite);
+//                    }
+                float x = event.getX();
+                float y = event.getY();
+                sprite.caminarPresion(x,y);
+            }
+        }
+        return true;
     }
 
     //mapa1
@@ -79,26 +111,31 @@ public class GameView extends SurfaceView {
         {
             for(int x=0;x<width-90;x=x+45)
             {
-                canvas.drawBitmap(bmp, x, y, null);
+                canvas.drawBitmap(bmpHierba, x, y, null);
             }
         }
         for(int y2=0;y2<height;y2=y2+45){
-            canvas.drawBitmap(bmp3, width-45, y2, null);
-            canvas.drawBitmap(bmp3, width-90, y2, null);
+            canvas.drawBitmap(bmpAgua, width-45, y2, null);
+            canvas.drawBitmap(bmpAgua, width-90, y2, null);
         }
         for(int x=0;x<width-180;x=x+90){
-            canvas.drawBitmap(bmp5, x, 0, null);
+            canvas.drawBitmap(bmpArbustoH, x, 0, null);
         }
         for(int x=0;x<width-180;x=x+90){
-            canvas.drawBitmap(bmp5, x, height, null);
+            canvas.drawBitmap(bmpArbustoH, x, height - 45, null);
         }
-        for(int y2=40;y2<height;y2=y2+90){
-            canvas.drawBitmap(bmp6, 0, y2, null);
+        for(int y2=40;y2<height-90;y2=y2+90){
+            canvas.drawBitmap(bmpArbustoV, 0, y2, null);
+        }
+        for(int y=0;y<height-60;y=y+60){
+            if (y!=60) {
+                canvas.drawBitmap(bmpVallaV, 1810, y, null);
+            }
         }
         //puente
-        canvas.drawBitmap(bmp2, 1820, 45, null);
+        canvas.drawBitmap(bmpPuente, 1820, 45, null);
         //casa
-        canvas.drawBitmap(bmp4, 1300, 600, null);
+        canvas.drawBitmap(bmpCasa1, 1300, 600, null);
     }
 
 }

@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 public class GameLoopThread extends Thread {
 
     static final long FPS = 30;
-
+    private int mapaActual = 1;
     private GameView view;
     private boolean running = false;
 
@@ -27,7 +27,8 @@ public class GameLoopThread extends Thread {
             try {
                 c = view.getHolder().lockCanvas();
                 synchronized (view.getHolder()) {
-                    view.dibuja(c,1);
+                    view.dibuja(c,mapaActual);
+
                 }
             } finally {
                 if (c != null) {
@@ -44,5 +45,8 @@ public class GameLoopThread extends Thread {
                 // DO NOTHING
             }
         }
+    }
+    public void cambiarMapa (int newMapa){
+        this.mapaActual = newMapa;
     }
 }
