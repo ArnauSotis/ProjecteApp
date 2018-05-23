@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
     //public static final String BASE_URL ="http://localhost:8080/myapp/";
-    //public static final String BASE_URL ="http://192.168.1.44:8080/myapp/";
+    //public static final String BASE_URL ="http://192.168.42.214:8080/myapp/";
     private TrackAPI trackServices;
     private Call<Usuario> calluser;
     private Call<Boolean> callLog;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_gradbk);
         Log.d(tag,"Event a onCreate");
 

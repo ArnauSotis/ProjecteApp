@@ -22,6 +22,7 @@ public class Register extends AppCompatActivity {
     EditText txtuser, txtpassword;
 
     public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
+    //public static final String BASE_URL ="http://192.168.42.197:8080/myapp/";
     //public static final String BASE_URL ="http://localhost:8080/myapp/";
     private TrackAPI trackServices;
     private Call<Boolean> calluser;
