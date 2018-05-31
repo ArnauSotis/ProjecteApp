@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Call<Usuario> calluser;
     private Call<Boolean> callLog;
     private Call<Objeto> callobject;
+    ProgressBar pb1;
 
 
 
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_gradbk);
         Log.d(tag,"Event a onCreate");
+
+        pb1 = (ProgressBar) findViewById(R.id.loading);
 
         txtuser = (EditText) findViewById(R.id.editText_Usuario);
         txtpassword = (EditText) findViewById(R.id.editText_Password);
@@ -72,15 +76,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentOj = new Intent(MainActivity.this, Register.class);
-                //intentOj.putExtra("conec", (Parcelable) trackServices);
                 startActivity(intentOj);
             }
         });
     }
     public void postLogin(View view){
-        String user = txtuser.getText().toString();
+        pb1.setVisibility(ProgressBar.VISIBLE);
+        final String user = txtuser.getText().toString();
         String pass = txtpassword.getText().toString();
-        //ProgressBar pb1 = (ProgressBar) findViewById(R.id.determinateBar);
 
 
         Login log = new Login(user,pass);
@@ -95,17 +98,23 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText (MainActivity.this,"Login correct",Toast.LENGTH_LONG).show();
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + resp);
+                    pb1.setVisibility(ProgressBar.INVISIBLE);
                     //obri el proxim layoud que obrira el joc
-                    Intent intentOj = new Intent(MainActivity.this, Juego.class);
+//                    Intent intentOj = new Intent(MainActivity.this, Juego.class);
+//                    startActivity(intentOj);
+                    Intent intentOj = new Intent(getApplicationContext(), Juego.class);
+                    //intentOj.putExtra("name", user);
                     startActivity(intentOj);
                 } else {
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
                     Toast.makeText (MainActivity.this,"Usuario/password erroneos",Toast.LENGTH_LONG).show();
+                    pb1.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
+                pb1.setVisibility(ProgressBar.INVISIBLE);
                 // log error here since request failed
                 Log.d("Request: ", "error loading API" + t.toString());
             }
