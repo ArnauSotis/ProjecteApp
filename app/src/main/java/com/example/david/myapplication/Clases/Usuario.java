@@ -1,5 +1,6 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Clases;
 
+import com.example.david.myapplication.Clases.Objeto;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

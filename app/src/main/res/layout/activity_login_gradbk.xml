@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -79,17 +80,18 @@
 
             <Button
                 android:id="@+id/button_Login"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_login"
-                android:text="Log in"
-                android:textColor="#f16f7d"
-                android:textAllCaps="false"
-                android:padding="16dp"
-                android:clickable="true"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_marginTop="24dp"
-                android:textSize="18sp"/>
+                android:background="@drawable/background_login"
+                android:clickable="true"
+                android:onClick="postLogin"
+                android:padding="16dp"
+                android:text="Log in"
+                android:textAllCaps="false"
+                android:textColor="#f16f7d"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/button_Register"
@@ -117,5 +119,6 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

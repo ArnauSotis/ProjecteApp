@@ -1,4 +1,4 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import android.widget.Toast;
+
+import com.example.david.myapplication.Clases.Usuario;
+import com.example.david.myapplication.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;

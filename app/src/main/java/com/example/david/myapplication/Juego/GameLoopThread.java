@@ -1,6 +1,10 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 
 import android.graphics.Canvas;
+
+import com.example.david.myapplication.Clases.Celda;
+import com.example.david.myapplication.Juego.GameView;
+import com.example.david.myapplication.MatrizesMapas.Matrizes;
 
 public class GameLoopThread extends Thread {
 
@@ -8,6 +12,12 @@ public class GameLoopThread extends Thread {
     private int mapaActual = 1;
     private GameView view;
     private boolean running = false;
+//    private Matrizes generadorMatrizes;
+//    public Celda matrizMapa [][];
+//
+//    public Celda[][] getMatrizMapa() {
+//        return matrizMapa;
+//    }
 
     public GameLoopThread(GameView view) {
         this.view = view;
@@ -27,6 +37,11 @@ public class GameLoopThread extends Thread {
             try {
                 c = view.getHolder().lockCanvas();
                 synchronized (view.getHolder()) {
+//                    if(mapaActual==1) {
+//                        //generar matriz mapa 1
+//                        //generadorMatrizes.generarMapa1();
+//                        this.matrizMapa= generadorMatrizes.generarMapa1();
+//                    }
                     view.dibuja(c,mapaActual);
 
                 }

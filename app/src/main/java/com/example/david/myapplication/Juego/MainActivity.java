@@ -1,15 +1,8 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.CallLog;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -18,19 +11,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.david.myapplication.Clases.Login;
+import com.example.david.myapplication.Clases.Objeto;
+import com.example.david.myapplication.R;
+import com.example.david.myapplication.Clases.Usuario;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Call<Usuario> calluser;
     private Call<Boolean> callLog;
     private Call<Objeto> callobject;
+
 
 
     String tag = "Events";
@@ -72,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
         trackServices = retrofit.create(TrackAPI.class);
 
-        Button buto1 = (Button) findViewById(R.id.button_Login);
-        buto1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                postLogin();
-            }
-        });
+//        Button buto1 = (Button) findViewById(R.id.button_Login);
+//        buto1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                postLogin();
+//            }
+//        });
         Button buto2 = (Button) findViewById(R.id.button_Register);
         buto2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,14 +77,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    void postLogin(){
+    public void postLogin(View view){
         String user = txtuser.getText().toString();
         String pass = txtpassword.getText().toString();
+        //ProgressBar pb1 = (ProgressBar) findViewById(R.id.determinateBar);
+
 
         Login log = new Login(user,pass);
         callLog = trackServices.login(log);
+
         callLog.enqueue(new Callback<Boolean>() {
+
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 int statusCode = response.code();
@@ -105,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText (MainActivity.this,"Login correct",Toast.LENGTH_LONG).show();
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode)+ "resultado:" + resp);
                     //obri el proxim layoud que obrira el joc
-                    Intent intentOj = new Intent(MainActivity.this, Activity2.class);
+                    Intent intentOj = new Intent(MainActivity.this, Juego.class);
                     startActivity(intentOj);
                 } else {
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));

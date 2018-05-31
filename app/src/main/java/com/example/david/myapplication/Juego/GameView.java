@@ -1,12 +1,20 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.david.myapplication.Clases.Celda;
+import com.example.david.myapplication.MatrizesMapas.Matrizes;
+import com.example.david.myapplication.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameView extends SurfaceView {
 
@@ -16,9 +24,17 @@ public class GameView extends SurfaceView {
     private int x = 0;
     private Sprite sprite;
     private long lastClick;
+    private Sprite moverJugador;
+    private List<Sprite> sprites = new ArrayList<Sprite>();
+    private static final int BMP_ROWS = 24;
+    private static final int BMP_COLUMNS = 43;
+    private Celda matrizMapa [][] = new Celda[24][43];
+    private Celda celdaArbusto = new Celda (2);
+    private Celda celdaAgua = new Celda(3);
+    private Celda celdaHierba = new Celda(0);
+    private Celda celdaActuar = new Celda(1);
 
-//    private static final int BMP_ROWS = 4;
-//    private static final int BMP_COLUMNS = 3
+
 
     public GameView(Context context) {
         super(context);
@@ -27,6 +43,7 @@ public class GameView extends SurfaceView {
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                createSprites();
                 gameLoopThread.setRunning(true);
                 gameLoopThread.start();
             }
@@ -58,11 +75,11 @@ public class GameView extends SurfaceView {
         bmpCasa1 = BitmapFactory.decodeResource(getResources(), R.drawable.casa1);
         bmpArbustoH = BitmapFactory.decodeResource(getResources(), R.drawable.arbustoh);
         bmpArbustoV = BitmapFactory.decodeResource(getResources(), R.drawable.arbustov);
-        bmpPrincipal = BitmapFactory.decodeResource(getResources(), R.drawable.good1_opt);
+        //bmpPrincipal = BitmapFactory.decodeResource(getResources(), R.drawable.good1_opt);
         bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
         bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
 
-        sprite = new Sprite(this,bmpPrincipal);
+        //sprite = new Sprite(this,bmpPrincipal);
     }
 
     //@Override
@@ -75,31 +92,40 @@ public class GameView extends SurfaceView {
         if(mapa==1){
             dibujaMapa1(canvas,height,width);
         }
-        if (x < getWidth() - bmpPuente.getWidth()) {
-            x=x+10;
-            if(x>=1500)
-                x=0;
-        }
-        canvas.drawBitmap(bmpPuente, x, 50, null);
-        sprite.onDraw(canvas);
+//        if (x < getWidth() - bmpPuente.getWidth()) {
+//            x=x+10;
+//            if(x>=1500)
+//                x=0;
+//        }
+//        canvas.drawBitmap(bmpPuente, x, 50, null);
+        //sprite.onDraw(canvas);
+//        for (Sprite sprite : sprites) {
+//            sprite.onDraw(canvas);
+//        }
+        sprites.get(0).setMatrizMapa(matrizMapa);
+        sprites.get(0).onDraw(canvas);
     }
 
     private Sprite createSprite(int resouce) {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
         return new Sprite(this,bmp);
     }
-    @Override
+    private void createSprites() {
+        sprites.add(createSprite(R.drawable.good1_opt));
+    }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (System.currentTimeMillis() - lastClick > 500) {
             lastClick = System.currentTimeMillis();
             synchronized (getHolder()) {
-//                    if (sprite.isCollition(event.getX(), event.getY())) {
-//                        sprites.remove(sprite);
-//                    }
-                float x = event.getX();
-                float y = event.getY();
-                sprite.caminarPresion(x,y);
+                    if (isCollitionMap(event.getX(), event.getY())) {
+                        //sprites.remove(sprite);
+                    }else{
+                        float x = event.getX();
+                        float y = event.getY();
+                        sprites.get(0).caminarPresion(x,y);
+                    }
             }
         }
         return true;
@@ -107,6 +133,12 @@ public class GameView extends SurfaceView {
 
     //mapa1
     protected void dibujaMapa1 (Canvas canvas, int height, int width){
+        //posició inicial nino mapa 1
+        sprites.get(0).iniciNino(45,500);
+        sprites.get(0).setEstadoMapa(1);
+        //matrizMapa = gameLoopThread.getMatrizMapa();
+//        Celda c = matrizMapa[0][0];
+//        Log.d("matriz", "tipo:" + c.getTipo());
         for(int y=0;y<height;y=y+45)
         {
             for(int x=0;x<width-90;x=x+45)
@@ -120,6 +152,10 @@ public class GameView extends SurfaceView {
         }
         for(int x=0;x<width-180;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 0, null);
+        }
+        //arbustos por el medio
+        for(int x=45;x<450;x=x+90){
+            canvas.drawBitmap(bmpArbustoH, x, 315, null);
         }
         for(int x=0;x<width-180;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, height - 45, null);
@@ -136,6 +172,34 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpPuente, 1820, 45, null);
         //casa
         canvas.drawBitmap(bmpCasa1, 1300, 600, null);
+        //pintar el nino
+
+        //Matriz del mapa
+        for(int y=45;y<1035;y=y+45){
+            for(int x=45;x<1830;x=x+45){
+                this.matrizMapa [x][y] = this.celdaHierba;
+            }
+        }
+        for(int x=0; x<1935; x=x+45 ){
+            this.matrizMapa [x][0] = this.celdaArbusto;
+        }
+        for(int x=45; x<450; x=x+45 ){
+            this.matrizMapa [x][315] = this.celdaArbusto;
+        }
+        for(int y=0; y<1080; y=y+45 ){
+            this.matrizMapa [0][y] = this.celdaArbusto;
+        }
+        for(int x=0; x<1935; x=x+45 ){
+            this.matrizMapa [x][1035] = this.celdaArbusto;
+        }
+        for(int y=0;y<1080;y=y+45){
+            this.matrizMapa [1875][y] = this.celdaAgua;
+            this.matrizMapa [1830][y] = this.celdaAgua;
+        }
+        sprites.get(0).setMatrizMapa(matrizMapa);
+    }
+    public boolean isCollitionMap(float x2, float y2) {
+        return x2<45 || x2 > getWidth() - 200 || y2 < 45 || y2 > getHeight()-90;
     }
 
 }

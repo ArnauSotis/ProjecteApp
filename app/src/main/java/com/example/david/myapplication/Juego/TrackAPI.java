@@ -1,10 +1,11 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 
-import java.util.List;
+import com.example.david.myapplication.Clases.Login;
+import com.example.david.myapplication.Clases.Objeto;
+import com.example.david.myapplication.Clases.Usuario;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
