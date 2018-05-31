@@ -27,13 +27,15 @@ public class Matrizes {
     }
 
     public void generarMapa (int mapa){
+        //el muñeco solo avanza si es 0 esta puesto en el Sprite funcion update
         if(mapa==1){
+            //declaro primero tod el mapa como hierba que significa pisable
             for(int y=0;y<BMP_ROWS;y++){
                 for(int x=0;x<BMP_COLUMNS;x++){
                     this.matrizMapa1 [y][x] = this.celdaHierba;
                 }
             }
-            //contorno
+            //declaro el contorno de arbustos y el de agua
             for(int x=0; x<BMP_COLUMNS; x++ ){
                 this.matrizMapa1 [0][x] = this.celdaArbusto;
             }
@@ -47,11 +49,11 @@ public class Matrizes {
                 this.matrizMapa1[y][42] = this.celdaAgua;
                 //this.matrizMapa1[y][41] = this.celdaAgua;
             }
-            //extras
+            //extras // linea de 5 arbustos
             for(int x=1; x<11; x++ ){
                 this.matrizMapa1 [6][x] = this.celdaArbusto;
             }
-            //caseta
+            //casetas
             for(int x= 28; x<39;x++){
                 //this.matrizMapa1 [11][x] = this.celdaExtras;
                 this.matrizMapa1 [12][x] = this.celdaExtras;

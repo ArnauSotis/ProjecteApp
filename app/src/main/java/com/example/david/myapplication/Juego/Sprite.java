@@ -38,26 +38,28 @@ public class Sprite {
     public int getEstadoMapa() {
         return estadoMapa;
     }
+    //para saber en que mapa esta el sprite
     public void setEstadoMapa(int estadoMapa) {
         this.estadoMapa = estadoMapa;
     }
-
+    //se introduce la matriz del mapa en el que estemos
     public void setMatrizMapa(Celda[][] matrizMapa) {
         this.matrizMapa = matrizMapa;
     }
-
+    //donde se pone el muñeco solo empezar viene del GameView
     public void iniciNino (int x, int y){
         this.x = x;
         this.y = y;
     }
+    //son las coordenadas de donde queremos ir, cuando pulsamos la pantalla
     public void caminarPresion (float x, float y){
         this.movx = x;
         this.movy = y;
     }
+    //no hace nada
     public void caminar (int mov){
         this.mov = mov;
     }
-
 
 
     public Sprite(GameView gameView, Bitmap bmp) {
@@ -67,7 +69,7 @@ public class Sprite {
         this.height = bmp.getHeight() / BMP_ROWS;
     }
 
-
+    //actualiza la posición del muñeco lo va moviendo se actualiza cada poco ms esta declarado en GameLoopThread
     private void update(float movx, float movy) {
         //width del muñeco
 //        if (x >= gameView.getWidth() - width - xSpeed || x + xSpeed <= 0) {
@@ -83,6 +85,7 @@ public class Sprite {
         int yp = y/45;
         Log.d("fila", ":"+ yp);
         // direction = 0 up, 1 left, 2 down, 3 right,
+        //comprobamos las 4 casillas posibles donde el muñeco puede ir
         Celda p0 = matrizMapa[yp+1][xp];
         Celda p1 = matrizMapa[yp][xp-1];
         Celda p2 = matrizMapa[yp-1][xp];
@@ -91,7 +94,6 @@ public class Sprite {
         Log.d("valor de la celda",":"+p1.getTipo());
         Log.d("valor de la celda",":"+p2.getTipo());
         Log.d("valor de la celda",":"+p3.getTipo());
-
         if (x < movx) {
             if(p3.getTipo()==0){
                 //x = x + 45;
@@ -116,7 +118,6 @@ public class Sprite {
                 y = y - ySpeed;
             }
         }
-
 //        if (x > movx ){
 //            xSpeed = -xSpeed;
 //        }
@@ -128,8 +129,7 @@ public class Sprite {
         currentFrame = ++currentFrame % BMP_COLUMNS;
     }
 
-
-
+    //pinta el muñeco despues del update
     public void onDraw(Canvas canvas) {
         update(movx,movy);
         int srcX = currentFrame * width;

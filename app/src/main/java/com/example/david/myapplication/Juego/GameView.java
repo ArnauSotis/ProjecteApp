@@ -63,7 +63,7 @@ public class GameView extends SurfaceView {
             }
 
         });
-
+        //asignamos a cada bitmap el dibujito que le toca
         bmpHierba = BitmapFactory.decodeResource(getResources(), R.drawable.hierba);
         bmpPuente = BitmapFactory.decodeResource(getResources(), R.drawable.puente);
         bmpAgua = BitmapFactory.decodeResource(getResources(), R.drawable.agua);
@@ -78,12 +78,15 @@ public class GameView extends SurfaceView {
     }
 
     //@Override
+    //esta funcion es llamada en el GameLoopThread tod el rato para pintarlo todo
     protected void dibuja(Canvas canvas, int mapa) {
         canvas.drawColor(Color.BLACK);
         //alto1080-ancho1920
         int height = getHeight();
         int width = getWidth();
         //Log.d( "this","alto" + height + "ancho"+width);
+
+        //dibujamos el mapa 1
         if(mapa==1){
             if (this.inici==1){
                 sprites.get(0).iniciNino(90,500);
@@ -95,16 +98,17 @@ public class GameView extends SurfaceView {
             }
             dibujaMapa1(canvas,height,width);
         }
+        //era el puente que se movia por el mapa de lado a lado
 //        if (x < getWidth() - bmpPuente.getWidth()) {
 //            x=x+10;
 //            if(x>=1500)
 //                x=0;
 //        }
 //        canvas.drawBitmap(bmpPuente, x, 50, null);
-        //pintar el nino
+        //pintar el muñeco en el mapa
         sprites.get(0).onDraw(canvas);
     }
-
+    //para crear el personaje principal igual haremos para los enemigos
     private Sprite createSprite(int resouce) {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
         return new Sprite(this,bmp);
@@ -113,6 +117,8 @@ public class GameView extends SurfaceView {
         sprites.add(createSprite(R.drawable.good1_opt));
     }
 
+    ///////////////
+    //Aqui es donde apretas la pantalla envia las coordenadas al Sprite
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (System.currentTimeMillis() - lastClick > 500) {
@@ -136,6 +142,8 @@ public class GameView extends SurfaceView {
 
     //mapa1
     protected void dibujaMapa1 (Canvas canvas, int height, int width){
+        //pinta el mapa a partir de las fotos
+        //tod verde
         for(int y=0;y<height;y=y+45)
         {
             for(int x=0;x<width-90;x=x+45)
@@ -143,23 +151,29 @@ public class GameView extends SurfaceView {
                 canvas.drawBitmap(bmpHierba, x, y, null);
             }
         }
+        //agua
         for(int y2=0;y2<height;y2=y2+45){
             canvas.drawBitmap(bmpAgua, width-45, y2, null);
             canvas.drawBitmap(bmpAgua, width-90, y2, null);
         }
+        //contorno de los tres muros de arbustos
+        //arbusto horizontal de alli viene el nombre de ArbustoH
         for(int x=0;x<width-180;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 0, null);
         }
-        //arbustos por el medio
-        for(int x=45;x<450;x=x+90){
-            canvas.drawBitmap(bmpArbustoH, x, 315, null);
-        }
+
         for(int x=0;x<width-180;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, height - 45, null);
         }
         for(int y2=40;y2<height-90;y2=y2+90){
             canvas.drawBitmap(bmpArbustoV, 0, y2, null);
         }
+        //////////////
+        //arbustos por el medio
+        for(int x=45;x<450;x=x+90){
+            canvas.drawBitmap(bmpArbustoH, x, 315, null);
+        }
+        //la valla lateral al lado del agua
         for(int y=0;y<height-60;y=y+60){
             if (y!=60) {
                 canvas.drawBitmap(bmpVallaV, 1810, y, null);
@@ -172,6 +186,7 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpCasa1, 1530, 585, null);
 
     }
+    //son las colisiones del contorno los tres muros de arbusto mas el agua para que no se pueda ir ni apretando pantalla
     public boolean isCollitionMap(float x2, float y2) {
         return x2<45 || x2 > getWidth() - 180  || y2 < 45 || y2 > getHeight()-90;
     }
