@@ -22,18 +22,13 @@ public class GameView extends SurfaceView {
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
+    private int inici =1;
     private Sprite sprite;
     private long lastClick;
     private Sprite moverJugador;
     private List<Sprite> sprites = new ArrayList<Sprite>();
-    private static final int BMP_ROWS = 24;
-    private static final int BMP_COLUMNS = 43;
-    private Celda matrizMapa [][] = new Celda[24][43];
-    private Celda celdaArbusto = new Celda (2);
-    private Celda celdaAgua = new Celda(3);
-    private Celda celdaHierba = new Celda(0);
-    private Celda celdaActuar = new Celda(1);
-
+    Matrizes generadorMatrizes = new Matrizes();
+    Celda matrizMapa [][];
 
 
     public GameView(Context context) {
@@ -90,6 +85,14 @@ public class GameView extends SurfaceView {
         int width = getWidth();
         //Log.d( "this","alto" + height + "ancho"+width);
         if(mapa==1){
+            if (this.inici==1){
+                sprites.get(0).iniciNino(90,500);
+                sprites.get(0).setEstadoMapa(1);
+                this.generadorMatrizes.generarMapa(1);
+                this.matrizMapa = generadorMatrizes.getMatrizMapa1();
+                sprites.get(0).setMatrizMapa(matrizMapa);
+                this.inici=0;
+            }
             dibujaMapa1(canvas,height,width);
         }
 //        if (x < getWidth() - bmpPuente.getWidth()) {
@@ -98,11 +101,7 @@ public class GameView extends SurfaceView {
 //                x=0;
 //        }
 //        canvas.drawBitmap(bmpPuente, x, 50, null);
-        //sprite.onDraw(canvas);
-//        for (Sprite sprite : sprites) {
-//            sprite.onDraw(canvas);
-//        }
-        sprites.get(0).setMatrizMapa(matrizMapa);
+        //pintar el nino
         sprites.get(0).onDraw(canvas);
     }
 
@@ -133,12 +132,6 @@ public class GameView extends SurfaceView {
 
     //mapa1
     protected void dibujaMapa1 (Canvas canvas, int height, int width){
-        //posició inicial nino mapa 1
-        sprites.get(0).iniciNino(45,500);
-        sprites.get(0).setEstadoMapa(1);
-        //matrizMapa = gameLoopThread.getMatrizMapa();
-//        Celda c = matrizMapa[0][0];
-//        Log.d("matriz", "tipo:" + c.getTipo());
         for(int y=0;y<height;y=y+45)
         {
             for(int x=0;x<width-90;x=x+45)
@@ -172,31 +165,7 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpPuente, 1820, 45, null);
         //casa
         canvas.drawBitmap(bmpCasa1, 1300, 600, null);
-        //pintar el nino
 
-        //Matriz del mapa
-        for(int y=45;y<1035;y=y+45){
-            for(int x=45;x<1830;x=x+45){
-                this.matrizMapa [x][y] = this.celdaHierba;
-            }
-        }
-        for(int x=0; x<1935; x=x+45 ){
-            this.matrizMapa [x][0] = this.celdaArbusto;
-        }
-        for(int x=45; x<450; x=x+45 ){
-            this.matrizMapa [x][315] = this.celdaArbusto;
-        }
-        for(int y=0; y<1080; y=y+45 ){
-            this.matrizMapa [0][y] = this.celdaArbusto;
-        }
-        for(int x=0; x<1935; x=x+45 ){
-            this.matrizMapa [x][1035] = this.celdaArbusto;
-        }
-        for(int y=0;y<1080;y=y+45){
-            this.matrizMapa [1875][y] = this.celdaAgua;
-            this.matrizMapa [1830][y] = this.celdaAgua;
-        }
-        sprites.get(0).setMatrizMapa(matrizMapa);
     }
     public boolean isCollitionMap(float x2, float y2) {
         return x2<45 || x2 > getWidth() - 200 || y2 < 45 || y2 > getHeight()-90;

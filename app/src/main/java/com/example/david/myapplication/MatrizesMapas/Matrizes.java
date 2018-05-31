@@ -15,6 +15,9 @@ public class Matrizes {
     private Celda celdaHierba = new Celda(0);
     private Celda celdaActuar = new Celda(1);
 
+    public Matrizes() {
+    }
+
     public Celda[][] getMatrizMapa1() {
         return matrizMapa1;
     }
@@ -22,29 +25,37 @@ public class Matrizes {
         this.matrizMapa1 = matrizMapa1;
     }
 
-    public Celda[][] generarMapa1 (){
-        for(int y=45;y<1035;y=y+45){
-            for(int x=45;x<1830;x=x+45){
-                this.matrizMapa1 [x][y] = this.celdaHierba;
+    public void generarMapa (int mapa){
+        if(mapa==1){
+            for(int y=0;y<BMP_ROWS;y++){
+                for(int x=0;x<BMP_COLUMNS;x++){
+                    this.matrizMapa1 [y][x] = this.celdaHierba;
+                }
+            }
+            for(int x=0; x<BMP_COLUMNS; x++ ){
+                this.matrizMapa1 [0][x] = this.celdaArbusto;
+            }
+            for(int x=1; x<10; x++ ){
+                this.matrizMapa1 [7][x] = this.celdaArbusto;
+            }
+            for(int y=0; y<BMP_ROWS; y++ ){
+                this.matrizMapa1 [y][0] = this.celdaArbusto;
+            }
+            for(int x=0; x<BMP_COLUMNS; x++ ){
+                this.matrizMapa1 [23][x] = this.celdaArbusto;
+            }
+            for(int y=0;y<BMP_ROWS;y++) {
+                this.matrizMapa1[y][42] = this.celdaAgua;
+                this.matrizMapa1[y][41] = this.celdaAgua;
             }
         }
-        for(int x=0; x<1935; x=x+45 ){
-            this.matrizMapa1 [x][0] = this.celdaArbusto;
+        if(mapa==2){
+
         }
-        for(int x=45; x<450; x=x+45 ){
-            this.matrizMapa1 [x][315] = this.celdaArbusto;
-        }
-        for(int y=0; y<1080; y=y+45 ){
-            this.matrizMapa1 [0][y] = this.celdaArbusto;
-        }
-        for(int x=0; x<1935; x=x+45 ){
-            this.matrizMapa1 [x][1035] = this.celdaArbusto;
-        }
-        for(int y=0;y<1080;y=y+45){
-            this.matrizMapa1 [1875][y] = this.celdaAgua;
-            this.matrizMapa1 [1830][y] = this.celdaAgua;
+        if(mapa==3){
+
         }
 
-        return matrizMapa1;
+
     }
 }
