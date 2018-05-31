@@ -70,7 +70,7 @@ public class Sprite {
     }
 
     //actualiza la posición del muñeco lo va moviendo se actualiza cada poco ms esta declarado en GameLoopThread
-    private void update(float movx, float movy) {
+    private void update() {
         //width del muñeco
 //        if (x >= gameView.getWidth() - width - xSpeed || x + xSpeed <= 0) {
 //            xSpeed = -xSpeed;
@@ -97,25 +97,29 @@ public class Sprite {
         if (x < movx) {
             if(p3.getTipo()==0){
                 //x = x + 45;
-                x = x + xSpeed;
+                xSpeed = 5;
+                x = x + 5;
             }
-        } else if (x > movx) {
+        } else{
+        //lse if (x > movx) {
             if(p1.getTipo()==0) {
-                //xSpeed = -xSpeed;
+                xSpeed = -5;
                 //x = x - 45;
-                x = x - xSpeed;
+                x = x - 5;
             }
         }
         if (y < movy) {
             if(p0.getTipo()==0){
                 //y = y + 45;
-                y = y + ySpeed;
+                ySpeed = 5;
+                y = y + 5;
             }
-        } else if (y > movy) {
+        } else{
+        //else if (y > movy) {
             if(p2.getTipo()==0){
-                //ySpeed = -ySpeed;
+                ySpeed = -5;
                 //y = y - 45;
-                y = y - ySpeed;
+                y = y - 5;
             }
         }
 //        if (x > movx ){
@@ -131,12 +135,30 @@ public class Sprite {
 
     //pinta el muñeco despues del update
     public void onDraw(Canvas canvas) {
-        update(movx,movy);
-        int srcX = currentFrame * width;
-        int srcY = getAnimationRow() * height;
-        Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        Rect dst = new Rect(x, y, x + width, y + height);
-        canvas.drawBitmap(bmpPrincipal, src, dst, null);
+        int goToX = (int)movx/45;
+        int gotToY = (int)movy/45;
+        int xp = x/45;
+        int yp = y/45;
+        if (goToX==xp && gotToY==yp){
+            int srcX = currentFrame * width;
+            int srcY = getAnimationRow() * height;
+            Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            Rect dst = new Rect(x, y, x + width, y + height);
+            canvas.drawBitmap(bmpPrincipal, src, dst, null);
+        } else if (goToX==xp+1 && gotToY==yp+1){
+            int srcX = currentFrame * width;
+            int srcY = getAnimationRow() * height;
+            Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            Rect dst = new Rect(x, y, x + width, y + height);
+            canvas.drawBitmap(bmpPrincipal, src, dst, null);
+        }else {
+            update();
+            int srcX = currentFrame * width;
+            int srcY = getAnimationRow() * height;
+            Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            Rect dst = new Rect(x, y, x + width, y + height);
+            canvas.drawBitmap(bmpPrincipal, src, dst, null);
+        }
 
     }
 
