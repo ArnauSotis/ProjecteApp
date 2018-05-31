@@ -13,6 +13,7 @@ public class Matrizes {
     private Celda celdaArbusto = new Celda (2);
     private Celda celdaAgua = new Celda(3);
     private Celda celdaHierba = new Celda(0);
+    private Celda celdaExtras = new Celda(4);
     private Celda celdaActuar = new Celda(1);
 
     public Matrizes() {
@@ -32,11 +33,9 @@ public class Matrizes {
                     this.matrizMapa1 [y][x] = this.celdaHierba;
                 }
             }
+            //contorno
             for(int x=0; x<BMP_COLUMNS; x++ ){
                 this.matrizMapa1 [0][x] = this.celdaArbusto;
-            }
-            for(int x=1; x<10; x++ ){
-                this.matrizMapa1 [7][x] = this.celdaArbusto;
             }
             for(int y=0; y<BMP_ROWS; y++ ){
                 this.matrizMapa1 [y][0] = this.celdaArbusto;
@@ -46,11 +45,27 @@ public class Matrizes {
             }
             for(int y=0;y<BMP_ROWS;y++) {
                 this.matrizMapa1[y][42] = this.celdaAgua;
-                this.matrizMapa1[y][41] = this.celdaAgua;
+                //this.matrizMapa1[y][41] = this.celdaAgua;
+            }
+            //extras
+            for(int x=1; x<11; x++ ){
+                this.matrizMapa1 [6][x] = this.celdaArbusto;
+            }
+            //caseta
+            for(int x= 28; x<39;x++){
+                //this.matrizMapa1 [11][x] = this.celdaExtras;
+                this.matrizMapa1 [12][x] = this.celdaExtras;
+                this.matrizMapa1 [13][x] = this.celdaExtras;
+                this.matrizMapa1 [14][x] = this.celdaExtras;
+                this.matrizMapa1 [15][x] = this.celdaExtras;
             }
         }
         if(mapa==2){
-
+            for(int y=0;y<BMP_ROWS;y++){
+                for(int x=0;x<BMP_COLUMNS;x++){
+                    this.matrizMapa1 [y][x] = this.celdaHierba;
+                }
+            }
         }
         if(mapa==3){
 

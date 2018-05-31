@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_gradbk);
+
         Log.d(tag,"Event a onCreate");
 
         pb1 = (ProgressBar) findViewById(R.id.loading);

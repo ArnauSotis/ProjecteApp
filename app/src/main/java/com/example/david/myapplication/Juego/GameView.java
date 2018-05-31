@@ -118,13 +118,17 @@ public class GameView extends SurfaceView {
         if (System.currentTimeMillis() - lastClick > 500) {
             lastClick = System.currentTimeMillis();
             synchronized (getHolder()) {
-                    if (isCollitionMap(event.getX(), event.getY())) {
-                        //sprites.remove(sprite);
-                    }else{
-                        float x = event.getX();
-                        float y = event.getY();
-                        sprites.get(0).caminarPresion(x,y);
-                    }
+                //aqui posarem el boto d'agafar objectes
+                if(false){
+
+                }
+                if (isCollitionMap(event.getX(), event.getY())) {
+                    //sprites.remove(sprite);
+                }else{
+                  float x = event.getX();
+                  float y = event.getY();
+                  sprites.get(0).caminarPresion(x,y);
+                }
             }
         }
         return true;
@@ -163,12 +167,13 @@ public class GameView extends SurfaceView {
         }
         //puente
         canvas.drawBitmap(bmpPuente, 1820, 45, null);
-        //casa
-        canvas.drawBitmap(bmpCasa1, 1300, 600, null);
+        //casa1 i 2 estan juntes
+        canvas.drawBitmap(bmpCasa1, 1305, 585, null);
+        canvas.drawBitmap(bmpCasa1, 1530, 585, null);
 
     }
     public boolean isCollitionMap(float x2, float y2) {
-        return x2<45 || x2 > getWidth() - 200 || y2 < 45 || y2 > getHeight()-90;
+        return x2<45 || x2 > getWidth() - 180  || y2 < 45 || y2 > getHeight()-90;
     }
 
 }

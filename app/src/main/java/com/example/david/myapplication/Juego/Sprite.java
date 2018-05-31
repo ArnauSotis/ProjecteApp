@@ -19,8 +19,8 @@ public class Sprite {
     //posició inicial ninot
     private int x;
     private int y;
-    private int xSpeed = 5;
-    private int ySpeed = 5;
+    private int xSpeed = 8;
+    private int ySpeed = 8;
     private GameView gameView;
     private Bitmap bmpPrincipal;
     private int currentFrame = 0;
