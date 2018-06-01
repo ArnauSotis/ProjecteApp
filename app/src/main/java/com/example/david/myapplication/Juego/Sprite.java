@@ -82,41 +82,43 @@ public class Sprite {
 //            ySpeed = -ySpeed;
 //        }
 //        y = y + ySpeed;
-        int xp = x/45;
+        int xp = x / 45;
         Log.d("columna", ":" + xp);
-        int yp = y/45;
-        Log.d("fila", ":"+ yp);
+        int yp = y / 45;
+        Log.d("fila", ":" + yp);
         // direction = 0 up, 1 left, 2 down, 3 right,
         //comprobamos las 4 casillas posibles donde el muñeco puede ir
-        Celda p0 = matrizMapa[yp+1][xp];
-        Celda p1 = matrizMapa[yp][xp-1];
-        Celda p2 = matrizMapa[yp-1][xp];
-        Celda p3 = matrizMapa[yp][xp+1];
-        Log.d("valor de la celda",":"+p0.getTipo());
-        Log.d("valor de la celda",":"+p1.getTipo());
-        Log.d("valor de la celda",":"+p2.getTipo());
-        Log.d("valor de la celda",":"+p3.getTipo());
-        if (x < movx) {
-            if(p3.getTipo()==0){
-                //x = x + 45;
-                xSpeed = 5;
-                x = x + 5;
-            }
+        Celda p0 = matrizMapa[yp + 1][xp];
+        Celda p1 = matrizMapa[yp][xp - 1];
+        Celda p2 = matrizMapa[yp - 1][xp];
+        Celda p3 = matrizMapa[yp][xp + 1];
+        Log.d("valor de la celda", ":" + p0.getTipo());
+        Log.d("valor de la celda", ":" + p1.getTipo());
+        Log.d("valor de la celda", ":" + p2.getTipo());
+        Log.d("valor de la celda", ":" + p3.getTipo());
+        //moviment de x
+        int movxs = (int)movx/45;
+        int movys = (int)movy/45;
+        if (xp == movxs) {
+
         } else {
-        //else if (x > movx) {
-            if(p1.getTipo()==0) {
+            //else if (x > movx) {
+            if (p1.getTipo() == 0) {
                 xSpeed = -5;
                 //x = x - 45;
                 x = x - 5;
             }
         }
-        if (y < movy) {
-            if(p0.getTipo()==0){
-                //y = y + 45;
-                ySpeed = 5;
+        //moviment de y
+        if (yp == movys) {
+            
+        }else if(y < movy){
+            if(p2.getTipo()==0){
+                ySpeed = +5;
+                //y = y - 45;
                 y = y + 5;
             }
-        } else{
+        }else {
         //else if (y > movy) {
             if(p2.getTipo()==0){
                 ySpeed = -5;
