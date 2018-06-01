@@ -100,8 +100,14 @@ public class Sprite {
         int movxs = (int)movx/45;
         int movys = (int)movy/45;
         if (xp == movxs) {
-
-        } else {
+            xSpeed = 0;
+        } else if(x < movx) {
+            if (p3.getTipo() == 0) {
+                xSpeed = +5;
+                //y = y - 45;
+                x = x + 5;
+            }
+        }else {
             //else if (x > movx) {
             if (p1.getTipo() == 0) {
                 xSpeed = -5;
@@ -111,9 +117,9 @@ public class Sprite {
         }
         //moviment de y
         if (yp == movys) {
-            
+            ySpeed = 0;
         }else if(y < movy){
-            if(p2.getTipo()==0){
+            if(p0.getTipo()==0){
                 ySpeed = +5;
                 //y = y - 45;
                 y = y + 5;
