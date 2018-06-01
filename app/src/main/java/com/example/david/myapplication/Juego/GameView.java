@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH;
+    private Bitmap bmpTexto, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -45,7 +45,6 @@ public class GameView extends SurfaceView {
 
             @Override
             public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -72,7 +71,8 @@ public class GameView extends SurfaceView {
         bmpArbustoV = BitmapFactory.decodeResource(getResources(), R.drawable.arbustov);
         //bmpPrincipal = BitmapFactory.decodeResource(getResources(), R.drawable.good1_opt);
         bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
-        bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
+
+        bmpTexto = BitmapFactory.decodeResource(getResources(), R.drawable.texto);
 
         //sprite = new Sprite(this,bmpPrincipal);
     }
@@ -117,6 +117,9 @@ public class GameView extends SurfaceView {
     }
     private void createSprites() {
         sprites.add(createSprite(R.drawable.good1_opt));
+        sprites.add(createSprite(R.drawable.good2));
+        sprites.add(createSprite(R.drawable.mole));
+        sprites.add(createSprite(R.drawable.mascota));
     }
 
     ///////////////
