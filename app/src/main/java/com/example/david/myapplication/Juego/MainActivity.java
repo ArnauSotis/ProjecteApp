@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     //obri el proxim layoud que obrira el joc
 //                    Intent intentOj = new Intent(MainActivity.this, Juego.class);
 //                    startActivity(intentOj);
-                    Intent intentOj = new Intent(getApplicationContext(), Juego.class);
+                    Intent intentOj = new Intent(MainActivity.this, OpcionesMenu.class);
                     //intentOj.putExtra("name", user);
                     startActivity(intentOj);
                 } else {

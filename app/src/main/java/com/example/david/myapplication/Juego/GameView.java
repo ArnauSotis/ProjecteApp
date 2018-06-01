@@ -97,6 +97,8 @@ public class GameView extends SurfaceView {
                 this.inici=0;
             }
             dibujaMapa1(canvas,height,width);
+            //pintar el muñeco en el mapa
+            sprites.get(0).onDraw(canvas);
         }
         //era el puente que se movia por el mapa de lado a lado
 //        if (x < getWidth() - bmpPuente.getWidth()) {
@@ -106,7 +108,7 @@ public class GameView extends SurfaceView {
 //        }
 //        canvas.drawBitmap(bmpPuente, x, 50, null);
         //pintar el muñeco en el mapa
-        sprites.get(0).onDraw(canvas);
+        //sprites.get(0).onDraw(canvas);
     }
     //para crear el personaje principal igual haremos para los enemigos
     private Sprite createSprite(int resouce) {

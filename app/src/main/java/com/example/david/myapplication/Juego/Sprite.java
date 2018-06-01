@@ -30,8 +30,8 @@ public class Sprite {
     private int estadoMapa;
     Celda matrizMapa [][] = new Celda[24][43];
 
-    private float movx = x;
-    private float movy = y;
+    private float movx;
+    private float movy;
 
     private int mov = 0;
 
@@ -50,6 +50,8 @@ public class Sprite {
     public void iniciNino (int x, int y){
         this.x = x;
         this.y = y;
+        this.movx =x;
+        this.movy =y;
     }
     //son las coordenadas de donde queremos ir, cuando pulsamos la pantalla
     public void caminarPresion (float x, float y){
@@ -100,8 +102,8 @@ public class Sprite {
                 xSpeed = 5;
                 x = x + 5;
             }
-        } else{
-        //lse if (x > movx) {
+        } else {
+        //else if (x > movx) {
             if(p1.getTipo()==0) {
                 xSpeed = -5;
                 //x = x - 45;
