@@ -1,7 +1,9 @@
 package com.example.david.myapplication.Juego;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Call<Boolean> callLog;
     private Call<Objeto> callobject;
     ProgressBar pb1;
+    MediaPlayer mediaPlayer;
 
 
 
@@ -64,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         trackServices = retrofit.create(TrackAPI.class);
-
 //        Button buto1 = (Button) findViewById(R.id.button_Login);
 //        buto1.setOnClickListener(new View.OnClickListener() {
 //            @Override

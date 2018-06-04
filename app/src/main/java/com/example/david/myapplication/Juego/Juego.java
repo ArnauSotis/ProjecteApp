@@ -1,15 +1,20 @@
 package com.example.david.myapplication.Juego;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.david.myapplication.R;
+
+
 public class Juego extends Activity {
     TextView txview2;
     GameView view;
     Sprite moverJugador;
+    MediaPlayer mediaPlayer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,12 +25,12 @@ public class Juego extends Activity {
 
     }
 
-        //Toast.makeText(Juego.this, "Successful", Toast.LENGTH_LONG).show();
-        @Override
-        protected void onStart (){
-            super.onStart();
-            //Log.d(tag,"Event a onStart");
-        }
+     //Toast.makeText(Juego.this, "Successful", Toast.LENGTH_LONG).show();
+    @Override
+    protected void onStart (){
+        super.onStart();
+        //Log.d(tag,"Event a onStart");
+    }
 
     @Override
     protected void onResume (){
