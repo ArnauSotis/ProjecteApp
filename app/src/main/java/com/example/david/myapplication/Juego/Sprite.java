@@ -19,8 +19,8 @@ public class Sprite {
     //posició inicial ninot
     private int x;
     private int y;
-    private int xSpeed = 8;
-    private int ySpeed = 8;
+    private int xSpeed = 10;
+    private int ySpeed = 10;
     private GameView gameView;
     private Bitmap bmpPrincipal;
     private int currentFrame = 0;
@@ -34,6 +34,20 @@ public class Sprite {
     private float movy;
 
     private int mov = 0;
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setY(int y){this.y = y;}
+
+    public int getY() {
+        return y;
+    }
 
     public int getEstadoMapa() {
         return estadoMapa;
@@ -179,6 +193,12 @@ public class Sprite {
         double dirDouble = (Math.atan2(xSpeed, ySpeed) / (Math.PI / 2) + 2);
         int direction = (int) Math.round(dirDouble) % BMP_ROWS;
         Log.d("MONIGOTE", "Direction="+direction);
+        Log.d("Speed", "Speedx"+xSpeed + "Speedy"+ySpeed);
+
+        Log.d("POSICION X:", ""+x);
+
+        Log.d("POSICION Y:", ""+y);
+
         Log.d("Speed", "Speedx"+xSpeed + "Speedy"+ySpeed);
         return DIRECTION_TO_ANIMATION_MAP[direction];
     }
