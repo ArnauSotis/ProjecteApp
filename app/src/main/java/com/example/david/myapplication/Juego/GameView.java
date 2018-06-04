@@ -18,10 +18,11 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto;
+    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
+    private int patrolx =20, patroly=20, direccion = 1;
     private int inici =1;
     private Sprite sprite;
     private long lastClick;
@@ -73,6 +74,8 @@ public class GameView extends SurfaceView {
         bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
         bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
         //bmpTexto = BitmapFactory.decodeResource(getResources(), R.drawable.texto);
+        bmpPatrolderecha = BitmapFactory.decodeResource(getResources(),R.drawable.patrolderecha);
+        bmpPatrolizquierda = BitmapFactory.decodeResource(getResources(),R.drawable.patrolizquierda);
 
         //sprite = new Sprite(this,bmpPrincipal);
     }
@@ -86,10 +89,15 @@ public class GameView extends SurfaceView {
         int width = getWidth();
         //Log.d( "this","alto" + height + "ancho"+width);
 
+        // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
+        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1)
+        {mapa=2;}
+        if (sprites.get(0).getX()<100 && sprites.get(0).getY() <100 && mapa ==2)
+        {mapa=3;}
         //dibujamos el mapa 1
-        if(mapa==1){
+        if(mapa==1) {
             if (this.inici==1){
-                sprites.get(0).iniciNino(90,500);
+                sprites.get(0).iniciNino(50,50);
                 sprites.get(0).setEstadoMapa(1);
                 this.generadorMatrizes.generarMapa(1);
                 this.matrizMapa = generadorMatrizes.getMatrizMapa1();
@@ -98,7 +106,33 @@ public class GameView extends SurfaceView {
             }
             dibujaMapa1(canvas,height,width);
             //pintar el muñeco en el mapa
+            gameLoopThread.cambiarMapa(1);
             sprites.get(0).onDraw(canvas);
+        }
+        if(mapa==2){
+            if (this.inici==1){
+                sprites.get(0).iniciNino(10,10);
+                sprites.get(0).setEstadoMapa(1);
+                this.generadorMatrizes.generarMapa(2);
+                this.matrizMapa = generadorMatrizes.getMatrizMapa1();
+                sprites.get(0).setMatrizMapa(matrizMapa);
+                this.inici=0;
+            }
+            dibujaMapa2(canvas,height,width);
+            gameLoopThread.cambiarMapa(2);
+            //pintar el muñeco en el mapa
+            sprites.get(0).onDraw(canvas);
+
+            Log.d("MAPA", "MAPA 2");
+        }
+
+        if(mapa==3){
+            dibujaMapa3(canvas,height,width);
+            gameLoopThread.cambiarMapa(3);
+            //pintar el muñeco en el mapa
+            sprites.get(0).onDraw(canvas);
+
+            Log.d("MAPA", "MAPA 3");
         }
         //era el puente que se movia por el mapa de lado a lado
 //        if (x < getWidth() - bmpPuente.getWidth()) {
@@ -190,10 +224,92 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpCasa1, 1305, 585, null);
         canvas.drawBitmap(bmpCasa1, 1530, 585, null);
 
+        if (direccion ==1)
+        {
+            canvas.drawBitmap(bmpPatrolderecha, patrolx, 450, null);
+            patrolx=patrolx+10;
+            if (patrolx>1100)
+                direccion =2;
+        }
+        if (direccion ==2)
+        {
+            canvas.drawBitmap(bmpPatrolizquierda, patrolx, 450, null);
+            patrolx=patrolx-10;
+            if (patrolx<50)
+                direccion =1;
+        }
+
+
+
+
     }
     //son las colisiones del contorno los tres muros de arbusto mas el agua para que no se pueda ir ni apretando pantalla
     public boolean isCollitionMap(float x2, float y2) {
         return x2<45 || x2 > getWidth() - 180  || y2 < 45 || y2 > getHeight()-90;
+    }
+
+
+
+    protected void dibujaMapa2 (Canvas canvas, int height, int width){
+        //todo hierba
+        for(int y=0;y<height;y=y+45)
+        {
+            for(int x=0;x<width-90;x=x+45)
+            {
+                canvas.drawBitmap(bmpHierba, x, y, null);
+            }
+        }
+
+        //agua
+        for(int y2=0;y2<width;y2=y2+45){
+            canvas.drawBitmap(bmpAgua, height-45, y2, null);
+            canvas.drawBitmap(bmpAgua, height-90, y2, null);
+        }
+        canvas.drawBitmap(bmpCasa1, 200, 200, null);
+
+        if (direccion ==1)
+        {
+            canvas.drawBitmap(bmpPatrolderecha, patrolx, 380, null);
+            patrolx=patrolx+10;
+            if (patrolx>850)
+                direccion =2;
+        }
+        if (direccion ==2)
+        {
+            canvas.drawBitmap(bmpPatrolizquierda, patrolx, 380, null);
+            patrolx=patrolx-10;
+            if (patrolx<50)
+                direccion =1;
+        }
+
+
+    }
+
+    protected void dibujaMapa3 (Canvas canvas, int height, int width){
+        //todo agua
+        for(int y=0;y<height;y=y+45)
+        {
+            for(int x=0;x<width-90;x=x+45)
+            {
+                canvas.drawBitmap(bmpHierba, x, y, null);
+            }
+        }
+        if (direccion ==1)
+        {
+            canvas.drawBitmap(bmpPatrolderecha, patrolx, 450, null);
+            patrolx=patrolx+10;
+            if (patrolx>1300)
+                direccion =2;
+        }
+        if (direccion ==2)
+        {
+            canvas.drawBitmap(bmpPatrolizquierda, patrolx, 450, null);
+            patrolx=patrolx-10;
+            if (patrolx<50)
+                direccion =1;
+        }
+
+
     }
 
 }
