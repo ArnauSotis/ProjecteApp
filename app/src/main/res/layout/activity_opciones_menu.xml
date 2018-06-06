@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-            android:id="@+id/editText_Usuario"
+            android:id="@+id/editText_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -24,7 +24,7 @@
             android:drawablePadding="12dp"
             android:ems="10"
             android:hint=""
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:maxLines="1"
             android:padding="8dp"
             android:textColor="@android:color/white"
@@ -47,20 +47,21 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="#fff"
                 />
+
             <Button
                 android:id="@+id/lista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
                 android:layout_marginStart="122dp"
-                android:gravity="center"
-                android:text="Lista Objetos"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/background_login"
-                android:textColor="#f16f7d"
-                android:textStyle="bold"
                 android:clickable="true"
+                android:gravity="center"
+                android:onClick="listaObjetos"
                 android:padding="16dp"
-                />
+                android:text="Lista Objetos"
+                android:textColor="#f16f7d"
+                android:textStyle="bold" />
             <Button
                 android:id="@+id/inicio"
                 android:layout_width="wrap_content"
@@ -83,14 +84,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="148dp"
                 android:layout_marginTop="54dp"
-                android:gravity="center"
-                android:text="Log out"
                 android:background="@drawable/gradient2"
-                android:textColor="#FFF"
-                android:textStyle="bold"
                 android:clickable="true"
+                android:gravity="center"
+                android:onClick="logOut"
                 android:padding="16dp"
-                />
+                android:text="Log out"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="246dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
     </ScrollView>

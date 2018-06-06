@@ -2,7 +2,6 @@ package com.example.david.myapplication.Juego;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ public class ArrayAdapterListaObjetos extends ArrayAdapter<Objeto> {
     public View getView(int position, View convertView, ViewGroup parent){
         Objeto u = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.lista_objetos, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.objeto_datos_basico, parent, false);
         }
         //u.getImage()
         Picasso.with(super.getContext()).load("http://api.dsamola.tk/imagen.jpeg").into((ImageView) convertView.findViewById(R.id.avatar_image));
