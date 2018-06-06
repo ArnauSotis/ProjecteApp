@@ -4,6 +4,8 @@ import com.example.david.myapplication.Clases.Login;
 import com.example.david.myapplication.Clases.Objeto;
 import com.example.david.myapplication.Clases.Usuario;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -24,4 +26,12 @@ public interface TrackAPI {
     @POST("json/newUser")
     Call<Boolean> register (@Body Usuario user);
 
+    @GET("json/listaObjetosUsuario/{user}")
+    Call <List<Objeto>> listaObjetosUser (@Path("user") String usuarios);
+
+    @GET("json/damePosYMapa/{user}")
+    Call <Usuario> getPosYmapa (@Path("user") String usuarios);
+
+    @POST("json/ponPosYmapa")
+    Call<Boolean> postPosYmapa (@Body Usuario usuario);
 }

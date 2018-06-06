@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Intent intentOj = new Intent(MainActivity.this, Juego.class);
 //                    startActivity(intentOj);
                     Intent intentOj = new Intent(MainActivity.this, OpcionesMenu.class);
-                    //intentOj.putExtra("name", user);
+                    intentOj.putExtra("name", user);
                     startActivity(intentOj);
                 } else {
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
