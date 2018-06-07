@@ -1,5 +1,6 @@
 package com.example.david.myapplication.Juego;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -96,6 +97,8 @@ public class GameView extends SurfaceView {
         bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
 
         //sprite = new Sprite(this,bmpPrincipal);
+    }
+    public void music (){
     }
 
     //@Override

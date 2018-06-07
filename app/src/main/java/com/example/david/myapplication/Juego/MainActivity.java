@@ -3,7 +3,6 @@ package com.example.david.myapplication.Juego;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_gradbk);
+
 
         Log.d(tag,"Event a onCreate");
 
@@ -131,18 +131,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume (){
-        super.onResume();
-        Log.d(tag,"Event a onResume");
-    }
-
-    @Override
-    protected void onPause (){
-        super.onPause();
-        Log.d(tag,"Event a onPause");
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
 //        if (calltrack != null) {
@@ -158,6 +146,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy (){
         super.onDestroy();
         Log.d(tag,"Event a onDestroy");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //pausar();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
     }
 
 

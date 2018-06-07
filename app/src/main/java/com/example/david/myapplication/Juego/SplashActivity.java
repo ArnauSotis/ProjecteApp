@@ -21,13 +21,13 @@ public class SplashActivity extends AppCompatActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Tenemos una plantilla llamada splash.xml donde mostraremos la información que queramos (logotipo, etc.)
-        setContentView(R.layout.splash2);
+        setContentView(R.layout.splash);
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
                 //Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
-                //Intent intent = new Intent(SplashActivity.this, Juego.class);
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, Juego.class);
+                //Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             };

@@ -79,15 +79,20 @@ public class OpcionesMenu extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume (){
-        super.onResume();
-        Log.d(tag,"Event a onResume");
+    public void onPause() {
+        super.onPause();
+        //pausar();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
     }
 
     @Override
-    protected void onPause (){
-        super.onPause();
-        Log.d(tag,"Event a onPause");
+    public void onResume() {
+        super.onResume();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
     }
 
     @Override

@@ -100,5 +100,36 @@ public class ListaObjetos extends AppCompatActivity {
                 }
             });
 
-        }
+    }
+    @Override
+    protected void onStart (){
+        super.onStart();
+        Log.d(tag,"Event a onStart");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //pausar();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy (){
+        super.onDestroy();
+        Log.d(tag,"Event a onDestroy");
+    }
 }

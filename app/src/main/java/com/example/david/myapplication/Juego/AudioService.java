@@ -1,4 +1,4 @@
-package com.example.david.myapplication;
+package com.example.david.myapplication.Juego;
 
 import android.app.Service;
 import android.bluetooth.BluetoothClass;
@@ -16,7 +16,7 @@ public class AudioService extends Service {
 
     private void startLoop(){
         if(loop == null){
-            //loop = MediaPlayer.create(this, com.example.david.myapplication.R.raw.loop);
+            loop = MediaPlayer.create(this, com.example.david.myapplication.R.raw.loop);
         }
         if(!loop.isPlaying()){
             loop.setLooping(true);

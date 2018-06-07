@@ -1,8 +1,10 @@
 package com.example.david.myapplication.Juego;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ public class Juego extends Activity {
     GameView view;
     Sprite moverJugador;
     MediaPlayer mediaPlayer;
+    String tag = "Event";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,41 +27,37 @@ public class Juego extends Activity {
         setContentView(new GameView(this));
 
     }
-
-     //Toast.makeText(Juego.this, "Successful", Toast.LENGTH_LONG).show();
     @Override
     protected void onStart (){
         super.onStart();
-        //Log.d(tag,"Event a onStart");
-    }
-
-    @Override
-    protected void onResume (){
-        super.onResume();
-        //Log.d(tag,"Event a onResume");
-    }
-
-    @Override
-    protected void onPause (){
-        super.onPause();
-       // Log.d(tag,"Event a onPause");
+        Log.d(tag,"Event a onStart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-//        if (calltrack != null) {
-//            calltrack.cancel();
-//        }
-//        if (callstring != null) {
-//            callstring.cancel();
-//        }
 
     }
 
     @Override
     protected void onDestroy (){
         super.onDestroy();
-        //Log.d(tag,"Event a onDestroy");
+        Log.d(tag,"Event a onDestroy");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //pausar();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
     }
 }
