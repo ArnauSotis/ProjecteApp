@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Juego.MostrarUnObjeto"
-    android:background="@drawable/gradient">
+    tools:context=".Juego.ListaObjetos"
+    android:background="@drawable/fondo6">
 
     <TextView
         android:id="@+id/usario"
@@ -14,7 +14,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
         android:text="Usuario:"
-        android:textColor="#fff"
+        android:textColor="#000"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,29 +24,30 @@
         android:layout_height="19dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="35dp"
+        android:fontFamily="@font/minecraft"
         android:text=""
-        android:textColor="#fff"
+        android:textColor="#000"
         app:layout_constraintStart_toEndOf="@+id/usario"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="84dp"
-        android:layout_height="122dp"
+        android:layout_width="89dp"
+        android:layout_height="86dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/puente"
+        android:background="@drawable/foto_perfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/lista"
         android:layout_width="345dp"
-        android:layout_height="333dp"
+        android:layout_height="417dp"
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="37dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
