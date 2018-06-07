@@ -35,7 +35,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Juego.OpcionesMenu"></activity>
+        <activity android:name=".Juego.OpcionesMenu"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Juego.ListaObjetos"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Juego.MostrarUnObjeto"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ public class Matrizes {
     //alto1080-ancho1920
     //1920 son 42,666 cogemos 43
     //para 43 exactos son 1935
-
     private static final int BMP_ROWS = 24;
     private static final int BMP_COLUMNS = 43;
     private Celda matrizMapa1 [][] = new Celda[24][43];
@@ -46,20 +45,22 @@ public class Matrizes {
                 this.matrizMapa1 [23][x] = this.celdaArbusto;
             }
             for(int y=0;y<BMP_ROWS;y++) {
-                this.matrizMapa1[y][42] = this.celdaAgua;
+                //this.matrizMapa1[y][42] = this.celdaAgua;
                 //this.matrizMapa1[y][41] = this.celdaAgua;
+                this.matrizMapa1[y][40] = this.celdaAgua;
             }
             //extras // linea de 5 arbustos
             for(int x=1; x<11; x++ ){
                 this.matrizMapa1 [6][x] = this.celdaArbusto;
             }
             //casetas
-            for(int x= 28; x<39;x++){
+            for(int x= 28; x<38;x++){
                 //this.matrizMapa1 [11][x] = this.celdaExtras;
-                this.matrizMapa1 [12][x] = this.celdaExtras;
+                //this.matrizMapa1 [12][x] = this.celdaExtras;
                 this.matrizMapa1 [13][x] = this.celdaExtras;
                 this.matrizMapa1 [14][x] = this.celdaExtras;
                 this.matrizMapa1 [15][x] = this.celdaExtras;
+                this.matrizMapa1 [16][x] = this.celdaExtras;
             }
         }
         if(mapa==2){

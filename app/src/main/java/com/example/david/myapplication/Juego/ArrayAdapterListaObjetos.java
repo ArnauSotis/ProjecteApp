@@ -26,14 +26,17 @@ public class ArrayAdapterListaObjetos extends ArrayAdapter<Objeto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.objeto_datos_basico, parent, false);
         }
         //u.getImage()
-        Picasso.with(super.getContext()).load("http://api.dsamola.tk/imagen.jpeg").into((ImageView) convertView.findViewById(R.id.avatar_image));
-        TextView et = (TextView)convertView.findViewById(R.id.author_txt);
-        TextView et2 = (TextView)convertView.findViewById(R.id.title_txt);
+        if(u.getId()==1) Picasso.with(super.getContext()).load(R.drawable.espada).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        if(u.getId()==2) Picasso.with(super.getContext()).load(R.drawable.escudo).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        if(u.getId()==3) Picasso.with(super.getContext()).load(R.drawable.armadura).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        if(u.getId()==4) Picasso.with(super.getContext()).load(R.drawable.pocion).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        TextView et = (TextView)convertView.findViewById(R.id.nombre_txt);
+        TextView et2 = (TextView)convertView.findViewById(R.id.tipo_txt);
 
         et.setText(u.getNombre()); //cojo los nombre del Objeto
         //int x = u.getTitle();
         //et2.setText(Integer.toString(x));
-        et2.setText(u.getCoste());
+        et2.setText(u.getTipo());
         return convertView;
     }
 }

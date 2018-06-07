@@ -39,7 +39,7 @@ public class ListaObjetos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.lista_objetos);
+        setContentView(R.layout.lista_objetosv2);
 
         Bundle intentdata = getIntent().getExtras();
         nombre = intentdata.getString("name");
@@ -47,6 +47,7 @@ public class ListaObjetos extends AppCompatActivity {
         txtuser.setText(nombre);
 
         pb1 = (ProgressBar) findViewById(R.id.loading);
+        pb1.setVisibility(ProgressBar.INVISIBLE);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())

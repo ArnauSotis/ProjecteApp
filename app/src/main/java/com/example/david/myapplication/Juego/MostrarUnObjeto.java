@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.david.myapplication.Clases.Objeto;
 import com.example.david.myapplication.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class MostrarUnObjeto extends AppCompatActivity{
     private TrackAPI trackServices;
     ProgressBar pb1;
     TextView txtuser;
+    ImageView foto;
     private String nombre;
     String tag = "Events";
     int idObjeto;
@@ -37,7 +40,7 @@ public class MostrarUnObjeto extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.lista_objetos);
+        setContentView(R.layout.objeto_entero);
 
         Bundle intentdata = getIntent().getExtras();
         idObjeto = intentdata.getInt("id");
@@ -64,16 +67,24 @@ public class MostrarUnObjeto extends AppCompatActivity{
 
                     Log.d("onResponse", "lista ha llegado");
                     Objeto obj = response.body();
+                    Log.d("onResponse", "Obj:"+obj.getId()+"\n"+obj.getNombre()+"\n"+obj.getTipo()+"\n"+obj.getDescripcion()+"\n"+obj.getValor());
                     TextView et = (TextView)findViewById(R.id.nombre_obj);
                     TextView et2 = (TextView)findViewById(R.id.tipo_obj);
-                    TextView et3 = (TextView)findViewById(R.id.valor_obj);
-                    TextView et4 = (TextView)findViewById(R.id.coste_obj);
-                    TextView et5 = (TextView)findViewById(R.id.descripcion_obj);
+                    TextView et3 = (TextView)findViewById(R.id.text_valor);
+                    TextView et4 = (TextView)findViewById(R.id.text_coste);
+                    TextView et5 = (TextView)findViewById(R.id.text_descrip);
+                    foto = (ImageView)findViewById(R.id.foto_obj);
                     et.setText(obj.getNombre());
                     et2.setText(obj.getTipo());
-                    et3.setText(obj.getValor());
-                    et4.setText(obj.getCoste());
+                    String valor = Integer.toString(obj.getValor());
+                    String coste = Integer.toString(obj.getCoste());
+                    et3.setText(valor);
+                    et4.setText(coste);
                     et5.setText(obj.getDescripcion());
+                    if(idObjeto==1) Picasso.with(MostrarUnObjeto.this).load(R.drawable.espada).into(foto);
+                    if(idObjeto==2) Picasso.with(MostrarUnObjeto.this).load(R.drawable.escudo).into(foto);
+                    if(idObjeto==3) Picasso.with(MostrarUnObjeto.this).load(R.drawable.armadura).into(foto);
+                    if(idObjeto==4) Picasso.with(MostrarUnObjeto.this).load(R.drawable.pocion).into(foto);
                     //al final de la tasca
                     pb1.setVisibility(ProgressBar.INVISIBLE);
 

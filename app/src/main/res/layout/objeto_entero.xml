@@ -4,81 +4,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient">
 
 
     <TextView
-        android:id="@+id/textAlumno5"
+        android:id="@+id/descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="88dp"
         android:text="Descripción:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        android:textColor="#fff"
+        app:layout_constraintTop_toBottomOf="@+id/foto_obj" />
 
     <TextView
-        android:id="@+id/textAlumno4"
+        android:id="@+id/coste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Coste:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        android:textColor="#fff"
+        app:layout_constraintTop_toBottomOf="@+id/foto_obj" />
 
     <TextView
-        android:id="@+id/textAlumno3"
+        android:id="@+id/valor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:text="Valor:"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
         app:layout_constraintTop_toBottomOf="@+id/tipo_obj" />
 
     <TextView
-        android:id="@+id/textAlumno2"
+        android:id="@+id/nombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="Nombre:"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textAlumno"
+        android:id="@+id/tipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:text="Tipo:"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
         app:layout_constraintTop_toBottomOf="@+id/nombre_obj" />
 
     <TextView
-        android:id="@+id/coste_obj"
+        android:id="@+id/text_coste"
         android:layout_width="75dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="TextView"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAlumno4" />
+        app:layout_constraintTop_toBottomOf="@+id/coste" />
 
     <TextView
-        android:id="@+id/valor_obj"
+        android:id="@+id/text_valor"
         android:layout_width="166dp"
         android:layout_height="24dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="3dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textAlumno3" />
+        android:text="T"
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
+        app:layout_constraintTop_toBottomOf="@+id/valor" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/foto_obj"
         android:layout_width="134dp"
         android:layout_height="140dp"
         android:layout_marginStart="16dp"
@@ -93,9 +101,10 @@
         android:layout_height="24dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="3dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textAlumno2" />
+        android:text=""
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
+        app:layout_constraintTop_toBottomOf="@+id/nombre" />
 
     <TextView
         android:id="@+id/tipo_obj"
@@ -104,19 +113,35 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="3dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textAlumno" />
+        android:textColor="#fff"
+        app:layout_constraintStart_toEndOf="@+id/foto_obj"
+        app:layout_constraintTop_toBottomOf="@+id/tipo" />
 
     <TextView
-        android:id="@+id/descripcion_obj"
+        android:id="@+id/text_descrip"
         android:layout_width="343dp"
         android:layout_height="128dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAlumno5" />
+        android:textColor="#fff"
+        app:layout_constraintTop_toBottomOf="@+id/descripcion" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="71dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

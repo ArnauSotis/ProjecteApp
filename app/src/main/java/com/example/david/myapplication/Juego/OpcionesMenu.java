@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -44,17 +45,29 @@ public class OpcionesMenu extends AppCompatActivity {
         nombre = intentdata.getString("name");
         txtuser = (TextView) findViewById(R.id.editText_user);
         txtuser.setText(nombre);
+
+        Button buto2 = (Button) findViewById(R.id.lista_objetos);
+        buto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentOj = new Intent(OpcionesMenu.this, ListaObjetos.class);
+                intentOj.putExtra("name", nombre);
+                startActivity(intentOj);
+            }
+        });
+
     }
 
     public void runJuego (View view){
-        Intent intentOj = new Intent(OpcionesMenu.this, Juego.class);
+        Intent intentOj = new Intent(OpcionesMenu.this, SplashActivityStart.class);
         startActivity(intentOj);
     }
-    public void listaObjetos (View view){
-        Intent intentOj = new Intent(OpcionesMenu.this, ListaObjetos.class);
-        intentOj.putExtra("name", nombre);
-        startActivity(intentOj);
-    }
+
+    //public void listaObjetos (View view){
+    //    Intent intentOj = new Intent(OpcionesMenu.this, ListaObjetos.class);
+    //    intentOj.putExtra("name", nombre);
+    //    startActivity(intentOj);
+    //}
     public void logOut (View view){
         Intent intentOj = new Intent(OpcionesMenu.this, MainActivity.class);
         startActivity(intentOj);
@@ -80,12 +93,6 @@ public class OpcionesMenu extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        if (calltrack != null) {
-//            calltrack.cancel();
-//        }
-//        if (callstring != null) {
-//            callstring.cancel();
-//        }
 
     }
 
