@@ -20,7 +20,7 @@ public class GameView extends SurfaceView {
 
     private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofreAbierto,bmpCofreCerrado;
     private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado;
-    private Bitmap bandera1, bandera2, bandera3, bandera4, bandera5;
+    private Bitmap bandera;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -93,11 +93,7 @@ public class GameView extends SurfaceView {
         bmpCajaNormal = BitmapFactory.decodeResource(getResources(), R.drawable.caja_normal);
         bmpCajitas = BitmapFactory.decodeResource(getResources(), R.drawable.cajitas);
         bmpArbolCortado = BitmapFactory.decodeResource(getResources(), R.drawable.arbol_cortado);
-        bandera1 = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
-        bandera2 = BitmapFactory.decodeResource(getResources(), R.drawable.bandera2);
-        bandera3 = BitmapFactory.decodeResource(getResources(), R.drawable.bandera3);
-        bandera4 = BitmapFactory.decodeResource(getResources(), R.drawable.bandera4);
-        bandera5 = BitmapFactory.decodeResource(getResources(), R.drawable.bandera5);
+        bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
 
         //sprite = new Sprite(this,bmpPrincipal);
     }
@@ -308,32 +304,29 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpCajitas, 1660, 980, null);
         canvas.drawBitmap(bmpCajitas, 1660, 930, null);
         if(posBandera==1){
-            canvas.drawBitmap(bandera1, 1600, 100, null);
-            Log.d("bandera:",":"+posBandera);
-            this.posBandera++;
+            this.posBandera=2;
         }
         //canvas.drawBitmap(bandera1, 1600, 100, null);
-        if(this.posBandera==2){
-            canvas.drawBitmap(bandera2, 1600, 100, null);
-            Log.d("bandera:",":"+posBandera);
-            this.posBandera++;
+        else if(posBandera==2){
+            bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera2);
+            posBandera=3;
         }
-        if(this.posBandera==3){
-            canvas.drawBitmap(bandera3, 1600, 100, null);
-            Log.d("bandera:",":"+posBandera);
+        else if(this.posBandera==3){
+            bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera3);
             this.posBandera=4;
         }
-        if(this.posBandera==4){
-            canvas.drawBitmap(bandera4, 1600, 100, null);
-            Log.d("bandera:",":"+posBandera);
-            this.posBandera++;
+        else if(this.posBandera==4){
+            bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera4);
+            this.posBandera=5;
         }
-        if(this.posBandera==5){
-            canvas.drawBitmap(bandera5, 1600, 100, null);
-            Log.d("bandera:",":"+posBandera);
-            this.posBandera++;
-            if(posBandera==5)this.posBandera=1;
+        else if(this.posBandera==5){
+            bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera5);
+            posBandera=1;
         }
+        else{
+            posBandera=1;
+        }
+        canvas.drawBitmap(bandera, 1600, 100, null);
 
 
         //muñeco de arnau
