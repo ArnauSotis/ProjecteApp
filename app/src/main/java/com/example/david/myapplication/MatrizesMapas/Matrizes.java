@@ -14,6 +14,7 @@ public class Matrizes {
     private Celda celdaHierba = new Celda(0);
     private Celda celdaExtras = new Celda(4);
     private Celda celdaActuar = new Celda(1);
+    private Celda celdaInteractuar = new Celda(5);
 
     public Matrizes() {
     }
@@ -42,26 +43,117 @@ public class Matrizes {
                 this.matrizMapa1 [y][0] = this.celdaArbusto;
             }
             for(int x=0; x<BMP_COLUMNS; x++ ){
-                this.matrizMapa1 [23][x] = this.celdaArbusto;
+                this.matrizMapa1 [22][x] = this.celdaArbusto;
             }
             for(int y=0;y<BMP_ROWS;y++) {
                 //this.matrizMapa1[y][42] = this.celdaAgua;
                 //this.matrizMapa1[y][41] = this.celdaAgua;
                 this.matrizMapa1[y][40] = this.celdaAgua;
             }
-            //extras // linea de 5 arbustos
+            //1
+            for(int x=0; x<6; x++ ){
+                this.matrizMapa1 [19][x] = this.celdaArbusto;
+            }
+            //2
+            for(int y=14; y<22; y++ ){
+                this.matrizMapa1 [y][12] = this.celdaArbusto;
+            }
+            //3
+            for(int x=6; x<12; x++ ){
+                this.matrizMapa1 [14][x] = this.celdaArbusto;
+            }
+            //4
+            for(int y=10; y<14; y++ ){
+                this.matrizMapa1 [y][6] = this.celdaArbusto;
+            }
+            //5
             for(int x=1; x<11; x++ ){
                 this.matrizMapa1 [6][x] = this.celdaArbusto;
             }
-            //casetas
-            for(int x= 28; x<38;x++){
-                //this.matrizMapa1 [11][x] = this.celdaExtras;
-                //this.matrizMapa1 [12][x] = this.celdaExtras;
+            //6
+            this.matrizMapa1 [12][2] = this.celdaArbusto;
+            this.matrizMapa1 [12][1] = this.celdaArbusto;
+            this.matrizMapa1 [13][2] = this.celdaArbusto;
+            this.matrizMapa1 [13][1] = this.celdaArbusto;
+            //personatje sota el 6
+            this.matrizMapa1 [14][2] = this.celdaArbusto;
+            this.matrizMapa1 [14][1] = this.celdaArbusto;
+            //7
+            for(int x=6; x<10; x++ ){
+                this.matrizMapa1 [10][x] = this.celdaArbusto;
+            }
+            //cofre sota el 7
+            //declaro las tres casillas contiguas como interactuables
+            this.matrizMapa1 [11][7] = this.celdaInteractuar;
+            this.matrizMapa1 [12][7] = this.celdaInteractuar;
+            //this.matrizMapa1 [11][8] = this.celdaInteractuar;
+            //this.matrizMapa1 [12][8] = this.celdaInteractuar;
+            //8 no crec que cuadri
+            for(int x=20; x<28; x++ ){
+                this.matrizMapa1 [14][x] = this.celdaArbusto;
+            }
+            //9
+            for(int x=13; x<17; x++ ){
+                this.matrizMapa1 [15][x] = this.celdaArbusto;
+            }
+            //10 casa
+            for(int x= 13; x<17;x++){
+                this.matrizMapa1 [14][x] = this.celdaExtras;
+                this.matrizMapa1 [15][x] = this.celdaExtras;
+                this.matrizMapa1 [16][x] = this.celdaExtras;
+                this.matrizMapa1 [17][x] = this.celdaExtras;
+            }
+            //caja-normal debajo de la casa
+            this.matrizMapa1 [21][13] = this.celdaExtras;
+
+            //15
+            for(int y=1; y<7; y++ ){
+                this.matrizMapa1 [y][16] = this.celdaArbusto;
+            }
+            //16 casa
+            for(int x= 17; x<23;x++){
+                this.matrizMapa1 [1][x] = this.celdaExtras;
+                this.matrizMapa1 [2][x] = this.celdaExtras;
+                this.matrizMapa1 [3][x] = this.celdaExtras;
+            }
+            //17
+
+
+            //18
+            for(int y=6; y<11; y++ ){
+                this.matrizMapa1 [y][31] = this.celdaArbusto;
+            }
+            //19
+            for(int x= 32; x<41;x++){
+                this.matrizMapa1 [8][x] = this.celdaArbusto;
+            }
+
+//            //19
+//            for(int x=1460;x<1810;x=x+90){
+//                canvas.drawBitmap(bmpArbustoH, x, 390, null);
+//            }
+
+            //casetas 13 14 he intent fr 11 y 12
+            for(int x= 27; x<38;x++){
+                this.matrizMapa1 [11][x] = this.celdaExtras;
+                this.matrizMapa1 [12][x] = this.celdaExtras;
                 this.matrizMapa1 [13][x] = this.celdaExtras;
                 this.matrizMapa1 [14][x] = this.celdaExtras;
                 this.matrizMapa1 [15][x] = this.celdaExtras;
                 this.matrizMapa1 [16][x] = this.celdaExtras;
             }
+            //18
+                //this.matrizMapa1 [13][27] = this.celdaExtras;
+            //21
+            for(int y=1;y<5;y++) {
+                for (int x = 1; x < 4; x++) {
+                    this.matrizMapa1[y][x] = this.celdaArbusto;
+                }
+            }
+            for (int x = 1; x < 6; x++) {
+                this.matrizMapa1[5][x] = this.celdaArbusto;
+            }
+
         }
         if(mapa==2){
             for(int y=0;y<BMP_ROWS;y++){
