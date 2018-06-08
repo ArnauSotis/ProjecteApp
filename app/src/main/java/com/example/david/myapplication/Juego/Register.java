@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,12 +33,14 @@ public class Register extends AppCompatActivity {
     private TrackAPI trackServices;
     private Call<Boolean> calluser;
     ProgressBar pb1;
+    String tag = "Event";
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //escoges el layout
         setContentView(R.layout.register2);
 
@@ -97,5 +100,37 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //pausar();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
+    }
+    @Override
+    protected void onDestroy (){
+        super.onDestroy();
+        Log.d(tag,"Event a onDestroy");
+    }
+    @Override
+    protected void onStart (){
+        super.onStart();
+        Log.d(tag,"Event a onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 
 }

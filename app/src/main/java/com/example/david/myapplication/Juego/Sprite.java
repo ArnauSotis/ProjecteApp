@@ -72,11 +72,13 @@ public class Sprite {
         this.movx = x;
         this.movy = y;
     }
-    //no hace nada
-    public void caminar (int mov){
-        this.mov = mov;
+    //era despres de moure el pont modificar la matriu per poder pasar per sobre pero no ha funcionat
+    public void modiMapa1Pont(){
+        for(int x=39;x<44;x++){
+            Celda c = new Celda(0);
+            this.matrizMapa[6][x] = c;
+        }
     }
-
 
     public Sprite(GameView gameView, Bitmap bmp) {
         this.gameView = gameView;

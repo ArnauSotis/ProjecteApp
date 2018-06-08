@@ -9,6 +9,8 @@ public class Matrizes {
     private static final int BMP_ROWS = 24;
     private static final int BMP_COLUMNS = 43;
     private Celda matrizMapa1 [][] = new Celda[24][43];
+    private Celda matrizMapa2 [][] = new Celda[24][43];
+    private Celda matrizMapa3 [][] = new Celda[24][43];
     private Celda celdaArbusto = new Celda (2);
     private Celda celdaAgua = new Celda(3);
     private Celda celdaHierba = new Celda(0);
@@ -25,10 +27,22 @@ public class Matrizes {
     public void setMatrizMapa1(Celda[][] matrizMapa1) {
         this.matrizMapa1 = matrizMapa1;
     }
+    public Celda[][] getMatrizMapa2() {
+        return matrizMapa2;
+    }
+    public void setMatrizMapa2(Celda[][] matrizMapa2) {
+        this.matrizMapa2 = matrizMapa2;
+    }
+    public Celda[][] getMatrizMapa3() {
+        return matrizMapa3;
+    }
+    public void setMatrizMapa3(Celda[][] matrizMapa3) {
+        this.matrizMapa3 = matrizMapa3;
+    }
 
-    public void generarMapa (int mapa){
+
+    public void generarMapa1 (){
         //el muñeco solo avanza si es 0 esta puesto en el Sprite funcion update
-        if(mapa==1){
             //declaro primero tod el mapa como hierba que significa pisable
             for(int y=0;y<BMP_ROWS;y++){
                 for(int x=0;x<BMP_COLUMNS;x++){
@@ -117,7 +131,8 @@ public class Matrizes {
                 this.matrizMapa1 [3][x] = this.celdaExtras;
             }
             //17
-
+            this.matrizMapa1 [10][16] = this.celdaArbusto;
+            this.matrizMapa1 [9][16] = this.celdaArbusto;
 
             //18
             for(int y=6; y<11; y++ ){
@@ -153,19 +168,24 @@ public class Matrizes {
             for (int x = 1; x < 6; x++) {
                 this.matrizMapa1[5][x] = this.celdaArbusto;
             }
+    }
+    public void generarMapa2(){
 
-        }
-        if(mapa==2){
-            for(int y=0;y<BMP_ROWS;y++){
-                for(int x=0;x<BMP_COLUMNS;x++){
-                    this.matrizMapa1 [y][x] = this.celdaHierba;
-                }
+        for(int y=0;y<BMP_ROWS;y++){
+            for(int x=0;x<BMP_COLUMNS;x++){
+                this.matrizMapa2 [y][x] = this.celdaHierba;
             }
         }
-        if(mapa==3){
-
-        }
-
 
     }
+    public void generarMapa3(){
+
+        for(int y=0;y<BMP_ROWS;y++){
+            for(int x=0;x<BMP_COLUMNS;x++){
+                this.matrizMapa3 [y][x] = this.celdaHierba;
+            }
+        }
+
+    }
+
 }

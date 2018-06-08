@@ -1,6 +1,5 @@
 package com.example.david.myapplication.Juego;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,9 +18,9 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofreAbierto,bmpCofreCerrado;
+    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos;
-    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca;
+    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, textoM1_1, textoM1_2, botonAccion;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -36,10 +35,29 @@ public class GameView extends SurfaceView {
     private int posBandera=1;
     private int posPalanca=2;
     private int posPont=1;
+    private int posPontX=1875;
+    private int posCofre=1;
+    private int contadorTextM1=1;
+    private boolean deMapa1A2=false;
 
     Matrizes generadorMatrizes = new Matrizes();
     Celda matrizMapa [][];
+    Celda matrizMapa2 [][];
 
+    public int getPosPalanca() {
+        return posPalanca;
+    }
+    public void setPosPalanca(int posPalanca) {
+        this.posPalanca = posPalanca;
+    }
+
+    public int getPosCofre() {
+        return posCofre;
+    }
+
+    public void setPosCofre(int posCofre) {
+        this.posCofre = posCofre;
+    }
 
     public GameView(Context context) {
         super(context);
@@ -83,8 +101,7 @@ public class GameView extends SurfaceView {
         bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
         bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
         //bmpTexto = BitmapFactory.decodeResource(getResources(), R.drawable.texto);
-        bmpCofreCerrado = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_cerrado);
-        bmpCofreAbierto = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto);
+        bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_cerrado);
         bmpPatrolderecha = BitmapFactory.decodeResource(getResources(),R.drawable.patrolderecha);
         bmpPatrolizquierda = BitmapFactory.decodeResource(getResources(),R.drawable.patrolizquierda);
         bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.maul);
@@ -107,13 +124,13 @@ public class GameView extends SurfaceView {
         pensament4= BitmapFactory.decodeResource(getResources(), R.drawable.pensamiento4);
         pensaExclamacio = BitmapFactory.decodeResource(getResources(), R.drawable.pensa_exclamacion);
         pensaInterrogant = BitmapFactory.decodeResource(getResources(), R.drawable.pensa_interrogante);
+        botonAccion = BitmapFactory.decodeResource(getResources(), R.drawable.boton_accion);
+        textoM1_1 = BitmapFactory.decodeResource(getResources(), R.drawable.textom1_1);
 
         palanca = BitmapFactory.decodeResource(getResources(), R.drawable.palanca2);
         bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
 
         //sprite = new Sprite(this,bmpPrincipal);
-    }
-    public void music (){
     }
 
     //@Override
@@ -123,25 +140,35 @@ public class GameView extends SurfaceView {
         //alto1080-ancho1920
         int height = getHeight();
         int width = getWidth();
+        int posx = sprites.get(0).getX();
+        int posy = sprites.get(0).getY();
         //Log.d( "this","alto" + height + "ancho"+width);
-
+        //Cuando esta delante del puente y el puente esta tocando tierra podemos pasar al mapa 2
+        if(deMapa1A2){
+            if(posy/45==6 && posx/45==39 || posy/45==6 && posx/45==38){
+                gameLoopThread.cambiarMapa(2);
+                mapa=2;
+                this.inici=1;
+                sprites.get(0).iniciNino(70,70);
+            }
+        }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
-        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
-            mapa=2;
-            sprites.get(0).iniciNino(50,50);
-            sprites.get(0).caminarPresion(70,70);
-        }
-        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==2) {
-            mapa=3;
-            sprites.get(0).iniciNino(50,50);
-            sprites.get(0).caminarPresion(70,70);
-        }
+//        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
+//            mapa=2;
+//            sprites.get(0).iniciNino(50,50);
+//            sprites.get(0).caminarPresion(70,70);
+//        }
+//        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==2) {
+//            mapa=3;
+//            sprites.get(0).iniciNino(50,50);
+//            sprites.get(0).caminarPresion(70,70);
+//        }
         //dibujamos el mapa 1
         if(mapa==1) {
             if (this.inici==1){
                 sprites.get(0).iniciNino(50,950);
                 sprites.get(0).setEstadoMapa(1);
-                this.generadorMatrizes.generarMapa(1);
+                this.generadorMatrizes.generarMapa1();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa1();
                 sprites.get(0).setMatrizMapa(matrizMapa);
                 //spriteMalo1.iniciNino(400,600);
@@ -162,11 +189,13 @@ public class GameView extends SurfaceView {
         }
         if(mapa==2){
             if (this.inici==1){
-                sprites.get(0).iniciNino(10,10);
-                sprites.get(0).setEstadoMapa(1);
-                this.generadorMatrizes.generarMapa(2);
-                this.matrizMapa = generadorMatrizes.getMatrizMapa1();
-                sprites.get(0).setMatrizMapa(matrizMapa);
+                sprites.get(0).iniciNino(70,70);
+                sprites.get(0).setEstadoMapa(2);
+                this.generadorMatrizes.generarMapa2();
+                //encara que sifui la segona carrego la primera sino tinc problemes ja que la segoana encara no esta feta
+                this.matrizMapa2 = generadorMatrizes.getMatrizMapa2();
+                sprites.get(0).setMatrizMapa(matrizMapa2);
+                //sprites.get(0).caminarPresion(5,5);
                 this.inici=0;
             }
             dibujaMapa2(canvas,height,width);
@@ -208,7 +237,7 @@ public class GameView extends SurfaceView {
 //        sprites.add(createSprite(R.drawable.good2));
     }
 
-    ///////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Aqui es donde apretas la pantalla envia las coordenadas al Sprite
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -219,6 +248,31 @@ public class GameView extends SurfaceView {
                 if(false){
 
                 }
+                float x = event.getX();
+                float y = event.getY();
+                if(x>=1780 && y>=940){
+                    int posX =sprites.get(0).getX();
+                    int posY = sprites.get(0).getY();
+                    int columnaX = posX/45;
+                    int filaY = posY/45;
+                    //cofre
+                    if(filaY==11&&columnaX==7 || filaY==12&&columnaX==7|| filaY==11&&columnaX==8|| filaY==12&&columnaX==8|| filaY==12&&columnaX==6|| filaY==11&&columnaX==6){
+                        posCofre=2;
+                        Log.d("entra",":en abrir cofre");
+                    }
+                    //palanca mirar mas posiciones
+                    if(filaY==9 && columnaX==33 || filaY==9 && columnaX==34 || filaY==9 && columnaX==35 || filaY==9 && columnaX==36 || filaY==8 && columnaX==33 || filaY==8 && columnaX==34 || filaY==8 && columnaX==35 || filaY==8 && columnaX==36){
+                        Log.d("entra",":mover puente");
+                        posPalanca=1;
+                        posPont=2;
+                        deMapa1A2=true;
+                    }
+                    if(contadorTextM1==1){
+                        contadorTextM1=2;
+                    }
+                }else{
+                    sprites.get(0).caminarPresion(x,y);
+                }
 //                if (isCollitionMap(event.getX(), event.getY())) {
 //                    //sprites.remove(sprite);
 //                }else{
@@ -226,9 +280,7 @@ public class GameView extends SurfaceView {
 //                  float y = event.getY();
 //                  sprites.get(0).caminarPresion(x,y);
 //                }
-                float x = event.getX();
-                float y = event.getY();
-                sprites.get(0).caminarPresion(x,y);
+
             }
         }
         return true;
@@ -295,7 +347,10 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpArbustoH, 310, 500, null);
         canvas.drawBitmap(bmpArbustoH, 400, 500, null);
         //sota el 7 posem cofre
-        canvas.drawBitmap(bmpCofreCerrado, 320, 545, null);
+        if(posCofre==2){
+            bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto);
+        }
+        canvas.drawBitmap(bmpCofre, 320, 545, null);
         //8
         for(int x=965;x<1235;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 660, null);
@@ -316,9 +371,7 @@ public class GameView extends SurfaceView {
         //16
         canvas.drawBitmap(bmpCasa1, 795, 15, null);
         //17 em dona molts problemes
-//        for(int x=630;x<900;x=x+90) {
-//            canvas.drawBitmap(bmpArbustoH, x, 405, null);
-//        }
+        canvas.drawBitmap(bmpArbolCortado,720,495,null);
         //18
         for(int y=300;y<481;y=y+90) {
             canvas.drawBitmap(bmpArbustoV, 1415, y, null);
@@ -343,18 +396,26 @@ public class GameView extends SurfaceView {
                 canvas.drawBitmap(bmpVallaV, 1810, y, null);
             }
         }
+        ///////////////////////////////////////////////////////////////////////////////
         //puente
-        if(posPont==2){
-            canvas.drawBitmap(bmpPuente, 1860, 270, null);
-            posPont++;
-        } else if (posPont==3){
-            canvas.drawBitmap(bmpPuente, 1840, 270, null);
-            posPont++;
-        }else if (posPont==4) {
-            canvas.drawBitmap(bmpPuente, 1820, 270, null);
+        if(posPont>1 && posPont<13){
+            if(posPontX!=1820){
+                //ha de arribar a 1820
+                posPontX = posPontX -5;
+                posPont++;
+            }else{
+                //sprites.get(0).modiMapa1Pont();
+                this.deMapa1A2=true;
+//                this.generadorMatrizes.modiPuenteMapa1();
+//                this.matrizMapa = this.generadorMatrizes.getMatrizMapa1();
+//                sprites.get(0).setMatrizMapa(matrizMapa);
+            }
         }else if(posPont==1){
-            canvas.drawBitmap(bmpPuente, 1880, 270, null);
+            posPontX=1880;
+        }else{
+            posPontX=1820;
         }
+        canvas.drawBitmap(bmpPuente, posPontX, 270, null);
         //fuente y entras en la esquina superior
         canvas.drawBitmap(bmpFuente1, 70, 60, null);
         canvas.drawBitmap(bmpCajitas, 70, 250, null);
@@ -400,7 +461,9 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpPiedra1, 1040, 230, null);
         canvas.drawBitmap(bmpPiedra2, 1020, 230, null);
 
-
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
         //muñeco de arnau
 //        if (direccion ==1)
 //        {
@@ -416,10 +479,25 @@ public class GameView extends SurfaceView {
 //            if (patrolx<50)
 //                direccion =1;
 //        }
+        //mensajess/////////////////////////////////////////////////////////////////////////////////////////
+        //mensaje primero del mapa
+        int posx = sprites.get(0).getX();
+        int posy = sprites.get(0).getY();
+        if(posy/45==13 && posx/45==2 || posy/45==13 && posx/45==3 || posy/45==13 && posx/45==4 || posy/45==13 && posx/45==5){
+            if(contadorTextM1==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM1_1, 550, 680, null);
+                canvas.drawBitmap(pensaExclamacio, 90, 600, null);
+            }
+            if(contadorTextM1==2){
+                canvas.drawBitmap(textoM1_1, 2000, 600, null);
+                canvas.drawBitmap(pensaExclamacio, 2000, 680, null);
+            }
 
-
-
-
+        }
+        if(posy/45==6 && posx/45==43){
+            dibuja(canvas,2);
+        }
     }
 
     //son las colisiones del contorno los tres muros de arbusto mas el agua para que no se pueda ir ni apretando pantalla
