@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofre;
+    private Bitmap bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, textoM1_1, textoM1_2, botonAccion;
     private SurfaceHolder holder;
@@ -39,6 +39,8 @@ public class GameView extends SurfaceView {
     private int posCofre=1;
     private int contadorTextM1=1;
     private boolean deMapa1A2=false;
+    private int vida=100;
+    private boolean patrol1vivo=true;
 
     Matrizes generadorMatrizes = new Matrizes();
     Celda matrizMapa [][];
@@ -91,6 +93,10 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+        bmpvida100 = BitmapFactory.decodeResource(getResources(), R.drawable.vida100);
+        bmpvida75 = BitmapFactory.decodeResource(getResources(), R.drawable.vida75);
+        bmpvida50 = BitmapFactory.decodeResource(getResources(), R.drawable.vida50);
+        bmpvida25 = BitmapFactory.decodeResource(getResources(), R.drawable.vida25);
         bmpHierba = BitmapFactory.decodeResource(getResources(), R.drawable.hierba);
         bmpPuente = BitmapFactory.decodeResource(getResources(), R.drawable.puente);
         bmpAgua = BitmapFactory.decodeResource(getResources(), R.drawable.agua);
@@ -173,15 +179,19 @@ public class GameView extends SurfaceView {
                 sprites.get(0).setMatrizMapa(matrizMapa);
                 //spriteMalo1.iniciNino(400,600);
                 //spriteMalo1.patron(700,600);
-                spriteMalo1.setDireccion(1);
-                spriteMascota.setDireccion(1);
+
+                   spriteMalo1.setDireccion(1);
+                   spriteMascota.setDireccion(1);
+
                 this.inici=0;
             }
 
             dibujaMapa1(canvas,height,width);
             //spriteMalo1.iniciNino(400,600);
             //spriteMalo1.patron(700,600);
-            spriteMalo1.onDraw(canvas);
+            if (patrol1vivo==true) {
+                spriteMalo1.onDraw(canvas);
+            }
             //spriteMascota.onDraw(canvas);
             //pintar el muñeco en el mapa
             gameLoopThread.cambiarMapa(1);
@@ -243,6 +253,7 @@ public class GameView extends SurfaceView {
     public boolean onTouchEvent(MotionEvent event) {
         if (System.currentTimeMillis() - lastClick > 500) {
             lastClick = System.currentTimeMillis();
+
             synchronized (getHolder()) {
                 //aqui posarem el boto d'agafar objectes
                 if(false){
@@ -348,8 +359,7 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpArbustoH, 400, 500, null);
         //sota el 7 posem cofre
         if(posCofre==2){
-            bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto);
-        }
+            bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto); }
         canvas.drawBitmap(bmpCofre, 320, 545, null);
         //8
         for(int x=965;x<1235;x=x+90){
@@ -464,6 +474,21 @@ public class GameView extends SurfaceView {
         /////////////////////////
         //Boton
         canvas.drawBitmap(botonAccion, 1780, 940, null);
+
+        //VIDA DEL PERSONAJE
+
+        if(vida==100)
+            canvas.drawBitmap(bmpvida100, height/2, 50,null);
+        if(vida==75)
+            canvas.drawBitmap(bmpvida75, height/2, 50,null);
+        if(vida==50)
+            canvas.drawBitmap(bmpvida50, height/2, 50,null);
+        if(vida==25)
+            canvas.drawBitmap(bmpvida25, height/2, 50,null);
+
+        //COLISION KEKO VS MALO!!!!!!!!!!!!!!!!!!
+
+
         //muñeco de arnau
 //        if (direccion ==1)
 //        {
@@ -495,9 +520,35 @@ public class GameView extends SurfaceView {
             }
 
         }
-        if(posy/45==6 && posx/45==43){
-            dibuja(canvas,2);
+        if ((posx>70)&&(posy>630)&&(posx<300)&&(posy<750))
+            canvas.drawBitmap(textoM1_1, 2000, 680, null);
+
+        Log.d("POSICION X bueno:", ""+sprites.get(0).getX());
+
+        Log.d("POSICION X malo:", ""+spriteMalo1.x);
+        if ((posx>spriteMalo1.x-50)&&(posx<spriteMalo1.x+50)&&(posy>spriteMalo1.y-50)&&(posy<spriteMalo1.y+50)&&patrol1vivo==true)
+        {  patrol1vivo=false;
+            vida=vida-25;
         }
+        /*
+        if((spriteMalo1.x<50+posx)&&(spriteMalo1.y<50+posy)||(spriteMalo1.x>50+posx)&&(spriteMalo1.y>50+posy)||(spriteMalo1.x<50+posx)&&(spriteMalo1.y>posy+50)||(spriteMalo1.x>50+posx)&&(spriteMalo1.y<posy+50)) {
+            patrol1vivo=false;
+            if (vida == 100)
+                vida = 75;
+            else if (vida == 75)
+                vida = 50;
+            else if (vida == 50)
+                vida = 25;
+            else if (vida == 25)
+                vida = 0;
+        }*/
+
+        if(posy/45==6 && posx/45==43) {
+            dibuja(canvas, 2);
+        }
+
+
+
     }
 
     //son las colisiones del contorno los tres muros de arbusto mas el agua para que no se pueda ir ni apretando pantalla

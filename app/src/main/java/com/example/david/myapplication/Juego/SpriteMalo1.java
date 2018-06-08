@@ -13,8 +13,8 @@ public class SpriteMalo1 {
     private static final int BMP_COLUMNS = 3;
     private static final int MAX_SPEED = 5;
     //posició inicial ninot
-    private int x=400;
-    private int y=600;
+    public int x=400;
+    public int y=600;
     private int xSpeed = 10;
     private int ySpeed = 10;
     private GameView gameView;
