@@ -26,6 +26,7 @@ public class Sprite {
     private int currentFrame = 0;
     private int width;
     private int height;
+    private boolean estadoPuenteMapa1=false;
     //mapa en el que estas
     private int estadoMapa;
     Celda matrizMapa [][] = new Celda[24][43];
@@ -108,6 +109,11 @@ public class Sprite {
         Celda p1 = matrizMapa[yp][xp - 1];
         Celda p2 = matrizMapa[yp - 1][xp];
         Celda p3 = matrizMapa[yp][xp + 1];
+        //diagonales
+        Celda p4 = matrizMapa[yp+1][xp+1];
+        Celda p5 = matrizMapa[yp-1][xp+1];
+        Celda p6 = matrizMapa[yp-1][xp-1];
+        Celda p7 = matrizMapa[yp+1][xp-1];
         Log.d("valor de la celda", ":" + p0.getTipo());
         Log.d("valor de la celda", ":" + p1.getTipo());
         Log.d("valor de la celda", ":" + p2.getTipo());
@@ -118,13 +124,13 @@ public class Sprite {
         if (xp == movxs) {
             xSpeed = 0;
         } else if(x < movx) {
-            if (p3.getTipo() == 0) {
+            if ((p3.getTipo() == 0 && p5.getTipo() == 0 )|| (p3.getTipo() == 0 && p4.getTipo() == 0) ) {
                 xSpeed = +7;
                 x = x + 7;
             }
         }else {
             //else if (x > movx) {
-            if (p1.getTipo() == 0) {
+            if (p1.getTipo() == 0 && p6.getTipo() == 0 || p1.getTipo() == 0 && p7.getTipo() == 0 ) {
                 xSpeed = -7;
                 x = x - 7;
             }
@@ -133,25 +139,17 @@ public class Sprite {
         if (yp == movys) {
             ySpeed = 0;
         }else if(y < movy){
-            if(p0.getTipo()==0){
+            if(p0.getTipo()==0 && p4.getTipo() == 0 || p0.getTipo() == 0 && p7.getTipo() == 0 ){
                 ySpeed = +7;
                 y = y + 7;
             }
         }else {
         //else if (y > movy) {
-            if(p2.getTipo()==0){
+            if(p2.getTipo()==0 && p6.getTipo() == 0 || p2.getTipo() == 0 && p5.getTipo() == 0 ){
                 ySpeed = -7;
                 y = y - 7;
             }
         }
-//        if (x > movx ){
-//            xSpeed = -xSpeed;
-//        }
-//        x = x + xSpeed;
-//        if (y> movy){
-//            ySpeed = -ySpeed;
-//        }
-//        y = y + ySpeed;
         currentFrame = ++currentFrame % BMP_COLUMNS;
     }
 

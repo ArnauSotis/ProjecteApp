@@ -60,10 +60,27 @@ public class Matrizes {
                 this.matrizMapa1 [22][x] = this.celdaArbusto;
             }
             for(int y=0;y<BMP_ROWS;y++) {
-                //this.matrizMapa1[y][42] = this.celdaAgua;
-                //this.matrizMapa1[y][41] = this.celdaAgua;
-                this.matrizMapa1[y][40] = this.celdaAgua;
+                    this.matrizMapa1[y][42] = this.celdaAgua;
+                    this.matrizMapa1[y][41] = this.celdaAgua;
+                    this.matrizMapa1[y][40] = this.celdaAgua;
             }
+            ///////segunda manera de hacer lo del puente
+//            for(int y=0;y<6;y++) {
+//                    this.matrizMapa1[y][42] = this.celdaAgua;
+//                    this.matrizMapa1[y][41] = this.celdaAgua;
+//                    this.matrizMapa1[y][40] = this.celdaAgua;
+//            }
+//            //puente
+//            for(int x=39; x<43; x++ ){
+//                this.matrizMapa1 [6][x] = this.celdaHierba;
+//                this.matrizMapa1 [7][x] = this.celdaHierba;
+//            }
+//
+//            for(int y=8;y<BMP_ROWS;y++) {
+//                this.matrizMapa1[y][42] = this.celdaAgua;
+//                this.matrizMapa1[y][41] = this.celdaAgua;
+//                this.matrizMapa1[y][40] = this.celdaAgua;
+//            }
             //1
             for(int x=0; x<6; x++ ){
                 this.matrizMapa1 [19][x] = this.celdaArbusto;
@@ -77,7 +94,8 @@ public class Matrizes {
                 this.matrizMapa1 [14][x] = this.celdaArbusto;
             }
             //4
-            for(int y=10; y<14; y++ ){
+            for(int y=10; y<15; y++ ){
+                this.matrizMapa1 [y][5] = this.celdaArbusto;
                 this.matrizMapa1 [y][6] = this.celdaArbusto;
             }
             //5
@@ -103,7 +121,7 @@ public class Matrizes {
             //this.matrizMapa1 [11][8] = this.celdaInteractuar;
             //this.matrizMapa1 [12][8] = this.celdaInteractuar;
             //8 no crec que cuadri
-            for(int x=21; x<28; x++ ){
+            for(int x=22; x<28; x++ ){
                 this.matrizMapa1 [14][x] = this.celdaArbusto;
             }
             //9
@@ -142,11 +160,8 @@ public class Matrizes {
             for(int x= 32; x<41;x++){
                 this.matrizMapa1 [8][x] = this.celdaArbusto;
             }
-
-//            //19
-//            for(int x=1460;x<1810;x=x+90){
-//                canvas.drawBitmap(bmpArbustoH, x, 390, null);
-//            }
+            //palanca
+            this.matrizMapa1[9][33] = this.celdaArbusto;
 
             //casetas 13 14 he intent fr 11 y 12
             for(int x= 27; x<38;x++){
@@ -157,8 +172,6 @@ public class Matrizes {
                 this.matrizMapa1 [15][x] = this.celdaExtras;
                 this.matrizMapa1 [16][x] = this.celdaExtras;
             }
-            //18
-                //this.matrizMapa1 [13][27] = this.celdaExtras;
             //21
             for(int y=1;y<5;y++) {
                 for (int x = 1; x < 4; x++) {
@@ -168,6 +181,20 @@ public class Matrizes {
             for (int x = 1; x < 6; x++) {
                 this.matrizMapa1[5][x] = this.celdaArbusto;
             }
+            //llave 1 mapa 1
+            this.matrizMapa1[2][4] = this.celdaExtras;
+            this.matrizMapa1[3][4] = this.celdaExtras;
+            //puente
+            this.matrizMapa1[4][42] = this.celdaHierba;
+            this.matrizMapa1[4][41] = this.celdaHierba;
+            this.matrizMapa1[4][40] = this.celdaHierba;
+            this.matrizMapa1[4][39] = this.celdaHierba;
+        this.matrizMapa1[5][42] = this.celdaHierba;
+        this.matrizMapa1[5][41] = this.celdaHierba;
+        this.matrizMapa1[5][40] = this.celdaHierba;
+        this.matrizMapa1[5][39] = this.celdaHierba;
+
+
     }
     public void generarMapa2(){
 

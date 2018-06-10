@@ -21,9 +21,9 @@ import java.util.List;
 public class GameView extends SurfaceView {
 
     private Bitmap bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
-    private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
+    private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, textoM1_1, textoM1_2, botonAccion;
-    private Bitmap bmpMalo1, bmpMalo2, bmpMalo3;
+    private Bitmap bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -32,7 +32,7 @@ public class GameView extends SurfaceView {
     private Sprite sprite;
     private long lastClick;
     private Sprite moverJugador;
-    private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3;
+    private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3, spritePrincipalPuente;
     private SpriteMascota spriteMascota;
     private List<Sprite> sprites = new ArrayList<Sprite>();
     private int posBandera=1;
@@ -40,12 +40,21 @@ public class GameView extends SurfaceView {
     private int posPont=1;
     private int posPontX=1875;
     private int posCofre=1;
-    private int contadorTextM1=1;
-    private boolean deMapa1A2=false;
+
+
     private int vidaJugador=100;
     private boolean patrol1vivo1=true;
     private boolean patrol1vivo2=true;
     private boolean patrol1vivo3=true;
+    //////////////Puente//////////////
+    private boolean estadoPuenteMapa1 = false;
+    //////////////Para hacer la animacion que el muñeco se va por el puente/////////
+    private boolean accionPuente=false;
+    private boolean deMapa1A2=false;
+    private boolean pasarAMapa2=false;
+    ////////////contadores textos mapa1/////////////////////
+    private int contadorTextM1=1;
+    private int contadorText2M1=1;
     ///////////////////////////////
     private  String nombreJugador;
     private PreguntasServer preguntasServer;
@@ -84,7 +93,7 @@ public class GameView extends SurfaceView {
                 createSprites();
                 //vidaJugador = preguntasServer.getVida(nombreJugador);
                 //era que como he jugador lo he creado con 0 de vida la barra de vida a 0 no hace nada le he sumado 50 y veo que si carga bien
-                //vidaJugador = vidaJugador+50;
+                //vidaJugador = vidaJugador+100;
                 gameLoopThread.setRunning(true);
                 gameLoopThread.start();
 
@@ -149,10 +158,14 @@ public class GameView extends SurfaceView {
         pensaInterrogant = BitmapFactory.decodeResource(getResources(), R.drawable.pensa_interrogante);
         botonAccion = BitmapFactory.decodeResource(getResources(), R.drawable.boton_accion);
         textoM1_1 = BitmapFactory.decodeResource(getResources(), R.drawable.textom1_1);
+        bmpAmiga1PosC = BitmapFactory.decodeResource(getResources(), R.drawable.amiga1pos_cara);
+        bmpAmiga2PosC = BitmapFactory.decodeResource(getResources(), R.drawable.amiga2pos);
 
         bmpMalo2 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
         bmpMalo3 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
         bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+        bmpPerPrincipalMovPuente = BitmapFactory.decodeResource(getResources(), R.drawable.pern_principal);
+        spritePrincipalPuente = new SpriteMalo1(this,bmpPerPrincipalMovPuente);
         spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
         spriteMalo2 =  new SpriteMalo1(this,bmpMalo2);
         spriteMalo3 =  new SpriteMalo1(this,bmpMalo3);
@@ -298,6 +311,8 @@ public class GameView extends SurfaceView {
                 }
                 float x = event.getX();
                 float y = event.getY();
+                int posx = sprites.get(0).getX();
+                int posy = sprites.get(0).getY();
                 if(x>=1780 && y>=940){
                     int posX =sprites.get(0).getX();
                     int posY = sprites.get(0).getY();
@@ -309,14 +324,21 @@ public class GameView extends SurfaceView {
                         Log.d("entra",":en abrir cofre");
                     }
                     //palanca mirar mas posiciones
-                    if(filaY==9 && columnaX==33 || filaY==9 && columnaX==34 || filaY==9 && columnaX==35 || filaY==9 && columnaX==36 || filaY==8 && columnaX==33 || filaY==8 && columnaX==34 || filaY==8 && columnaX==35 || filaY==8 && columnaX==36){
+                    if(filaY==9 && columnaX==33 || filaY==9 && columnaX==34 || filaY==9 && columnaX==35 || filaY==9 && columnaX==36 || filaY==10 && columnaX==33 || filaY==10 && columnaX==34 || filaY==10 && columnaX==35 || filaY==10 && columnaX==36){
                         Log.d("entra",":mover puente");
                         posPalanca=1;
                         posPont=2;
                         deMapa1A2=true;
                     }
-                    if(contadorTextM1==1){
-                        contadorTextM1=2;
+                    if(posy/45==13 && posx/45==2 || posy/45==13 && posx/45==3 || posy/45==13 && posx/45==4 || posy/45==13 && posx/45==5){
+                        if(contadorTextM1==1){
+                            contadorTextM1=2;
+                        }
+                    }
+                    if (posy/45==4 && posx/45==19 || posy/45==4 && posx/45==20){
+                        if(contadorText2M1==1){
+                            contadorText2M1=2;
+                        }
                     }
                 }else{
                     sprites.get(0).caminarPresion(x,y);
@@ -409,14 +431,19 @@ public class GameView extends SurfaceView {
         }
         //10
         canvas.drawBitmap(bmpCasa1, 585, 675, null);
+        //nino davant la porta
+        canvas.drawBitmap(bmpAmiga1PosC, 665, 840, null);
         //extra caja normal debajo esta casa
         canvas.drawBitmap(bmpCajaNormal, 585, 975, null);
         //15
         for(int y=45;y<315;y=y+90){
             canvas.drawBitmap(bmpArbustoV, 750, y, null);
         }
-        //16
+        //16 casa
         canvas.drawBitmap(bmpCasa1, 795, 15, null);
+        //nino de la casa
+        canvas.drawBitmap(bmpAmiga2PosC, 810, 185, null);
+
         //17 em dona molts problemes
         canvas.drawBitmap(bmpArbolCortado,720,495,null);
         //18
@@ -439,7 +466,7 @@ public class GameView extends SurfaceView {
 
         //la valla lateral al lado del agua
         for(int y=0;y<height-60;y=y+60){
-            if (y!=240 && y!=300) {
+            if (y!=240 && y!=300 && y!=360) {
                 canvas.drawBitmap(bmpVallaV, 1810, y, null);
             }
         }
@@ -479,7 +506,10 @@ public class GameView extends SurfaceView {
         }
         //casa1 i 2 estan juntes  -- 13 i 14
         canvas.drawBitmap(bmpCasa1, 1285, 590, null);
-        canvas.drawBitmap(bmpCasa1, 1510, 590, null);
+        canvas.drawBitmap(bmpCasa1, 1520, 590, null);
+        //personajes delante de la casa
+        canvas.drawBitmap(bmpAmiga1PosC, 1360, 750, null);
+        canvas.drawBitmap(bmpAmiga1PosC, 1595, 750, null);
         canvas.drawBitmap(bmpCajitas, 1660, 980, null);
 
         if(posBandera==1){
@@ -541,9 +571,9 @@ public class GameView extends SurfaceView {
 //                direccion =1;
 //        }
         //mensajess/////////////////////////////////////////////////////////////////////////////////////////
-        //mensaje primero del mapa
         int posx = sprites.get(0).getX();
         int posy = sprites.get(0).getY();
+        //mensaje primero del mapa
         if(posy/45==13 && posx/45==2 || posy/45==13 && posx/45==3 || posy/45==13 && posx/45==4 || posy/45==13 && posx/45==5){
             if(contadorTextM1==1) {
                 sprites.get(0).caminarPresion(posx, posy);
@@ -556,6 +586,21 @@ public class GameView extends SurfaceView {
             }
 
         }
+        //mensaje del chico de la casa con bandera
+        if(posy/45==4 && posx/45==19 || posy/45==4 && posx/45==20){
+            if(contadorText2M1==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM1_1, 550, 680, null);
+                canvas.drawBitmap(pensaExclamacio, 90, 600, null);
+            }
+            if(contadorText2M1==2){
+                canvas.drawBitmap(textoM1_1, 2000, 600, null);
+                canvas.drawBitmap(pensaExclamacio, 2000, 680, null);
+            }
+
+        }
+
+        //Que es este mensaje??????????????????????????????????????????????????????? David yo creo que no lo he puesto
         if ((posx>70)&&(posy>630)&&(posx<300)&&(posy<750))
             canvas.drawBitmap(textoM1_1, 2000, 680, null);
 
@@ -586,7 +631,22 @@ public class GameView extends SurfaceView {
                 vida = 0;
         }*/
 
+        //////////////Pasar del mapa 1 al 2 animacion de movimiento////////////////
         if(posy/45==6 && posx/45==43) {
+            //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
+            //con la posicion suya que se marcha por el puente
+            accionPuente=true;
+        }
+        if(accionPuente){
+            sprites.get(0).iniciNino(2000,2000);
+            sprites.get(0).caminarPresion(2000,2000);
+            spritePrincipalPuente.iniciNino(posx,posy);
+            spritePrincipalPuente.patron(1800,posy);
+            if(spritePrincipalPuente.x >= 1800){
+                pasarAMapa2=true;
+            }
+        }
+        if(pasarAMapa2){
             dibuja(canvas, 2);
         }
 
