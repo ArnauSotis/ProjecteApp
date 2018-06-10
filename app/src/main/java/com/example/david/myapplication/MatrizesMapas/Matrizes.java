@@ -11,6 +11,7 @@ public class Matrizes {
     private Celda matrizMapa1 [][] = new Celda[24][43];
     private Celda matrizMapa2 [][] = new Celda[24][43];
     private Celda matrizMapa3 [][] = new Celda[24][43];
+    private Celda matrizMapa4 [][] = new Celda[24][43];
     private Celda celdaArbusto = new Celda (2);
     private Celda celdaAgua = new Celda(3);
     private Celda celdaHierba = new Celda(0);
@@ -38,6 +39,12 @@ public class Matrizes {
     }
     public void setMatrizMapa3(Celda[][] matrizMapa3) {
         this.matrizMapa3 = matrizMapa3;
+    }
+    public Celda[][] getMatrizMapa4() {
+        return matrizMapa4;
+    }
+    public void setMatrizMapa4(Celda[][] matrizMapa3) {
+        this.matrizMapa4 = matrizMapa4;
     }
 
 
@@ -134,6 +141,7 @@ public class Matrizes {
                 this.matrizMapa1 [15][x] = this.celdaExtras;
                 this.matrizMapa1 [16][x] = this.celdaExtras;
                 this.matrizMapa1 [17][x] = this.celdaExtras;
+                this.matrizMapa1 [18][x] = this.celdaExtras;
             }
             //caja-normal debajo de la casa
             this.matrizMapa1 [21][13] = this.celdaExtras;
@@ -149,6 +157,7 @@ public class Matrizes {
                 this.matrizMapa1 [3][x] = this.celdaExtras;
             }
             //17
+            this.matrizMapa1 [11][16] = this.celdaArbusto;
             this.matrizMapa1 [10][16] = this.celdaArbusto;
             this.matrizMapa1 [9][16] = this.celdaArbusto;
 
@@ -185,14 +194,14 @@ public class Matrizes {
             this.matrizMapa1[2][4] = this.celdaExtras;
             this.matrizMapa1[3][4] = this.celdaExtras;
             //puente
-            this.matrizMapa1[4][42] = this.celdaHierba;
-            this.matrizMapa1[4][41] = this.celdaHierba;
-            this.matrizMapa1[4][40] = this.celdaHierba;
-            this.matrizMapa1[4][39] = this.celdaHierba;
-        this.matrizMapa1[5][42] = this.celdaHierba;
-        this.matrizMapa1[5][41] = this.celdaHierba;
-        this.matrizMapa1[5][40] = this.celdaHierba;
-        this.matrizMapa1[5][39] = this.celdaHierba;
+//            this.matrizMapa1[4][42] = this.celdaHierba;
+//            this.matrizMapa1[4][41] = this.celdaHierba;
+//            this.matrizMapa1[4][40] = this.celdaHierba;
+//            this.matrizMapa1[4][39] = this.celdaHierba;
+//        this.matrizMapa1[5][42] = this.celdaHierba;
+//        this.matrizMapa1[5][41] = this.celdaHierba;
+//        this.matrizMapa1[5][40] = this.celdaHierba;
+//        this.matrizMapa1[5][39] = this.celdaHierba;
 
 
     }
@@ -211,6 +220,29 @@ public class Matrizes {
             for(int x=0;x<BMP_COLUMNS;x++){
                 this.matrizMapa3 [y][x] = this.celdaHierba;
             }
+        }
+
+    }
+    public void generarMapa4(){
+        for(int y=8;y<17;y++){
+            for(int x=14;x<29;x++){
+                this.matrizMapa4 [y][x] = this.celdaHierba;
+            }
+        }
+        for (int y=8;y<17;y++){
+            this.matrizMapa4 [y][14] = this.celdaArbusto;
+        }
+        for (int y=8;y<18;y++){
+            this.matrizMapa4 [y][28] = this.celdaArbusto;
+        }
+        for (int x=14;x<29;x++){
+            this.matrizMapa4 [8][x] = this.celdaArbusto;
+        }
+        for (int x=14;x<29;x++){
+            if(x!=21){
+                this.matrizMapa4 [16][x] = this.celdaArbusto;
+            }
+
         }
 
     }

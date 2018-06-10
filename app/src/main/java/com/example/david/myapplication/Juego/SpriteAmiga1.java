@@ -24,21 +24,21 @@ public class SpriteAmiga1 {
     private int currentFrame = 0;
     private int width;
     private int height;
-    //mapa en el que estas
-    private int estadoMapa;
-    Celda matrizMapa [][] = new Celda[24][43];
-
     private float movx;
     private float movy;
 
     private int mov = 0;
+
     public void setX(int x) {
         this.x = x;
     }
+
     public int getX() {
         return x;
     }
+
     public void setY(int y){this.y = y;}
+
     public int getY() {
         return y;
     }
@@ -50,13 +50,9 @@ public class SpriteAmiga1 {
         this.movy =y;
     }
     //son las coordenadas de donde queremos ir, cuando pulsamos la pantalla
-    public void caminarPresion (float x, float y){
+    public void caminar (float x, float y){
         this.movx = x;
         this.movy = y;
-    }
-    //no hace nada
-    public void caminar (int mov){
-        this.mov = mov;
     }
 
 
@@ -74,50 +70,30 @@ public class SpriteAmiga1 {
         int yp = y / 45;
         Log.d("fila", ":" + yp);
         // direction = 0 up, 1 left, 2 down, 3 right,
-        //comprobamos las 4 casillas posibles donde el muñeco puede ir
-        Celda p0 = matrizMapa[yp + 1][xp];
-        Celda p1 = matrizMapa[yp][xp - 1];
-        Celda p2 = matrizMapa[yp - 1][xp];
-        Celda p3 = matrizMapa[yp][xp + 1];
-        Log.d("valor de la celda", ":" + p0.getTipo());
-        Log.d("valor de la celda", ":" + p1.getTipo());
-        Log.d("valor de la celda", ":" + p2.getTipo());
-        Log.d("valor de la celda", ":" + p3.getTipo());
         //moviment de x
         int movxs = (int)movx/45;
         int movys = (int)movy/45;
         if (xp == movxs) {
             xSpeed = 0;
         } else if(x < movx) {
-            if (p3.getTipo() == 0) {
-                xSpeed = +5;
-                //y = y - 45;
-                x = x + 5;
-            }
+                xSpeed = +7;
+                x = x + 7;
         }else {
-            //else if (x > movx) {
-            if (p1.getTipo() == 0) {
-                xSpeed = -5;
-                //x = x - 45;
-                x = x - 5;
-            }
+                xSpeed = -7;
+                x = x - 7;
+
         }
         //moviment de y
         if (yp == movys) {
             ySpeed = 0;
         }else if(y < movy){
-            if(p0.getTipo()==0){
-                ySpeed = +5;
-                //y = y - 45;
-                y = y + 5;
-            }
+                ySpeed = +7;
+                y = y + 7;
+
         }else {
-            //else if (y > movy) {
-            if(p2.getTipo()==0){
-                ySpeed = -5;
-                //y = y - 45;
-                y = y - 5;
-            }
+                ySpeed = -7;
+                y = y - 7;
+
         }
         currentFrame = ++currentFrame % BMP_COLUMNS;
     }
