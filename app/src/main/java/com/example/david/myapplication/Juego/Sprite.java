@@ -119,16 +119,14 @@ public class Sprite {
             xSpeed = 0;
         } else if(x < movx) {
             if (p3.getTipo() == 0) {
-                xSpeed = +5;
-                //y = y - 45;
-                x = x + 5;
+                xSpeed = +7;
+                x = x + 7;
             }
         }else {
             //else if (x > movx) {
             if (p1.getTipo() == 0) {
-                xSpeed = -5;
-                //x = x - 45;
-                x = x - 5;
+                xSpeed = -7;
+                x = x - 7;
             }
         }
         //moviment de y
@@ -136,16 +134,14 @@ public class Sprite {
             ySpeed = 0;
         }else if(y < movy){
             if(p0.getTipo()==0){
-                ySpeed = +5;
-                //y = y - 45;
-                y = y + 5;
+                ySpeed = +7;
+                y = y + 7;
             }
         }else {
         //else if (y > movy) {
             if(p2.getTipo()==0){
-                ySpeed = -5;
-                //y = y - 45;
-                y = y - 5;
+                ySpeed = -7;
+                y = y - 7;
             }
         }
 //        if (x > movx ){

@@ -30,7 +30,7 @@ public interface TrackAPI {
     Call <List<Objeto>> listaObjetosUser (@Path("user") String usuarios);
 
     @GET("json/damePosYMapa/{user}")
-    Call <Usuario> getPosYmapa (@Path("user") String usuarios);
+    Call<Usuario> getPosYmapa (@Path("user") String usuarios);
 
     @POST("json/ponPosYmapa")
     Call<Boolean> postPosYmapa (@Body Usuario usuario);

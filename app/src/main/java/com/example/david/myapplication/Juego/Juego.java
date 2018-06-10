@@ -15,17 +15,22 @@ import com.example.david.myapplication.R;
 public class Juego extends Activity {
     TextView txview2;
     GameView view;
-    Sprite moverJugador;
-    MediaPlayer mediaPlayer;
-    String tag = "Event";
+    private MediaPlayer mediaPlayer;
+    private String tag = "Event";
+    private String nombreJugador="user";
+    PreguntasServer pregu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(new GameView(this));
+        //esto se tiene que descomentar para recibir el nombre del juego
+//        Bundle intentdata = getIntent().getExtras();
+//        nombreJugador = intentdata.getString("name");
+//        Log.d("NombreJugador",":"+nombreJugador);
 
+        setContentView(new GameView(this,nombreJugador));
     }
     @Override
     protected void onStart (){

@@ -103,7 +103,7 @@ public class Matrizes {
             //this.matrizMapa1 [11][8] = this.celdaInteractuar;
             //this.matrizMapa1 [12][8] = this.celdaInteractuar;
             //8 no crec que cuadri
-            for(int x=20; x<28; x++ ){
+            for(int x=21; x<28; x++ ){
                 this.matrizMapa1 [14][x] = this.celdaArbusto;
             }
             //9

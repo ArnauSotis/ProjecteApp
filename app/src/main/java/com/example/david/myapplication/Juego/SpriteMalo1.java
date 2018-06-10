@@ -78,8 +78,8 @@ public class SpriteMalo1 {
         //Hacia abajo
         if(direccion==3){
             xSpeed=0;
-            ySpeed = -5;
-            y = y - 5;
+            ySpeed = +5;
+            y = y + 5;
             if (y>=movyfinal){
                 this.direccion=4;
             }
@@ -87,8 +87,8 @@ public class SpriteMalo1 {
         //hacia arriba
         if(direccion==4){
             xSpeed=0;
-            ySpeed = +5;
-            y = y + 5;
+            ySpeed = -5;
+            y = y - 5;
             if (y<=movyini){
                 this.direccion=3;
             }

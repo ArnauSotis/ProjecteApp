@@ -60,6 +60,7 @@ public class OpcionesMenu extends AppCompatActivity {
 
     public void runJuego (View view){
         Intent intentOj = new Intent(OpcionesMenu.this, SplashActivityStart.class);
+        intentOj.putExtra("name", nombre);
         startActivity(intentOj);
     }
 

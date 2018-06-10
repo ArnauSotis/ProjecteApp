@@ -1,9 +1,11 @@
 package com.example.david.myapplication.Juego;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,9 +20,10 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMalo1,bmpMascota,bmpCofre;
-    private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos;
+    private Bitmap bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
+    private Bitmap bmpAmiga1PosD, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, textoM1_1, textoM1_2, botonAccion;
+    private Bitmap bmpMalo1, bmpMalo2, bmpMalo3;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -29,7 +32,7 @@ public class GameView extends SurfaceView {
     private Sprite sprite;
     private long lastClick;
     private Sprite moverJugador;
-    private SpriteMalo1 spriteMalo1;
+    private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3;
     private SpriteMascota spriteMascota;
     private List<Sprite> sprites = new ArrayList<Sprite>();
     private int posBandera=1;
@@ -39,8 +42,15 @@ public class GameView extends SurfaceView {
     private int posCofre=1;
     private int contadorTextM1=1;
     private boolean deMapa1A2=false;
-    private int vida=100;
-    private boolean patrol1vivo=true;
+    private int vidaJugador=100;
+    private boolean patrol1vivo1=true;
+    private boolean patrol1vivo2=true;
+    private boolean patrol1vivo3=true;
+    ///////////////////////////////
+    private  String nombreJugador;
+    private PreguntasServer preguntasServer;
+    ///////////////////////LLAVES//////////////////////////////
+    boolean llave1_Mapa1=false;
 
     Matrizes generadorMatrizes = new Matrizes();
     Celda matrizMapa [][];
@@ -61,16 +71,23 @@ public class GameView extends SurfaceView {
         this.posCofre = posCofre;
     }
 
-    public GameView(Context context) {
+    public GameView(Context context,String nombre) {
         super(context);
+        //descomentar si queremos hacer preguntas al server
+        //preguntasServer = new PreguntasServer(context);
+        this.nombreJugador = nombre;
         gameLoopThread = new GameLoopThread(this);
         holder = getHolder();
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
                 createSprites();
+                //vidaJugador = preguntasServer.getVida(nombreJugador);
+                //era que como he jugador lo he creado con 0 de vida la barra de vida a 0 no hace nada le he sumado 50 y veo que si carga bien
+                //vidaJugador = vidaJugador+50;
                 gameLoopThread.setRunning(true);
                 gameLoopThread.start();
+
             }
 
             @Override
@@ -110,8 +127,8 @@ public class GameView extends SurfaceView {
         bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_cerrado);
         bmpPatrolderecha = BitmapFactory.decodeResource(getResources(),R.drawable.patrolderecha);
         bmpPatrolizquierda = BitmapFactory.decodeResource(getResources(),R.drawable.patrolizquierda);
-        bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.maul);
-        spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
+
+        bmpLlave = BitmapFactory.decodeResource(getResources(), R.drawable.llave);
         bmpMascota = BitmapFactory.decodeResource(getResources(), R.drawable.mascota);
         spriteMascota =  new SpriteMascota(this,bmpMascota);
         bmpAmiga1PosD = BitmapFactory.decodeResource(getResources(), R.drawable.amiga1pos_dreta);
@@ -133,6 +150,12 @@ public class GameView extends SurfaceView {
         botonAccion = BitmapFactory.decodeResource(getResources(), R.drawable.boton_accion);
         textoM1_1 = BitmapFactory.decodeResource(getResources(), R.drawable.textom1_1);
 
+        bmpMalo2 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+        bmpMalo3 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+        bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+        spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
+        spriteMalo2 =  new SpriteMalo1(this,bmpMalo2);
+        spriteMalo3 =  new SpriteMalo1(this,bmpMalo3);
         palanca = BitmapFactory.decodeResource(getResources(), R.drawable.palanca2);
         bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
 
@@ -143,6 +166,8 @@ public class GameView extends SurfaceView {
     //esta funcion es llamada en el GameLoopThread tod el rato para pintarlo tod
     protected void dibuja(Canvas canvas, int mapa) {
         canvas.drawColor(Color.BLACK);
+        Log.d("NombreJugador",":"+nombreJugador);
+        Log.d("vida", "vida:   "+vidaJugador);
         //alto1080-ancho1920
         int height = getHeight();
         int width = getWidth();
@@ -177,11 +202,17 @@ public class GameView extends SurfaceView {
                 this.generadorMatrizes.generarMapa1();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa1();
                 sprites.get(0).setMatrizMapa(matrizMapa);
-                //spriteMalo1.iniciNino(400,600);
-                //spriteMalo1.patron(700,600);
+                spriteMalo1.iniciNino(700,600);
+                spriteMalo1.patron(1000,600);
+                spriteMalo2.iniciNino(450,250);
+                spriteMalo2.patron(700,250);
+                spriteMalo3.iniciNino(1400,50);
+                spriteMalo3.patron(1400,230);
 
-                   spriteMalo1.setDireccion(1);
-                   spriteMascota.setDireccion(1);
+                spriteMalo1.setDireccion(1);
+                spriteMalo2.setDireccion(1);
+                spriteMalo3.setDireccion(3);
+                spriteMascota.setDireccion(1);
 
                 this.inici=0;
             }
@@ -189,8 +220,14 @@ public class GameView extends SurfaceView {
             dibujaMapa1(canvas,height,width);
             //spriteMalo1.iniciNino(400,600);
             //spriteMalo1.patron(700,600);
-            if (patrol1vivo==true) {
+            if (patrol1vivo1==true) {
                 spriteMalo1.onDraw(canvas);
+            }
+            if (patrol1vivo2==true) {
+                spriteMalo2.onDraw(canvas);
+            }
+            if (patrol1vivo3==true) {
+                spriteMalo3.onDraw(canvas);
             }
             //spriteMascota.onDraw(canvas);
             //pintar el muñeco en el mapa
@@ -362,7 +399,7 @@ public class GameView extends SurfaceView {
             bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto); }
         canvas.drawBitmap(bmpCofre, 320, 545, null);
         //8
-        for(int x=965;x<1235;x=x+90){
+        for(int x=1055;x<1235;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 660, null);
         }
         canvas.drawBitmap(bmpCajitas, 1100, 705, null);
@@ -426,8 +463,9 @@ public class GameView extends SurfaceView {
             posPontX=1820;
         }
         canvas.drawBitmap(bmpPuente, posPontX, 270, null);
-        //fuente y entras en la esquina superior
+        //21 fuente y entras en la esquina superior
         canvas.drawBitmap(bmpFuente1, 70, 60, null);
+        canvas.drawBitmap(bmpLlave, 230, 150, null);
         canvas.drawBitmap(bmpCajitas, 70, 250, null);
         canvas.drawBitmap(bmpCajitas, 190, 250, null);
 
@@ -477,18 +515,16 @@ public class GameView extends SurfaceView {
 
         //VIDA DEL PERSONAJE
 
-        if(vida==100)
+        if(vidaJugador==100)
             canvas.drawBitmap(bmpvida100, height/2, 50,null);
-        if(vida==75)
+        if(vidaJugador==75)
             canvas.drawBitmap(bmpvida75, height/2, 50,null);
-        if(vida==50)
+        if(vidaJugador==50)
             canvas.drawBitmap(bmpvida50, height/2, 50,null);
-        if(vida==25)
+        if(vidaJugador==25)
             canvas.drawBitmap(bmpvida25, height/2, 50,null);
 
         //COLISION KEKO VS MALO!!!!!!!!!!!!!!!!!!
-
-
         //muñeco de arnau
 //        if (direccion ==1)
 //        {
@@ -526,9 +562,16 @@ public class GameView extends SurfaceView {
         Log.d("POSICION X bueno:", ""+sprites.get(0).getX());
 
         Log.d("POSICION X malo:", ""+spriteMalo1.x);
-        if ((posx>spriteMalo1.x-50)&&(posx<spriteMalo1.x+50)&&(posy>spriteMalo1.y-50)&&(posy<spriteMalo1.y+50)&&patrol1vivo==true)
-        {  patrol1vivo=false;
-            vida=vida-25;
+        if ((posx>spriteMalo1.x-50)&&(posx<spriteMalo1.x+50)&&(posy>spriteMalo1.y-50)&&(posy<spriteMalo1.y+50)&&patrol1vivo1==true)
+        {  patrol1vivo1=false;
+            vidaJugador=vidaJugador-25;
+        }
+        if ((posx>spriteMalo2.x-50)&&(posx<spriteMalo2.x+50)&&(posy>spriteMalo2.y-50)&&(posy<spriteMalo2.y+50)&&patrol1vivo2==true)
+        {  patrol1vivo2=false;
+            vidaJugador=vidaJugador-25;
+        }if ((posx>spriteMalo3.x-50)&&(posx<spriteMalo3.x+50)&&(posy>spriteMalo3.y-50)&&(posy<spriteMalo3.y+50)&&patrol1vivo3==true)
+        {  patrol1vivo3=false;
+            vidaJugador=vidaJugador-25;
         }
         /*
         if((spriteMalo1.x<50+posx)&&(spriteMalo1.y<50+posy)||(spriteMalo1.x>50+posx)&&(spriteMalo1.y>50+posy)||(spriteMalo1.x<50+posx)&&(spriteMalo1.y>posy+50)||(spriteMalo1.x>50+posx)&&(spriteMalo1.y<posy+50)) {
