@@ -22,11 +22,14 @@ public class GameView extends SurfaceView {
     private Bitmap bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa;
+    //interior de la casa
+    private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
     private Bitmap bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
     //textos mapa1
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
-    //textos mapa2
+    //textos mapa4
+    private Bitmap  textoM4_1, textoM4_2, textoM4_3;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int x = 0;
@@ -69,6 +72,8 @@ public class GameView extends SurfaceView {
     private boolean pasarAMapa2=false;
     ////////////contadores textos mapa1/////////////////////
     private int contadorTextM1=1,contadorText2M1=1,contadorText3M1=1,contadorText4M1=1,contadorText5M1=1,contadorText6M1=1,contadorText7M1=1,contadorText8M1=1,contadorText9M1=1;
+    ///////////contadores textos mapa4/////////////////
+    private int contadorText1M4=1,contadorText2M4=1,contadorText3M4=1;
     //si ha hablado con el chico del rio para ir a la palanca si ha hablado por primera vez o no para sacar un mensaje o otro
     private boolean hablarConChicoRio = false;
     private boolean palancaOn=false;
@@ -154,7 +159,11 @@ public class GameView extends SurfaceView {
         bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_cerrado);
         bmpPatrolderecha = BitmapFactory.decodeResource(getResources(),R.drawable.patrolderecha);
         bmpPatrolizquierda = BitmapFactory.decodeResource(getResources(),R.drawable.patrolizquierda);
-
+        ///////textos mapa4
+        textoM4_1 = BitmapFactory.decodeResource(getResources(),R.drawable.texto1_m4);
+        textoM4_2 = BitmapFactory.decodeResource(getResources(),R.drawable.texto2_m4);
+        textoM4_3 = BitmapFactory.decodeResource(getResources(),R.drawable.texto3_m4);
+        ///////////
         bmpLlave = BitmapFactory.decodeResource(getResources(), R.drawable.llave);
         bmpMascota = BitmapFactory.decodeResource(getResources(), R.drawable.mascota);
         spriteMascota =  new SpriteMascota(this,bmpMascota);
@@ -204,7 +213,17 @@ public class GameView extends SurfaceView {
         spriteMalo3 =  new SpriteMalo1(this,bmpMalo3);
         palanca = BitmapFactory.decodeResource(getResources(), R.drawable.palanca2);
         bandera = BitmapFactory.decodeResource(getResources(), R.drawable.bandera1);
-
+        /////interior de la casa
+        alfombra = BitmapFactory.decodeResource(getResources(), R.drawable.alfombra);
+        mesa = BitmapFactory.decodeResource(getResources(), R.drawable.mesa);
+        silla = BitmapFactory.decodeResource(getResources(), R.drawable.silla);
+        libreria = BitmapFactory.decodeResource(getResources(), R.drawable.libreria);
+        pared = BitmapFactory.decodeResource(getResources(), R.drawable.pared);
+        planta =BitmapFactory.decodeResource(getResources(), R.drawable.planta);
+        luz = BitmapFactory.decodeResource(getResources(), R.drawable.luz);
+        logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+        cama = BitmapFactory.decodeResource(getResources(), R.drawable.cama);
+        pared_falsa = BitmapFactory.decodeResource(getResources(), R.drawable.pared_falsa);
         //sprite = new Sprite(this,bmpPrincipal);
     }
 
@@ -346,7 +365,7 @@ public class GameView extends SurfaceView {
         }
         if(mapa==4){
             if (this.inici==1){
-                sprites.get(0).iniciNino(945,670);
+                sprites.get(0).iniciNino(945,715);
                 sprites.get(0).setEstadoMapa(4);
                 this.generadorMatrizes.generarMapa4();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa4();
@@ -478,6 +497,23 @@ public class GameView extends SurfaceView {
                         }
                     }
                     ////////////////////mapa 1 hasta aqui///////////////////
+                    //////////////mapa 4////////////
+                    if( filaY==8 && columnaX==24 || filaY==8 && columnaX==25){
+                        if(contadorText1M4==1){
+                            contadorText1M4=2;
+                        }
+                    }
+                    if( filaY==8 && columnaX==16 || filaY==8 && columnaX==15){
+                        if(contadorText2M4==1){
+                            contadorText2M4=2;
+                        }
+                    }
+                    if( filaY==8 && columnaX==20){
+                        if(contadorText3M4==1){
+                            contadorText3M4=2;
+                        }
+                    }
+                    ////////////////////////////hasat aqui map4
                 }else{
                     sprites.get(0).caminarPresion(x,y);
                 }
@@ -917,6 +953,10 @@ public class GameView extends SurfaceView {
                 direccion =1;
         }
 
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
+
 
     }
 
@@ -943,37 +983,92 @@ public class GameView extends SurfaceView {
             if (patrolx<50)
                 direccion =1;
         }
-
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
 
     }
     protected void dibujaMapa4 (Canvas canvas, int height, int width){
-        //todo agua
+        //dibujamos el mapa
         int posx = sprites.get(0).getX();
         int posy = sprites.get(0).getY();
         int matrizX = sprites.get(0).getMatrizX();
         int matrizY = sprites.get(0).getMatrizY();
-        if(!haLlegado){
-            if(!soloUnaVez){
-                sprites.get(0).caminarPresion(945,585);
-                soloUnaVez=true;
-            }
-            if(posx>=945 && posy>=585){
-                haLlegado=true;
-            }
-        }
-        for(int y=360;y<=765;y=y+45)
+        //suelo
+        for(int y=405;y<=810;y=y+45)
         {
             for(int x=630;x<=1260;x=x+45)
             {
                 canvas.drawBitmap(bmpSueloCasa, x, y, null);
             }
         }
+        //pared
+        for(int y=180;y<=360;y=y+45)
+        {
+            for(int x=630;x<=1260;x=x+45)
+            {
+                canvas.drawBitmap(pared, x, y, null);
+            }
+        }
+        canvas.drawBitmap(planta, 850, 775, null);
+        canvas.drawBitmap(planta, 1060, 775, null);
+        canvas.drawBitmap(alfombra, 910, 795, null);
+        canvas.drawBitmap(silla, 1185, 538, null);
+        canvas.drawBitmap(silla, 1185, 590, null);
+        canvas.drawBitmap(mesa, 1090, 560, null);
+        canvas.drawBitmap(libreria, 700, 335, null);
+        canvas.drawBitmap(libreria, 1100, 335, null);
+        canvas.drawBitmap(logo, 940, 245, null);
+        canvas.drawBitmap(luz, 1150, 255, null);
+        canvas.drawBitmap(luz, 750, 255, null);
+        canvas.drawBitmap(pared_falsa, 630, 560, null);
+        canvas.drawBitmap(cama, 630, 660, null);
+
+        if(matrizX==24 && matrizY==8 || matrizX==25 && matrizY==8){
+            if(contadorText1M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_1, 550, 680, null);
+            }
+
+        }else{
+            contadorText1M4=1;
+        }
+        if(matrizX==16 && matrizY==8 || matrizX==15 && matrizY==8) {
+            if(contadorText2M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_2, 550, 680, null);
+            }
+        }else{
+            contadorText2M4=1;
+        }
+        if(matrizX==20 && matrizY==8){
+            if(contadorText3M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_3, 550, 680, null);
+            }
+        }else{
+            contadorText3M4=1;
+        }
+        if(!haLlegado){
+            if(!soloUnaVez){
+                sprites.get(0).caminarPresion(945,580);
+                soloUnaVez=true;
+            }
+            if(posx>=945 && posy>=540){
+                haLlegado=true;
+            }
+        }
+
+
         if(haLlegado){
             if(matrizX==21 && matrizY==17 || matrizX==21 && matrizY==16 || matrizX==20 && matrizY==17 || matrizX==20 && matrizY==16){
                 deMapa4A1=true;
             }
         }
 
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
 
 
     }

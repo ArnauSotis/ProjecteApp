@@ -224,23 +224,32 @@ public class Matrizes {
 
     }
     public void generarMapa4(){
-        for(int y=8;y<17;y++){
+        for(int y=7;y<18;y++){
             for(int x=14;x<29;x++){
                 this.matrizMapa4 [y][x] = this.celdaHierba;
             }
         }
-        for (int y=8;y<17;y++){
+        for (int y=7;y<18;y++){
             this.matrizMapa4 [y][13] = this.celdaArbusto;
         }
-        for (int y=8;y<18;y++){
+        for (int y=7;y<18;y++){
             this.matrizMapa4 [y][28] = this.celdaArbusto;
         }
         for (int x=14;x<29;x++){
             this.matrizMapa4 [7][x] = this.celdaArbusto;
         }
         for (int x=14;x<29;x++){
-            this.matrizMapa4 [17][x] = this.celdaArbusto;
+            this.matrizMapa4 [18][x] = this.celdaArbusto;
         }
+        this.matrizMapa4 [13][24] = this.celdaArbusto;
+        this.matrizMapa4 [13][25] = this.celdaArbusto;
+        this.matrizMapa4 [12][24] = this.celdaArbusto;
+        this.matrizMapa4 [12][25] = this.celdaArbusto;
+        this.matrizMapa4 [16][18] = this.celdaArbusto;
+        this.matrizMapa4 [16][22] = this.celdaArbusto;
+        this.matrizMapa4 [14][15] = this.celdaArbusto;
+        this.matrizMapa4 [13][15] = this.celdaArbusto;
+        this.matrizMapa4 [12][15] = this.celdaArbusto;
 
     }
 
