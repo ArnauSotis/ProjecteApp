@@ -73,10 +73,10 @@ public class GameView extends SurfaceView {
     //////////////Para hacer la animacion que el muñeco se va por el puente/////////
     private boolean accionPuente=false;
     private boolean deMapa1A4= false;
-    private boolean deMapa1A2=true;
+    private boolean deMapa1A2=false;
     private boolean deMapa4A1=false;
 // deMapa1A2 y pasarAMapa2 deben estar false para que el juego empiece normal
-    private boolean pasarAMapa2=true;
+    private boolean pasarAMapa2=false;
     ////////////contadores textos mapa1/////////////////////
     private int contadorTextM1=1,contadorText2M1=1,contadorText3M1=1,contadorText4M1=1,contadorText5M1=1,contadorText6M1=1,contadorText7M1=1,contadorText8M1=1,contadorText9M1=1;
     ///////////contadores textos mapa4/////////////////
@@ -126,7 +126,6 @@ public class GameView extends SurfaceView {
                 //vidaJugador = vidaJugador+100;
                 gameLoopThread.setRunning(true);
                 gameLoopThread.start();
-
             }
 
             @Override
@@ -213,7 +212,13 @@ public class GameView extends SurfaceView {
         /////////////
         bmpMalo2 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
         bmpMalo3 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+
+
         bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
+        spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
+
+
+
         bmpPerPrincipalMovPuente = BitmapFactory.decodeResource(getResources(), R.drawable.pern_principal);
         spritePrincipalPuente = new SpriteAmiga1(this,bmpPerPrincipalMovPuente);
         spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
@@ -300,8 +305,12 @@ public class GameView extends SurfaceView {
                 this.generadorMatrizes.generarMapa1();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa1();
                 sprites.get(0).setMatrizMapa(matrizMapa);
+
+
                 spriteMalo1.iniciNino(700,600);
                 spriteMalo1.patron(1000,600);
+                spriteMalo1.setDireccion(1);
+
                 spriteMalo2.iniciNino(450,250);
                 spriteMalo2.patron(700,250);
                 spriteMalo3.iniciNino(1400,50);
@@ -1046,18 +1055,18 @@ public class GameView extends SurfaceView {
             }
         }
         //Arbustos
-        for(int x=0;x<width;x=x+90){
+        for(int x=0;x<width-90;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 0, null);
         }
 
-        for(int x=0;x<width;x=x+90){
+        for(int x=0;x<width-90;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, height-45, null);
         }
-        for(int y2=0;y2<height;y2=y2+90){
-            canvas.drawBitmap(bmpArbustoV, 0, y2, null);
+        for(int y=45;y<height-90;y=y+90){
+            canvas.drawBitmap(bmpArbustoV, 0, y, null);
         }
-        for(int y2=0;y2<height;y2=y2+90){
-            canvas.drawBitmap(bmpArbustoV, width-45, y2, null);
+        for(int y=45;y<height-90;y=y+90){
+            canvas.drawBitmap(bmpArbustoV, width-45, y, null);
         }
 
         for (int x=1000;x<1600;x=x+45){
