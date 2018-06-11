@@ -47,7 +47,12 @@ public class GameView extends SurfaceView {
     //llave mapa 1
     private int llaveX = 230;
     private int llaveY = 150;
-
+    /////////inici del personarje principal en el mapa 1 depenen de on vingui
+    private int iniciPrincipalMapa1=1;
+    ///////////mapa4
+    private boolean haLlegado=false;
+    private boolean soloUnaVez=false;
+    private boolean haHabladoEspigaOp1=false;
 
     private int vidaJugador=100;
     private boolean patrol1vivo1=true;
@@ -221,18 +226,22 @@ public class GameView extends SurfaceView {
                 mapa=2;
                 this.inici=1;
                 sprites.get(0).iniciNino(70,70);
-
+                deMapa1A2=false;
+                pasarAMapa2=false;
         }
         if(deMapa1A4){
                 gameLoopThread.cambiarMapa(4);
                 mapa=4;
                 this.inici=1;
+                deMapa1A4=false;
 
         }
         if(deMapa4A1){
             gameLoopThread.cambiarMapa(1);
             mapa=1;
             this.inici=1;
+            this.iniciPrincipalMapa1=3;
+            deMapa4A1=false;
         }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
 //        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
@@ -248,7 +257,18 @@ public class GameView extends SurfaceView {
         //dibujamos el mapa 1
         if(mapa==1) {
             if (this.inici==1){
-                sprites.get(0).iniciNino(50,950);
+                if(iniciPrincipalMapa1==1){
+                    //aquest es el inici del principi del joc
+                    sprites.get(0).iniciNino(50,950);
+                }else if(iniciPrincipalMapa1==3){
+                    //sortin de la casa del espiga
+                    sprites.get(0).iniciNino(855,230);
+                }else if(iniciPrincipalMapa1==2){
+                    //tornan del pont
+                    sprites.get(0).iniciNino(1820,270);
+                }else{
+
+                }
                 sprites.get(0).setEstadoMapa(1);
                 this.generadorMatrizes.generarMapa1();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa1();
@@ -265,7 +285,6 @@ public class GameView extends SurfaceView {
                 spriteMalo2.setDireccion(1);
                 spriteMalo3.setDireccion(3);
                 spriteMascota.setDireccion(1);
-
                 this.inici=0;
             }
 
@@ -406,8 +425,8 @@ public class GameView extends SurfaceView {
                     if (posy/45==4 && posx/45==19 || posy/45==4 && posx/45==20){
                         if(contadorText2M1==1){
                             contadorText2M1=2;
+                            haHabladoEspigaOp1=true;
                             deMapa1A4=true;
-
                         }
                     }
                     //los tres chicos que no quieren hablar
@@ -707,6 +726,9 @@ public class GameView extends SurfaceView {
                 canvas.drawBitmap(textoEspigaOp1, 550, 680, null);
                 canvas.drawBitmap(pensaExclamacio, 825, 165, null);
             }
+            if(haHabladoEspigaOp1){
+                deMapa1A4=true;
+            }
         }
         //mensaje de los 3 muñecos que no te dejan entrar en casa
         //y=19 x=15 casa 10
@@ -843,31 +865,17 @@ public class GameView extends SurfaceView {
             //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
             //con la posicion suya que se marcha por el puente
             accionPuente=true;
+            pasarAMapa2=true;
         }
-        if(posy/45==6 && posx/45==39 && deMapa1A2) {
-            //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
-            //con la posicion suya que se marcha por el puente
-            accionPuente=true;
-        }
-        if(posy/45==5 && posx/45==38 && deMapa1A2) {
-            //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
-            //con la posicion suya que se marcha por el puente
-            accionPuente=true;
-        }
-        if(posy/45==6 && posx/45==39 && deMapa1A2) {
-            //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
-            //con la posicion suya que se marcha por el puente
-            accionPuente=true;
-        }
-        if(accionPuente){
-            sprites.get(0).iniciNino(2000,2000);
-            sprites.get(0).caminarPresion(2000,2000);
-            spritePrincipalPuente.iniciNino(posx,posy);
-            spritePrincipalPuente.caminar(2000,posy);
-            if(spritePrincipalPuente.getX() >= 1900){
-                pasarAMapa2=true;
-            }
-        }
+//        if(accionPuente){
+//            //sprites.get(0).iniciNino(2000,2000);
+//            //sprites.get(0).caminarPresion(2000,2000);
+//            spritePrincipalPuente.iniciNino(posx,posy);
+//            spritePrincipalPuente.caminar(1900,posy);
+//            if(spritePrincipalPuente.getX() >= 1900){
+//                pasarAMapa2=true;
+//            }
+//        }
     }
 
     //son las colisiones del contorno los tres muros de arbusto mas el agua para que no se pueda ir ni apretando pantalla
@@ -889,8 +897,8 @@ public class GameView extends SurfaceView {
 
         //agua
         for(int y2=0;y2<width;y2=y2+45){
-            canvas.drawBitmap(bmpAgua, height-45, y2, null);
-            canvas.drawBitmap(bmpAgua, height-90, y2, null);
+            canvas.drawBitmap(bmpAgua, 0, y2, null);
+            canvas.drawBitmap(bmpAgua, 45, y2, null);
         }
         canvas.drawBitmap(bmpCasa1, 200, 200, null);
 
@@ -942,6 +950,17 @@ public class GameView extends SurfaceView {
         //todo agua
         int posx = sprites.get(0).getX();
         int posy = sprites.get(0).getY();
+        int matrizX = sprites.get(0).getMatrizX();
+        int matrizY = sprites.get(0).getMatrizY();
+        if(!haLlegado){
+            if(!soloUnaVez){
+                sprites.get(0).caminarPresion(945,585);
+                soloUnaVez=true;
+            }
+            if(posx>=945 && posy>=585){
+                haLlegado=true;
+            }
+        }
         for(int y=360;y<=765;y=y+45)
         {
             for(int x=630;x<=1260;x=x+45)
@@ -949,8 +968,10 @@ public class GameView extends SurfaceView {
                 canvas.drawBitmap(bmpSueloCasa, x, y, null);
             }
         }
-        if(posx/45==21 && posy==16){
-            dibuja(canvas, 1);
+        if(haLlegado){
+            if(matrizX==21 && matrizY==17 || matrizX==21 && matrizY==16 || matrizX==20 && matrizY==17 || matrizX==20 && matrizY==16){
+                deMapa4A1=true;
+            }
         }
 
 

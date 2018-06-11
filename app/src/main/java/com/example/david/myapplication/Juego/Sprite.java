@@ -19,6 +19,8 @@ public class Sprite {
     //posició inicial ninot
     private int x;
     private int y;
+    private int matrizX;
+    private int matrizY;
     private int xSpeed = 10;
     private int ySpeed = 10;
     private GameView gameView;
@@ -49,6 +51,14 @@ public class Sprite {
     public int getY() {
         return y;
     }
+
+    public int getMatrizX() {
+        return matrizX;
+    }
+    public int getMatrizY() {
+        return matrizY;
+    }
+
 
     public int getEstadoMapa() {
         return estadoMapa;
@@ -159,6 +169,8 @@ public class Sprite {
         int gotToY = (int)movy/45;
         int xp = x/45;
         int yp = y/45;
+        matrizX=xp;
+        matrizY=yp;
         if (goToX==xp && gotToY==yp){
             int srcX = currentFrame * width;
             int srcY = getAnimationRow() * height;

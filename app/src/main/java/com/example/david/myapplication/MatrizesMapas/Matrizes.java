@@ -230,19 +230,16 @@ public class Matrizes {
             }
         }
         for (int y=8;y<17;y++){
-            this.matrizMapa4 [y][14] = this.celdaArbusto;
+            this.matrizMapa4 [y][13] = this.celdaArbusto;
         }
         for (int y=8;y<18;y++){
             this.matrizMapa4 [y][28] = this.celdaArbusto;
         }
         for (int x=14;x<29;x++){
-            this.matrizMapa4 [8][x] = this.celdaArbusto;
+            this.matrizMapa4 [7][x] = this.celdaArbusto;
         }
         for (int x=14;x<29;x++){
-            if(x!=21){
-                this.matrizMapa4 [16][x] = this.celdaArbusto;
-            }
-
+            this.matrizMapa4 [17][x] = this.celdaArbusto;
         }
 
     }
