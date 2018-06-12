@@ -9,7 +9,7 @@ import com.example.david.myapplication.MatrizesMapas.Matrizes;
 public class GameLoopThread extends Thread {
 
     static final long FPS = 30;
-    private int mapaActual = 2;
+    private int mapaActual = 0;
     private GameView view;
     private boolean running = false;
 

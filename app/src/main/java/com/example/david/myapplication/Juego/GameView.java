@@ -21,7 +21,7 @@ public class GameView extends SurfaceView {
 
     private Bitmap bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
-    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa;
+    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal;
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
@@ -75,12 +75,15 @@ public class GameView extends SurfaceView {
     private boolean deMapa1A4= false;
     private boolean deMapa1A2=false;
     private boolean deMapa4A1=false;
+    private boolean deMapa0A1=false;
 // deMapa1A2 y pasarAMapa2 deben estar false para que el juego empiece normal
     private boolean pasarAMapa2=false;
     ////////////contadores textos mapa1/////////////////////
     private int contadorTextM1=1,contadorText2M1=1,contadorText3M1=1,contadorText4M1=1,contadorText5M1=1,contadorText6M1=1,contadorText7M1=1,contadorText8M1=1,contadorText9M1=1;
     ///////////contadores textos mapa4/////////////////
     private int contadorText1M4=1,contadorText2M4=1,contadorText3M4=1;
+    /////////mapa 0
+    private int contadorTextM0=1;
     //si ha hablado con el chico del rio para ir a la palanca si ha hablado por primera vez o no para sacar un mensaje o otro
     private boolean hablarConChicoRio = false;
     private boolean palancaOn=false;
@@ -148,6 +151,7 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+        bmpPerfilPrincipal = BitmapFactory.decodeResource(getResources(),R.drawable.foto_perfil);
         bmpMascota2 = BitmapFactory.decodeResource(getResources(),R.drawable.arbol_de_cara);
         bmpvida100 = BitmapFactory.decodeResource(getResources(), R.drawable.vida100);
         bmpvida75 = BitmapFactory.decodeResource(getResources(), R.drawable.vida75);
@@ -280,6 +284,13 @@ public class GameView extends SurfaceView {
             this.inici=1;
             this.iniciPrincipalMapa1=3;
             deMapa4A1=false;
+        }
+        if(deMapa0A1){
+            gameLoopThread.cambiarMapa(1);
+            mapa=1;
+            this.inici=1;
+            this.iniciPrincipalMapa1=1;
+            deMapa0A1=false;
         }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
 //        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
@@ -437,6 +448,10 @@ public class GameView extends SurfaceView {
 
             Log.d("MAPA", "MAPA 4");
         }
+        if(mapa==0){
+            dibujaMapa0(canvas,height,width);
+            Log.d("MAPA", "MAPA 0");
+        }
         //era el puente que se movia por el mapa de lado a lado
 //        if (x < getWidth() - bmpPuente.getWidth()) {
 //            x=x+10;
@@ -572,6 +587,16 @@ public class GameView extends SurfaceView {
                         }
                     }
                     ////////////////////////////hasat aqui map4
+                    //////////////mapa 0
+                    if(contadorTextM0==1){
+                        contadorTextM0++;
+                    }else if(contadorTextM0==2){
+                        contadorTextM0++;
+                    }else if(contadorTextM0==3){
+                        contadorTextM0++;
+                    }else{
+                        contadorTextM0++;
+                    }
                 }else{
                     sprites.get(0).caminarPresion(x,y);
                 }
@@ -1243,8 +1268,22 @@ public class GameView extends SurfaceView {
         /////////////////////////
         //Boton
         canvas.drawBitmap(botonAccion, 1780, 940, null);
+    }
+    protected void dibujaMapa0 (Canvas canvas, int height, int width) {
+        canvas.drawBitmap(bmpPerfilPrincipal, 950, 400, null);
+        if(contadorTextM0==1){
+            canvas.drawBitmap(textoM4_1, 550, 680, null);
+        }else if(contadorTextM0==2){
+            canvas.drawBitmap(textoM4_2, 550, 680, null);
+        }else if(contadorTextM0==3){
+            canvas.drawBitmap(textoM4_3, 550, 680, null);
+        }else{
+            deMapa0A1=true;
+        }
 
-
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
     }
 
 }
