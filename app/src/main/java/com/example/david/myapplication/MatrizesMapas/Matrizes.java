@@ -212,6 +212,43 @@ public class Matrizes {
                 this.matrizMapa2 [y][x] = this.celdaHierba;
             }
         }
+        //Limite superior
+        for(int x=0; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa2 [0][x] = this.celdaArbusto;
+        }
+        //Valla horizontal
+        for(int x=4; x<BMP_COLUMNS-6; x++ ) {
+            this.matrizMapa2[3][x] = this.celdaArbusto;
+        }
+
+        //Limite derecho
+        for(int y=0; y<BMP_ROWS; y++ ){
+            this.matrizMapa2 [y][BMP_COLUMNS-2] = this.celdaArbusto;
+        }
+
+        //Limite inferior
+        for(int x=0; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa2 [BMP_ROWS-2][x] = this.celdaArbusto;
+        }
+        /*
+        for(int y=0; y<BMP_ROWS; y++ ){
+            this.matrizMapa1 [y][0] = this.celdaArbusto;
+        }
+        for(int x=0; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa1 [BMP_ROWS][x] = this.celdaArbusto;
+        }
+        for(int y=0; y<BMP_ROWS; y++ ){
+            this.matrizMapa1 [y][BMP_COLUMNS] = this.celdaArbusto;
+        }*/
+
+        /*
+        for(int x=0;x<BMP_COLUMNS;x=x++){
+            for(int y=0;y<45;y++)
+            this.matrizMapa2 [y][x] = this.celdaHierba;
+        }
+
+*/
+
 
     }
     public void generarMapa3(){
