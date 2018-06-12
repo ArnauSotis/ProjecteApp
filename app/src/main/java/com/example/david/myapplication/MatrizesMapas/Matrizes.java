@@ -217,7 +217,7 @@ public class Matrizes {
             this.matrizMapa2 [0][x] = this.celdaArbusto;
         }
         //Valla horizontal
-        for(int x=4; x<BMP_COLUMNS-6; x++ ) {
+        for(int x=3; x<BMP_COLUMNS-6; x++ ) {
             this.matrizMapa2[3][x] = this.celdaArbusto;
         }
 
@@ -230,10 +230,22 @@ public class Matrizes {
         for(int x=0; x<BMP_COLUMNS; x++ ){
             this.matrizMapa2 [BMP_ROWS-2][x] = this.celdaArbusto;
         }
-        /*
-        for(int y=0; y<BMP_ROWS; y++ ){
-            this.matrizMapa1 [y][0] = this.celdaArbusto;
+        //Agua de la izquierda
+        for(int y=3; y<BMP_ROWS; y++ ){
+            this.matrizMapa2 [y][1] = this.celdaAgua;
         }
+        //Casas
+        for(int x=3; x<BMP_COLUMNS-6; x++ ) {
+            this.matrizMapa2[6][x] = this.celdaArbusto;
+        }
+        //Valla vertical
+        for(int y=3; y<BMP_ROWS-6; y++ ){
+            this.matrizMapa2 [y][BMP_COLUMNS-6] = this.celdaArbusto;
+        }
+
+
+
+        /*
         for(int x=0; x<BMP_COLUMNS; x++ ){
             this.matrizMapa1 [BMP_ROWS][x] = this.celdaArbusto;
         }

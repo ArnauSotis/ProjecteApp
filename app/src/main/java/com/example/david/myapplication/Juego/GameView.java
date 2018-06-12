@@ -1012,25 +1012,25 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpPuente, -10, 70, null);
         canvas.drawBitmap(bmpPuente, 30, 70, null);
 
+       // if (patrol2vivo2) canvas.drawBitmap(bmpPatrolderecha, 200, 600, null);
+       // if (patrol2vivo3) canvas.drawBitmap(bmpPatrolderecha, 200, 900, null);
+        //if (patrol2vivo4) canvas.drawBitmap(bmpPatrolizquierda, 600, 750, null);
+
+        for (int i = 200; i < height - 250; i = i + 45) {
+            canvas.drawBitmap(bmpVallaV, 1700, i, null);
+
+        }
+
+        for (int i = 150; i < 1665; i = i + 45) {
+            canvas.drawBitmap(bmpVallaH, i, 200, null);
+
+        }
+
         canvas.drawBitmap(bmpCasa1, 200, 200, null);
         canvas.drawBitmap(bmpCasa1, 500, 200, null);
         canvas.drawBitmap(bmpCasa1, 800, 200, null);
         canvas.drawBitmap(bmpCasa1, 1100, 200, null);
         canvas.drawBitmap(bmpCasa1, 1400, 200, null);
-       // if (patrol2vivo2) canvas.drawBitmap(bmpPatrolderecha, 200, 600, null);
-       // if (patrol2vivo3) canvas.drawBitmap(bmpPatrolderecha, 200, 900, null);
-        //if (patrol2vivo4) canvas.drawBitmap(bmpPatrolizquierda, 600, 750, null);
-
-        for (int i = 200; i < height - 30; i = i + 45) {
-            canvas.drawBitmap(bmpVallaV, 1700, i, null);
-
-        }
-
-        for (int i = 200; i < 1665; i = i + 45) {
-            canvas.drawBitmap(bmpVallaH, i, 200, null);
-
-        }
-
 
       /*  if (direccion == 1 && patrol2vivo1) {
             canvas.drawBitmap(bmpPatrolderecha, patrolx, 380, null);
