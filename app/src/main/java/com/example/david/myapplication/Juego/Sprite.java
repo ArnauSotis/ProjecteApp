@@ -135,14 +135,14 @@ public class Sprite {
             xSpeed = 0;
         } else if(x < movx) {
             if ((p3.getTipo() == 0 && p5.getTipo() == 0 )|| (p3.getTipo() == 0 && p4.getTipo() == 0) ) {
-                xSpeed = +5;
-                x = x + 5;
+                xSpeed = +8;
+                x = x + 8;
             }
         }else {
             //else if (x > movx) {
             if (p1.getTipo() == 0 && p6.getTipo() == 0 || p1.getTipo() == 0 && p7.getTipo() == 0 ) {
-                xSpeed = -5;
-                x = x - 5;
+                xSpeed = -8;
+                x = x - 8;
             }
         }
         //moviment de y
@@ -150,14 +150,14 @@ public class Sprite {
             ySpeed = 0;
         }else if(y < movy){
             if(p0.getTipo()==0 && p4.getTipo() == 0 || p0.getTipo() == 0 && p7.getTipo() == 0 ){
-                ySpeed = +5;
-                y = y + 5;
+                ySpeed = +8;
+                y = y + 8;
             }
         }else {
         //else if (y > movy) {
             if(p2.getTipo()==0 && p6.getTipo() == 0 || p2.getTipo() == 0 && p5.getTipo() == 0 ){
-                ySpeed = -5;
-                y = y - 5;
+                ySpeed = -8;
+                y = y - 8;
             }
         }
         currentFrame = ++currentFrame % BMP_COLUMNS;

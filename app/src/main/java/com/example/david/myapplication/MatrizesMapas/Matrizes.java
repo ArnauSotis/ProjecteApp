@@ -269,6 +269,104 @@ public class Matrizes {
                 this.matrizMapa3 [y][x] = this.celdaHierba;
             }
         }
+        //declaro el contorno de arbustos y el de agua
+        for(int x=0; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa3 [0][x] = this.celdaArbusto;
+        }
+        for(int y=0; y<BMP_ROWS; y++ ){
+            this.matrizMapa3 [y][0] = this.celdaArbusto;
+        }
+        for(int x=0; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa3 [22][x] = this.celdaArbusto;
+        }
+        for(int y=0; y<BMP_ROWS; y++ ){
+            this.matrizMapa3 [y][41] = this.celdaArbusto;
+        }
+
+
+
+        //arbustos por el camino mas granja vertical
+        for(int y=1; y<15; y++ ){
+            this.matrizMapa3 [y][7] = this.celdaArbusto;
+            this.matrizMapa3 [y][6] = this.celdaArbusto;
+        }
+        for(int y=1; y<10; y++ ){
+            this.matrizMapa3 [y][5] = this.celdaArbusto;
+        }
+        //arbusto y casa
+        for(int x=8; x<14; x++ ){
+            this.matrizMapa3 [8][x] = this.celdaArbusto;
+            this.matrizMapa3 [9][x] = this.celdaArbusto;
+            this.matrizMapa3 [10][x] = this.celdaArbusto;
+            this.matrizMapa3 [11][x] = this.celdaArbusto;
+        }
+        //lago
+        for(int y=0; y<17; y++ ){
+            this.matrizMapa3 [y][21] = this.celdaAgua;
+            this.matrizMapa3 [y][22] = this.celdaAgua;
+            this.matrizMapa3 [y][23] = this.celdaAgua;
+        }
+        for(int y=0; y<17; y++ ){
+            this.matrizMapa3 [y][41] = this.celdaAgua;
+            this.matrizMapa3 [y][40] = this.celdaAgua;
+        }
+        for(int x=24; x<31; x++ ){
+            this.matrizMapa3 [14][x] = this.celdaAgua;
+            this.matrizMapa3 [15][x] = this.celdaAgua;
+            this.matrizMapa3 [16][x] = this.celdaAgua;
+        }
+        for(int x=33; x<BMP_COLUMNS; x++ ){
+            this.matrizMapa3 [14][x] = this.celdaAgua;
+            this.matrizMapa3 [15][x] = this.celdaAgua;
+            this.matrizMapa3 [16][x] = this.celdaAgua;
+        }
+        //torre
+        for(int y=0; y<8; y++ ){
+            this.matrizMapa3 [y][30] = this.celdaArbusto;
+            this.matrizMapa3 [y][31] = this.celdaArbusto;
+            this.matrizMapa3 [y][32] = this.celdaArbusto;
+        }
+
+        //huerto y muñeco
+        this.matrizMapa3 [2][16] = this.celdaArbusto;
+        this.matrizMapa3 [2][17] = this.celdaArbusto;
+        this.matrizMapa3 [2][18] = this.celdaArbusto;
+
+        //granja
+        for(int y=0; y<11; y++ ){
+            this.matrizMapa3 [y][10] = this.celdaArbusto;
+            this.matrizMapa3 [y][9] = this.celdaArbusto;
+            this.matrizMapa3 [y][8] = this.celdaArbusto;
+        }
+
+        //arbustos mas la casita
+        for(int y=16; y<BMP_ROWS; y++ ){
+            this.matrizMapa3 [y][11] = this.celdaArbusto;
+        }
+        for(int x=12; x<17; x++ ){
+            this.matrizMapa3 [16][x] = this.celdaArbusto;
+        }
+        for(int y=17; y<21; y++ ){
+            this.matrizMapa3 [y][13] = this.celdaArbusto;
+            if(y!=20 && y!=19){
+                this.matrizMapa3 [y][14] = this.celdaArbusto;
+            }
+        }
+
+        //granja abajo
+        for(int x=1; x<11; x++ ){
+            this.matrizMapa3 [19][x] = this.celdaArbusto;
+            this.matrizMapa3 [20][x] = this.celdaArbusto;
+            this.matrizMapa3 [21][x] = this.celdaArbusto;
+        }
+        //cofre x=1215, 270
+        this.matrizMapa3 [6][27] = this.celdaArbusto;
+        this.matrizMapa3 [6][28] = this.celdaArbusto;
+        this.matrizMapa3 [6][26] = this.celdaArbusto;
+
+
+
+
 
     }
     public void generarMapa4(){
