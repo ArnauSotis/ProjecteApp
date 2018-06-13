@@ -194,15 +194,14 @@ public class Matrizes {
             this.matrizMapa1[2][4] = this.celdaExtras;
             this.matrizMapa1[3][4] = this.celdaExtras;
             //puente
-//            this.matrizMapa1[4][42] = this.celdaHierba;
+//            this.matrizMapa1[4][38] = this.celdaHierba;
 //            this.matrizMapa1[4][41] = this.celdaHierba;
 //            this.matrizMapa1[4][40] = this.celdaHierba;
 //            this.matrizMapa1[4][39] = this.celdaHierba;
-//        this.matrizMapa1[5][42] = this.celdaHierba;
 //        this.matrizMapa1[5][41] = this.celdaHierba;
 //        this.matrizMapa1[5][40] = this.celdaHierba;
 //        this.matrizMapa1[5][39] = this.celdaHierba;
-
+//        this.matrizMapa1[5][38] = this.celdaHierba;
 
     }
     public void generarMapa2(){
@@ -301,5 +300,12 @@ public class Matrizes {
         this.matrizMapa4 [12][15] = this.celdaArbusto;
 
     }
+
+//    public void modMapa1(){
+//        this.matrizMapa1[5][42] = this.celdaHierba;
+//        this.matrizMapa1[5][41] = this.celdaHierba;
+//        this.matrizMapa1[5][40] = this.celdaHierba;
+//        this.matrizMapa1[5][39] = this.celdaHierba;
+//    }
 
 }

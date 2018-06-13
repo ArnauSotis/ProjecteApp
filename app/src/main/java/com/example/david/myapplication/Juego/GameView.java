@@ -70,12 +70,14 @@ public class GameView extends SurfaceView {
 
     //////////////Puente//////////////
     private boolean estadoPuenteMapa1 = false;
+    private int estadoPuenteFase=1;
     //////////////Para hacer la animacion que el muñeco se va por el puente/////////
     private boolean accionPuente=false;
     private boolean deMapa1A4= false;
     private boolean deMapa1A2=false;
     private boolean deMapa4A1=false;
     private boolean deMapa0A1=false;
+    private boolean deMapa2A1=false;
 // deMapa1A2 y pasarAMapa2 deben estar false para que el juego empiece normal
     private boolean pasarAMapa2=false;
     ////////////contadores textos mapa1/////////////////////
@@ -267,7 +269,7 @@ public class GameView extends SurfaceView {
                 gameLoopThread.cambiarMapa(2);
                 mapa=2;
                 this.inici=1;
-                sprites.get(0).iniciNino(70,70);
+                sprites.get(0).iniciNino(80,70);
                 deMapa1A2=false;
                 pasarAMapa2=false;
         }
@@ -291,6 +293,13 @@ public class GameView extends SurfaceView {
             this.inici=1;
             this.iniciPrincipalMapa1=1;
             deMapa0A1=false;
+        }
+        if(deMapa2A1){
+            gameLoopThread.cambiarMapa(1);
+            mapa=1;
+            this.inici=1;
+            this.iniciPrincipalMapa1=2;
+            deMapa2A1=false;
         }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
 //        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
@@ -358,11 +367,17 @@ public class GameView extends SurfaceView {
             //pintar el muñeco en el mapa
             spriteChicoRio.onDraw(canvas);
             gameLoopThread.cambiarMapa(1);
-            sprites.get(0).onDraw(canvas);
+            if(!accionPuente){
+                sprites.get(0).onDraw(canvas);
+            }
+            if(estadoPuenteFase==1){
+                sprites.get(0).onDraw(canvas);
+            }
+
         }
         if(mapa==2){
             if (inici==1){
-                sprites.get(0).iniciNino(70,70);
+                sprites.get(0).iniciNino(80,70);
                 sprites.get(0).setEstadoMapa(2);
 
 
@@ -408,7 +423,9 @@ public class GameView extends SurfaceView {
             gameLoopThread.cambiarMapa(2);
 
             //pintar el muñeco en el mapa
-            sprites.get(0).onDraw(canvas);
+            if(estadoPuenteFase==1){
+                sprites.get(0).onDraw(canvas);
+            }
 
             Log.d("MAPA", "MAPA 2");
         }
@@ -915,6 +932,7 @@ public class GameView extends SurfaceView {
             if(contadorText6M1==1) {
                 sprites.get(0).caminarPresion(posx, posy);
                 canvas.drawBitmap(textodespuesPalanca, 550, 680, null);
+                estadoPuenteMapa1=true;
             }
         }
         canvas.drawBitmap(palanca, 1490, 460, null);
@@ -978,9 +996,35 @@ public class GameView extends SurfaceView {
         if(posy/45==5 && posx/45==39 && deMapa1A2) {
             //borro el muñeco y pongo un sprite del tipo malo pero con el personaje principal
             //con la posicion suya que se marcha por el puente
-            accionPuente=true;
+            estadoPuenteMapa1 =true;
             pasarAMapa2=true;
         }
+        //animacion hacia el puente animacion del mapa 1 al 2
+//        if((posy/45==5 && posx/45==39 && deMapa1A2)||(posy/45==6 && posx/45==39 && deMapa1A2)) {
+//            estadoPuenteFase=2;
+//        }
+//        if (estadoPuenteFase == 2) {
+//            spritePrincipalPuente.iniciNino(1755, 225);
+//            spritePrincipalPuente.caminar(1845, 225);
+//            int posXX = spritePrincipalPuente.getX();
+//            int posYY = spritePrincipalPuente.getY();
+//            if (posYY / 45 == 5 && posXX / 45 == 41 && deMapa1A2) {
+//                estadoPuenteFase = 1;
+//                pasarAMapa2 = true;
+//            }
+//        }
+//        //animacion viniendo del mapa 2 al 1
+//        if(estadoPuenteFase==3){
+//            spritePrincipalPuente.iniciNino(1845,225);
+//            spritePrincipalPuente.caminar(1710,225);
+//            int posXX = spritePrincipalPuente.getX();
+//            int posYY = spritePrincipalPuente.getY();
+//            if(posYY/45==5 && posXX/45==38) {
+//                estadoPuenteFase=1;
+//                pasarAMapa2=true;
+//            }
+//        }
+
 //        if(accionPuente){
 //            //sprites.get(0).iniciNino(2000,2000);
 //            //sprites.get(0).caminarPresion(2000,2000);
@@ -1037,7 +1081,16 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpPuente, -10, 70, null);
         canvas.drawBitmap(bmpPuente, 30, 70, null);
 
-       // if (patrol2vivo2) canvas.drawBitmap(bmpPatrolderecha, 200, 600, null);
+        //pasar del mapa 2 al 1
+        if(posx/45 == 0 && posy/45 == 1 || posx/45 == 0 && posy/45 == 2){
+            deMapa2A1=true;
+        }
+//        if(posx/45 == 1 && posy/45 == 1 || posx/45 == 1 && posy/45 == 2){
+//            deMapa2A1=true;
+//        }
+
+
+        // if (patrol2vivo2) canvas.drawBitmap(bmpPatrolderecha, 200, 600, null);
        // if (patrol2vivo3) canvas.drawBitmap(bmpPatrolderecha, 200, 900, null);
         //if (patrol2vivo4) canvas.drawBitmap(bmpPatrolizquierda, 600, 750, null);
 
