@@ -21,7 +21,7 @@ public class GameView extends SurfaceView {
 
     private Bitmap bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
-    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal;
+    private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2;
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
@@ -165,6 +165,7 @@ public class GameView extends SurfaceView {
         bmpCasa1 = BitmapFactory.decodeResource(getResources(), R.drawable.casa1);
         bmpArbustoH = BitmapFactory.decodeResource(getResources(), R.drawable.arbustoh);
         bmpArbustoV = BitmapFactory.decodeResource(getResources(), R.drawable.arbustov);
+        bmpAgua2 = BitmapFactory.decodeResource(getResources(), R.drawable.agua2);
         //bmpPrincipal = BitmapFactory.decodeResource(getResources(), R.drawable.good1_opt);
         bmpVallaH = BitmapFactory.decodeResource(getResources(), R.drawable.vallah);
         bmpVallaV = BitmapFactory.decodeResource(getResources(), R.drawable.vallav);
@@ -1190,7 +1191,7 @@ public class GameView extends SurfaceView {
 
         for (int x=1000;x<1600;x=x+45){
             for(int y=300;y<600;y=y+45)
-            { canvas.drawBitmap(bmpAgua, x, y, null);}}
+            { canvas.drawBitmap(bmpAgua2, x, y, null);}}
 
         canvas.drawBitmap(bmpCajaNormal, 100, 900, null);
         canvas.drawBitmap(bmpCajaNormal, 150, 900, null);
