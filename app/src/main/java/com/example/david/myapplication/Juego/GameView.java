@@ -19,26 +19,27 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
+    private Bitmap bmpHierbaQuemada,bmpArbustoHquemado, bmpArbustoVquemado, bmpfuego1, bmpfuego2,bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2;
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
-    private Bitmap bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
+    private Bitmap bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
     //textos mapa1
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
     //textos mapa4
     private Bitmap  textoM4_1, textoM4_2, textoM4_3;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
+    private int tiempofuego=0;
     private int x = 0;
     private int patrolx =20, patroly=20, direccion = 1;
     private int inici =1;
     private Sprite sprite;
     private long lastClick;
     private Sprite moverJugador;
-    private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3, spriteMalo21, spriteMalo22, spriteMalo23, spriteMalo24;
+    private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3, spriteMalo21, spriteMalo22, spriteMalo23, spriteMalo24, spriteMalo25;
     private SpriteAmiga1 spritePrincipalPuente, spriteChicoRio;
     private SpriteMascota spriteMascota;
     private List<Sprite> sprites = new ArrayList<Sprite>();
@@ -67,6 +68,7 @@ public class GameView extends SurfaceView {
     private boolean patrol2vivo2=true;
     private boolean patrol2vivo3=true;
     private boolean patrol2vivo4=true;
+    private boolean patrol2vivo5=true;
 
     //////////////Puente//////////////
     private boolean estadoPuenteMapa1 = false;
@@ -92,6 +94,7 @@ public class GameView extends SurfaceView {
     private int tieneLaLlave = 1;
     ///////////////////////////////
     private  String nombreJugador;
+    int fuego=1;
     private PreguntasServer preguntasServer;
     ///////////////////////LLAVES//////////////////////////////
     boolean llave1_Mapa1=false;
@@ -153,6 +156,10 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+
+        bmpfuego1=BitmapFactory.decodeResource(getResources(),R.drawable.fuego1);
+        bmpfuego2=BitmapFactory.decodeResource(getResources(),R.drawable.fuego2);
+        bmpHierbaQuemada= BitmapFactory.decodeResource(getResources(),R.drawable.hierbaquemada);
         bmpPerfilPrincipal = BitmapFactory.decodeResource(getResources(),R.drawable.foto_perfil);
         bmpMascota2 = BitmapFactory.decodeResource(getResources(),R.drawable.arbol_de_cara);
         bmpvida100 = BitmapFactory.decodeResource(getResources(), R.drawable.vida100);
@@ -179,6 +186,8 @@ public class GameView extends SurfaceView {
         textoM4_3 = BitmapFactory.decodeResource(getResources(),R.drawable.texto3_m4);
         ///////////
         bmpLlave = BitmapFactory.decodeResource(getResources(), R.drawable.llave);
+        bmpArbustoHquemado= BitmapFactory.decodeResource(getResources(), R.drawable.arbustohquemado);
+        bmpArbustoVquemado= BitmapFactory.decodeResource(getResources(), R.drawable.arbustovquemado);
         bmpMascota = BitmapFactory.decodeResource(getResources(), R.drawable.mascota);
         spriteMascota =  new SpriteMascota(this,bmpMascota);
         bmpAmiga1PosD = BitmapFactory.decodeResource(getResources(), R.drawable.amiga1pos_dreta);
@@ -223,13 +232,15 @@ public class GameView extends SurfaceView {
         bmpMalo22 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
         bmpMalo23 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
         bmpMalo24 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
+        bmpMalo25 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
 
         bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
         spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
         spriteMalo21 =  new SpriteMalo1(this,bmpMalo21);
         spriteMalo22 =  new SpriteMalo1(this,bmpMalo22);
         spriteMalo23 =  new SpriteMalo1(this,bmpMalo23);
-        spriteMalo24 =  new SpriteMalo1(this,bmpMalo23);
+        spriteMalo24 =  new SpriteMalo1(this,bmpMalo24);
+        spriteMalo25 =  new SpriteMalo1(this,bmpMalo25);
 
 
         bmpPerPrincipalMovPuente = BitmapFactory.decodeResource(getResources(), R.drawable.pern_principal);
@@ -398,6 +409,10 @@ public class GameView extends SurfaceView {
                 spriteMalo24.patron(800,380);
                 spriteMalo24.setDireccion(1);
 
+                spriteMalo25.iniciNino(1200,800);
+                spriteMalo25.patron(1400,800);
+                spriteMalo25.setDireccion(1);
+
                 this.generadorMatrizes.generarMapa2();
                 //encara que sifui la segona carrego la primera sino tinc problemes ja que la segoana encara no esta feta
                 this.matrizMapa2 = generadorMatrizes.getMatrizMapa2();
@@ -418,6 +433,9 @@ public class GameView extends SurfaceView {
             }
             if (patrol2vivo4==true) {
                 spriteMalo24.onDraw(canvas);
+            }
+            if (patrol2vivo5==true) {
+                spriteMalo25.onDraw(canvas);
             }
 
 
@@ -1050,7 +1068,7 @@ public class GameView extends SurfaceView {
         //todo hierba
         for (int y = 0; y < height; y = y + 45) {
             for (int x = 90; x < width; x = x + 45) {
-                canvas.drawBitmap(bmpHierba, x, y, null);
+                canvas.drawBitmap(bmpHierbaQuemada, x, y, null);
             }
         }
 
@@ -1058,16 +1076,16 @@ public class GameView extends SurfaceView {
         //Arbustos limites
 
         for (int x = 90; x < width; x = x + 90) {
-            canvas.drawBitmap(bmpArbustoH, x, 0, null);
+            canvas.drawBitmap(bmpArbustoHquemado, x, 0, null);
         }
         for (int x = 90; x < width; x = x + 90) {
-            canvas.drawBitmap(bmpArbustoH, x, height - 45, null);
+            canvas.drawBitmap(bmpArbustoHquemado, x, height - 45, null);
         }
         for (int y2 = 40; y2 < height - 90; y2 = y2 + 90) {
-            canvas.drawBitmap(bmpArbustoV, 90, y2, null);
+            canvas.drawBitmap(bmpArbustoVquemado, 90, y2, null);
         }
         for (int y2 = 40; y2 < height - 90; y2 = y2 + 90) {
-            canvas.drawBitmap(bmpArbustoV, width-40, y2, null);
+            canvas.drawBitmap(bmpArbustoVquemado, width-40, y2, null);
         }
 
         //agua
@@ -1110,6 +1128,66 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpCasa1, 800, 200, null);
         canvas.drawBitmap(bmpCasa1, 1100, 200, null);
         canvas.drawBitmap(bmpCasa1, 1400, 200, null);
+        canvas.drawBitmap(bmpCasa1, 1400, 200, null);
+
+        canvas.drawBitmap(bmpCajaNormal, 1400, 600, null);
+        canvas.drawBitmap(bmpCajaNormal, 1400, 800, null);
+        canvas.drawBitmap(bmpCajaNormal, 1500, 900, null);
+        canvas.drawBitmap(bmpCajaNormal, 1400, 500, null);
+        canvas.drawBitmap(bmpCajaNormal, 1400, 600, null);
+
+
+        if(tiempofuego==0){
+        canvas.drawBitmap(bmpfuego1, 1400, 200, null);
+        canvas.drawBitmap(bmpfuego1, 500, 00, null);
+        canvas.drawBitmap(bmpfuego1, 200, 00, null);
+        canvas.drawBitmap(bmpfuego1, 700, 500, null);
+        canvas.drawBitmap(bmpfuego1, 900, 500, null);
+        canvas.drawBitmap(bmpfuego1, 1000, 800, null);
+        canvas.drawBitmap(bmpfuego1, 1000, 600, null);
+        canvas.drawBitmap(bmpfuego1, 1000, 500, null);
+            canvas.drawBitmap(bmpfuego1, 500, 800, null);
+        this.fuego++;
+        if (this.fuego==5)
+        tiempofuego=1;
+        }
+
+        if(tiempofuego==1){
+            canvas.drawBitmap(bmpfuego2, 1400, 200, null);
+            canvas.drawBitmap(bmpfuego2, 200, 00, null);
+            canvas.drawBitmap(bmpfuego2, 500, 00, null);
+            canvas.drawBitmap(bmpfuego2, 700, 500, null);
+            canvas.drawBitmap(bmpfuego2, 900, 500, null);
+            canvas.drawBitmap(bmpfuego2, 1000, 800, null);
+            canvas.drawBitmap(bmpfuego2, 1000, 600, null);
+            canvas.drawBitmap(bmpfuego2, 1000, 500, null);
+            canvas.drawBitmap(bmpfuego2, 500, 800, null);
+            this.fuego--;
+        if (this.fuego==1)
+        tiempofuego=0;}
+
+        if ((posx > 1400 - 50) && (posx < 1400 + 50) && (posy > 200 - 100) && (posy < 200 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+
+        if ((posx > 700 - 100) && (posx < 700 + 100) && (posy > 500 - 100) && (posy < 500 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 900 - 100) && (posx < 900 + 100) && (posy > 500 - 100) && (posy < 500 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000 - 100) && (posx < 1000 + 100) && (posy > 800 - 100) && (posy < 800 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000 - 100) && (posx < 1000 + 100) && (posy > 600 - 100) && (posy <600 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000 -100) && (posx < 1000 + 100) && (posy > 500 - 100) && (posy < 500 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }if ((posx > 500 - 100) && (posx < 500 + 100) && (posy > 800 - 100) && (posy < 800 + 100)) {
+            vidaJugador = vidaJugador - 25;
+        }
+
 
       /*  if (direccion == 1 && patrol2vivo1) {
             canvas.drawBitmap(bmpPatrolderecha, patrolx, 380, null);
@@ -1127,11 +1205,11 @@ public class GameView extends SurfaceView {
         //Se la pega con el que se mueve
         if ((posx > spriteMalo24.x - 50) && (posx < spriteMalo24.x + 50) && (posy > 380 - 50) && (posy < 380 + 50) && patrol2vivo4 == true) {
             patrol2vivo4 = false;
-            vidaJugador = +vidaJugador - 25;
+            vidaJugador = vidaJugador - 25;
         }
         if ((posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50) && patrol2vivo1 == true) {
             patrol2vivo1 = false;
-            vidaJugador = +vidaJugador - 25;
+            vidaJugador = vidaJugador - 25;
         }
         if ((posx > 200 - 50) && (posx < 200 + 50) && (posy > 900 - 50) && (posy < 900 + 50) && patrol2vivo2 == true) {
             patrol2vivo2 = false;
@@ -1141,6 +1219,11 @@ public class GameView extends SurfaceView {
             patrol2vivo3 = false;
             vidaJugador = vidaJugador - 25;
         }
+        if ((posx > spriteMalo25.x - 50) && (posx < spriteMalo25.x + 50) && (posy > 800 - 50) && (posy < 800 + 50) && patrol2vivo5 == true) {
+            patrol2vivo5 = false;
+            vidaJugador = vidaJugador - 25;
+        }
+
         /////////////////////////
         //Boton
         canvas.drawBitmap(botonAccion, 1780, 940, null);
