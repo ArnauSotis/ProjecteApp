@@ -56,6 +56,10 @@ public class GameView extends SurfaceView {
     private int llaveY = 150;
     /////////inici del personarje principal en el mapa 1 depenen de on vingui
     private int iniciPrincipalMapa1=1;
+    //igual pero del mapa2
+    private int iniciPrincipalMapa12=1;
+    //igual pero en el mapa3
+    private int iniciPrincipalMapa13=1;
     ////////mapa3
     private boolean tengoLlave3=false;
     ///////////mapa4
@@ -84,6 +88,10 @@ public class GameView extends SurfaceView {
     private boolean deMapa4A1=false;
     private boolean deMapa0A1=false;
     private boolean deMapa2A1=false;
+    private boolean deMapa2A3=false;
+    private boolean deMapa3A2=false;
+    private boolean deMapa3A5=false;
+    private boolean deMapa5A3=false;
 // deMapa1A2 y pasarAMapa2 deben estar false para que el juego empiece normal
     private boolean pasarAMapa2=false;
     ////////////contadores textos mapa1/////////////////////
@@ -341,6 +349,12 @@ public class GameView extends SurfaceView {
             this.inici=1;
             this.iniciPrincipalMapa1=2;
             deMapa2A1=false;
+        }if(deMapa2A3){
+            gameLoopThread.cambiarMapa(3);
+            mapa=3;
+            this.inici=1;
+            this.iniciPrincipalMapa13=1;
+            deMapa2A3=false;
         }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
 //        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
@@ -477,10 +491,19 @@ public class GameView extends SurfaceView {
 
         if(mapa==3){
             if (this.inici==1){
+                if(iniciPrincipalMapa13==1){
+                    //aquest es el inici del principi del joc
+                    sprites.get(0).iniciNino(135,45);
+                }else if(iniciPrincipalMapa13==2){
+                    //tornan del pont
+                    sprites.get(0).iniciNino(1820,270);
+                }else{
+
+                }
                 sprites.get(0).iniciNino(135,45);
                 sprites.get(0).setEstadoMapa(3);
                 spriteMascota.iniciNino(700,600);
-                spriteMascota.patron(1000,600);
+                spriteMascota.patron(1000,450);
                 this.generadorMatrizes.generarMapa3();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa3();
                 sprites.get(0).setMatrizMapa(matrizMapa);
@@ -488,7 +511,7 @@ public class GameView extends SurfaceView {
             }
             gameLoopThread.cambiarMapa(3);
             dibujaMapa3(canvas,height,width);
-
+            spriteMascota.onDraw(canvas);
             //pintar el muñeco en el mapa
             sprites.get(0).onDraw(canvas);
 
@@ -1478,6 +1501,9 @@ public class GameView extends SurfaceView {
 //        }
 
         //torre y cofre
+        if(tengoLlave3 && posx/45==32 && posy/45==8){
+            bmpTorre1 = BitmapFactory.decodeResource(getResources(), R.drawable.torre2);
+        }
         canvas.drawBitmap(bmpTorre1, 1300, -30,null);
 
         if(posCofre3==2){
