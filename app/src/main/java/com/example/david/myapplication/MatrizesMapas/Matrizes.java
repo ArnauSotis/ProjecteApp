@@ -220,6 +220,7 @@ public class Matrizes {
             this.matrizMapa2[3][x] = this.celdaArbusto;
         }
 
+
         //Limite derecho
         for(int y=0; y<BMP_ROWS; y++ ){
             this.matrizMapa2 [y][BMP_COLUMNS-2] = this.celdaArbusto;
@@ -227,7 +228,8 @@ public class Matrizes {
 
         //Limite inferior
         for(int x=0; x<BMP_COLUMNS; x++ ){
-            this.matrizMapa2 [BMP_ROWS-2][x] = this.celdaArbusto;
+           if((x>8)||(x<6))
+               this.matrizMapa2 [BMP_ROWS-2][x] = this.celdaArbusto;
         }
         //Agua de la izquierda
         for(int y=3; y<BMP_ROWS; y++ ){
