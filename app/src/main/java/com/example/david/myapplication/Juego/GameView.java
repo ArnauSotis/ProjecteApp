@@ -1,4 +1,5 @@
 package com.example.david.myapplication.Juego;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -323,12 +324,7 @@ public class GameView extends SurfaceView {
         //Log.d( "this","alto" + height + "ancho"+width);
         //Cuando esta delante del puente y el puente esta tocando tierra podemos pasar al mapa 2
 
-        if(vidaJugador<=0)
-        {
-            for(int x=0;x<width;x++)
-                for(int y=0;y<height;y++){
-                canvas.drawBitmap(null, x, 0, null);
-            }
+
            //AQUI HAY QUE RETORNAR AL THREAD
             //
             //
@@ -340,11 +336,7 @@ public class GameView extends SurfaceView {
             //
             //
             //
-            /////
-           
-            MainActivity a = new MainActivity();
-            a.onDestroy();
-        }
+
 
         if(deMapa1A2 && pasarAMapa2){
                 gameLoopThread.cambiarMapa(2);
@@ -1288,6 +1280,9 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bandera, 990, 200, null);
 
 
+        canvas.drawBitmap(bmpCaseta,800,600,null);
+
+        canvas.drawBitmap(bmpCaseta,900,800,null);
         canvas.drawBitmap(bmpPiedra1,1080, 300, null);
         canvas.drawBitmap(bmpPiedra2, 1100, 502, null);
 
@@ -1299,14 +1294,23 @@ public class GameView extends SurfaceView {
 
         if(tiempofuego==0){
         canvas.drawBitmap(bmpfuego1, 1400, 200, null);
-        canvas.drawBitmap(bmpfuego1, 500, 00, null);
-        canvas.drawBitmap(bmpfuego1, 200, 00, null);
+        canvas.drawBitmap(bmpfuego1, 500, 100, null);
+        canvas.drawBitmap(bmpfuego1, 200, 100, null);
         canvas.drawBitmap(bmpfuego1, 700, 500, null);
         canvas.drawBitmap(bmpfuego1, 900, 500, null);
         canvas.drawBitmap(bmpfuego1, 1000, 800, null);
         canvas.drawBitmap(bmpfuego1, 1000, 600, null);
         canvas.drawBitmap(bmpfuego1, 1000, 500, null);
-            canvas.drawBitmap(bmpfuego1, 500, 800, null);
+        canvas.drawBitmap(bmpfuego1, 500, 800, null);
+        canvas.drawBitmap(bmpfuego1, 800, 150, null);
+            canvas.drawBitmap(bmpfuego1, 1500, 400, null);
+            canvas.drawBitmap(bmpfuego1, 1600, 400, null);
+            canvas.drawBitmap(bmpfuego1, 1500, 600, null);
+            canvas.drawBitmap(bmpfuego1, 1500, 500, null);
+            canvas.drawBitmap(bmpfuego1, 1600, 450, null);
+            canvas.drawBitmap(bmpfuego1, 680, 150, null);
+            canvas.drawBitmap(bmpfuego1, 680, 250, null);
+            canvas.drawBitmap(bmpfuego1, 1600, 600, null);
         this.fuego++;
         if (this.fuego==3)
         tiempofuego=1;
@@ -1314,14 +1318,28 @@ public class GameView extends SurfaceView {
 
         if(tiempofuego==1){
             canvas.drawBitmap(bmpfuego2, 1400, 200, null);
-            canvas.drawBitmap(bmpfuego2, 200, 00, null);
-            canvas.drawBitmap(bmpfuego2, 500, 00, null);
+            canvas.drawBitmap(bmpfuego2, 200, 100, null);
+            canvas.drawBitmap(bmpfuego2, 500, 100, null);
             canvas.drawBitmap(bmpfuego2, 700, 500, null);
             canvas.drawBitmap(bmpfuego2, 900, 500, null);
             canvas.drawBitmap(bmpfuego2, 1000, 800, null);
             canvas.drawBitmap(bmpfuego2, 1000, 600, null);
             canvas.drawBitmap(bmpfuego2, 1000, 500, null);
             canvas.drawBitmap(bmpfuego2, 500, 800, null);
+            canvas.drawBitmap(bmpfuego2, 800, 150, null);
+
+            canvas.drawBitmap(bmpfuego2, 1500, 400, null);
+            canvas.drawBitmap(bmpfuego2, 1600, 400, null);
+            canvas.drawBitmap(bmpfuego2, 1500, 600, null);
+            canvas.drawBitmap(bmpfuego2, 1500, 500, null);
+            canvas.drawBitmap(bmpfuego2, 1600, 450, null);
+
+            canvas.drawBitmap(bmpfuego2, 680, 150, null);
+            canvas.drawBitmap(bmpfuego2, 680, 250, null);
+
+            canvas.drawBitmap(bmpfuego2, 1600, 600, null);
+
+
             this.fuego--;
         if (this.fuego==1)
         tiempofuego=0;}
@@ -1346,24 +1364,27 @@ public class GameView extends SurfaceView {
         }if ((posx > 500 - 100) && (posx < 500 + 100) && (posy > 800 - 100) && (posy < 800 + 100)) {
             vidaJugador = vidaJugador - 25;
         }*/
-        if ((posx > 1400) && (posx < 1400 + 200) && (posy > 200) && (posy < 200 + 200)) {
+        if ((posx > 1400) && (posx < 1400+50) && (posy > 200) && (posy < 200 + 150)) {
             vidaJugador = vidaJugador - 25;
         }
-        if ((posx > 700) && (posx < 700 + 200) && (posy > 500) && (posy < 500 + 200)) {
+        if ((posx > 700) && (posx < 700 + 50) && (posy > 500) && (posy < 500 + 150)) {
             vidaJugador = vidaJugador - 25;
         }
-        if ((posx > 900) && (posx < 900 + 200) && (posy > 500) && (posy < 500 + 200)) {
+        if ((posx > 900) && (posx < 900 + 50) && (posy > 500) && (posy < 500 + 150)) {
             vidaJugador = vidaJugador - 25;
         }
-        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 800) && (posy < 800 + 200)) {
+        if ((posx > 1000) && (posx < 1000 + 50) && (posy > 800) && (posy < 800 + 150)) {
             vidaJugador = vidaJugador - 25;
         }
-        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 600)&& (posy <600 + 200)) {
+        if ((posx > 1000) && (posx < 1000 + 50) && (posy > 600)&& (posy <600 + 150)) {
             vidaJugador = vidaJugador - 25;
         }
-        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 500) && (posy < 500 + 200)) {
+        if ((posx > 1000) && (posx < 1000 + 50) && (posy > 500) && (posy < 500 + 150)) {
             vidaJugador = vidaJugador - 25;
-        }if ((posx > 500 ) && (posx < 500 + 200) && (posy > 800) && (posy < 800 + 2000)) {
+        }if ((posx > 500 ) && (posx < 500 + 50) && (posy > 800) && (posy < 800 + 150)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1450) && (posx < 1600) && (posy > 350) && (posy < 750)) {
             vidaJugador = vidaJugador - 25;
         }
 

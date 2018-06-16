@@ -239,6 +239,16 @@ public class Matrizes {
         for(int x=3; x<BMP_COLUMNS-6; x++ ) {
             this.matrizMapa2[6][x] = this.celdaArbusto;
         }
+        //Casas pequeñas
+        for(int x=17; x<19; x++ ) {
+            this.matrizMapa2[14][x] = this.celdaArbusto;
+            this.matrizMapa2[13][x] = this.celdaArbusto;
+        }
+        for(int x=19; x<21; x++ ) {
+            this.matrizMapa2[17][x] = this.celdaArbusto;
+            this.matrizMapa2[18][x] = this.celdaArbusto;
+        }
+
         //Valla vertical
         for(int y=3; y<BMP_ROWS-6; y++ ){
             this.matrizMapa2 [y][BMP_COLUMNS-6] = this.celdaArbusto;
