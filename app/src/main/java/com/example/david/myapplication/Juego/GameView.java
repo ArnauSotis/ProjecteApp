@@ -1,5 +1,6 @@
 package com.example.david.myapplication.Juego;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -26,7 +27,7 @@ public class GameView extends SurfaceView {
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
-    private Bitmap bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
+    private Bitmap bmpBlack,bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
     //textos mapa1
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
     //textos mapa4
@@ -34,6 +35,7 @@ public class GameView extends SurfaceView {
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int tiempofuego=0;
+    private boolean textoayuda=false;
     private int x = 0;
     private int momentoagua;
     private int alerta=0;
@@ -180,7 +182,7 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
-
+        bmpBlack = BitmapFactory.decodeResource(getResources(),R.drawable.black);
         bmpTextoAyuda = BitmapFactory.decodeResource(getResources(),R.drawable.texto_ayuda);
         bmpAgua22 =  BitmapFactory.decodeResource(getResources(),R.drawable.agua22);
         bmpRachola = BitmapFactory.decodeResource(getResources(),R.drawable.terra_casa);
@@ -320,6 +322,30 @@ public class GameView extends SurfaceView {
         int posy = sprites.get(0).getY();
         //Log.d( "this","alto" + height + "ancho"+width);
         //Cuando esta delante del puente y el puente esta tocando tierra podemos pasar al mapa 2
+
+        if(vidaJugador<=0)
+        {
+            for(int x=0;x<width;x++)
+                for(int y=0;y<height;y++){
+                canvas.drawBitmap(null, x, 0, null);
+            }
+           //AQUI HAY QUE RETORNAR AL THREAD
+            //
+            //
+            //
+            //
+            ///
+            ///  ESTO HACE PETAR EL JUEGO SI MUERES, AQUI HAY QUE RETORNAR AL INICIO
+            //
+            //
+            //
+            //
+            /////
+           
+            MainActivity a = new MainActivity();
+            a.onDestroy();
+        }
+
         if(deMapa1A2 && pasarAMapa2){
                 gameLoopThread.cambiarMapa(2);
                 mapa=2;
@@ -470,27 +496,10 @@ public class GameView extends SurfaceView {
             }
 
             dibujaMapa2(canvas,height,width);
-            if (patrol2vivo1==true) {
-                spriteMalo21.onDraw(canvas);
-            }
-            if (patrol2vivo2==true) {
-                spriteMalo22.onDraw(canvas);
-            }
-            if (patrol2vivo3==true) {
-                spriteMalo23.onDraw(canvas);
-            }
-            if (patrol2vivo4==true) {
-                spriteMalo24.onDraw(canvas);
-            }
-            if (patrol2vivo5==true) {
-                spriteMalo25.onDraw(canvas);
-            }
 
 
             gameLoopThread.cambiarMapa(2);
 
-            //pintar el muñeco en el mapa
-                sprites.get(0).onDraw(canvas);
 
             Log.d("MAPA", "MAPA 2");
         }
@@ -692,6 +701,14 @@ public class GameView extends SurfaceView {
                     if(filaY==20 && columnaX==14 || filaY==19 && columnaX==14){
                         tengoLlave3=true;
                     }
+
+                    /////////////////////
+                    //MAPA2
+                    ////////////////////////////////
+
+
+
+
                     ///////////
                     //////////////mapa 0
                     if(contadorTextM0==1){
@@ -717,6 +734,8 @@ public class GameView extends SurfaceView {
             }
         }
         return true;
+
+
     }
 
     //mapa1
@@ -1306,7 +1325,7 @@ public class GameView extends SurfaceView {
             this.fuego--;
         if (this.fuego==1)
         tiempofuego=0;}
-
+/*
         if ((posx > 1400 - 50) && (posx < 1400 + 50) && (posy > 200 - 100) && (posy < 200 + 100)) {
             vidaJugador = vidaJugador - 25;
         }
@@ -1326,8 +1345,27 @@ public class GameView extends SurfaceView {
             vidaJugador = vidaJugador - 25;
         }if ((posx > 500 - 100) && (posx < 500 + 100) && (posy > 800 - 100) && (posy < 800 + 100)) {
             vidaJugador = vidaJugador - 25;
+        }*/
+        if ((posx > 1400) && (posx < 1400 + 200) && (posy > 200) && (posy < 200 + 200)) {
+            vidaJugador = vidaJugador - 25;
         }
-
+        if ((posx > 700) && (posx < 700 + 200) && (posy > 500) && (posy < 500 + 200)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 900) && (posx < 900 + 200) && (posy > 500) && (posy < 500 + 200)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 800) && (posy < 800 + 200)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 600)&& (posy <600 + 200)) {
+            vidaJugador = vidaJugador - 25;
+        }
+        if ((posx > 1000) && (posx < 1000 + 200) && (posy > 500) && (posy < 500 + 200)) {
+            vidaJugador = vidaJugador - 25;
+        }if ((posx > 500 ) && (posx < 500 + 200) && (posy > 800) && (posy < 800 + 2000)) {
+            vidaJugador = vidaJugador - 25;
+        }
 
       /*  if (direccion == 1 && patrol2vivo1) {
             canvas.drawBitmap(bmpPatrolderecha, patrolx, 380, null);
@@ -1365,11 +1403,6 @@ public class GameView extends SurfaceView {
             patrol2vivo5 = false;
             vidaJugador = vidaJugador - 25;
         }
-
-        if((alerta==1)&&(posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50))
-                canvas.drawBitmap(bmpTextoAyuda, 00, 500, null);
-        //SALVAS A LA AMIGA!!!!!!!! AQUI MENSAJE!!!!!!!
-
         /////////////////////////
         //Boton
         canvas.drawBitmap(botonAccion, 1780, 940, null);
@@ -1382,6 +1415,42 @@ public class GameView extends SurfaceView {
             canvas.drawBitmap(bmpvida50, height / 2, 50, null);
         if (vidaJugador == 25)
             canvas.drawBitmap(bmpvida25, height / 2, 50, null);
+
+
+        if((posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50))
+        {   textoayuda=true;}
+
+        if (patrol2vivo1==true) {
+            spriteMalo21.onDraw(canvas);
+        }
+        if (patrol2vivo2==true) {
+            spriteMalo22.onDraw(canvas);
+        }
+        if (patrol2vivo3==true) {
+            spriteMalo23.onDraw(canvas);
+        }
+        if (patrol2vivo4==true) {
+            spriteMalo24.onDraw(canvas);
+        }
+        if (patrol2vivo5==true) {
+            spriteMalo25.onDraw(canvas);
+        }
+        //pintar el muñeco en el mapa
+        sprites.get(0).onDraw(canvas);
+
+
+
+        if ((textoayuda==true)&&(alerta<30)) {
+            sprites.get(0).caminarPresion(posx, posy);
+            canvas.drawBitmap(bmpTextoAyuda, 200, 500, null);
+            alerta++;
+        }
+
+
+            //SALVAS A LA AMIGA!!!!!!!! AQUI MENSAJE!!!!!!!
+
+
+
 
                 if ((posx > 250) && (posx < 470) && (posy > 950)) {
                     gameLoopThread.cambiarMapa(3);
