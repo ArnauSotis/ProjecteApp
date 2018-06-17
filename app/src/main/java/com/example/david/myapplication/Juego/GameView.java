@@ -21,7 +21,7 @@ import java.util.List;
 
 public class GameView extends SurfaceView {
 
-    private Bitmap bmpTextoAyuda, bmpAgua22,bmpRachola,bmpHierbaQuemada,bmpArbustoHquemado, bmpArbustoVquemado, bmpfuego1, bmpfuego2,bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre, bmpCofre3;
+    private Bitmap bmpPocion, bmpTextoAyuda, bmpAgua22,bmpRachola,bmpHierbaQuemada,bmpArbustoHquemado, bmpArbustoVquemado, bmpfuego1, bmpfuego2,bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre, bmpCofre3;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2, bmpCasa2, bmpTorre1, bmpTorre2,bmpPuente2, extraAgua1, extraAgua2, extraAgua3;
     private Bitmap granja1, granja2, granja3, bmpJefedeCara;
@@ -48,6 +48,7 @@ public class GameView extends SurfaceView {
     private int patrolx =20, patroly=20, direccion = 1;
     private int inici =1;
     private Sprite sprite;
+    private boolean pociontaken;
     private long lastClick;
     private Sprite moverJugador;
     private SpriteMalo1 spriteMalo1, spriteMalo2, spriteMalo3, spriteMalo21, spriteMalo22, spriteMalo23, spriteMalo24, spriteMalo25;
@@ -201,6 +202,7 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+        bmpPocion = BitmapFactory.decodeResource(getResources(),R.drawable.pocion);
         bmpmascotaDecara = BitmapFactory.decodeResource(getResources(),R.drawable.arbol_de_cara);
         textoM5 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_final);
         texto_pocion = BitmapFactory.decodeResource(getResources(),R.drawable.texto_tomar_pocion);
@@ -1329,6 +1331,15 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpCasa1, 1400, 200, null);
         canvas.drawBitmap(bmpCasa1, 1400, 200, null);
 
+        if(pociontaken==false)
+        canvas.drawBitmap(bmpPocion, 1300,500,null);
+
+        if ((posx < 1304+50) && (posx > 1304-50) && (posy < 510+50) && (posy > 510 - 50)&&pociontaken==false) {
+            vidaJugador = vidaJugador + 25;
+            pociontaken=true;
+        }
+
+
         canvas.drawBitmap(bmpCajaNormal, 1400, 600, null);
         canvas.drawBitmap(bmpCajaNormal, 1400, 800, null);
         canvas.drawBitmap(bmpCajaNormal, 1500, 900, null);
@@ -1381,8 +1392,8 @@ public class GameView extends SurfaceView {
 
         if(tiempofuego==0){
         canvas.drawBitmap(bmpfuego1, 1400, 200, null);
-        canvas.drawBitmap(bmpfuego1, 500, 100, null);
-        canvas.drawBitmap(bmpfuego1, 200, 100, null);
+        canvas.drawBitmap(bmpfuego1, 500, 200, null);
+        canvas.drawBitmap(bmpfuego1, 200, 200, null);
         canvas.drawBitmap(bmpfuego1, 700, 500, null);
         canvas.drawBitmap(bmpfuego1, 900, 500, null);
         canvas.drawBitmap(bmpfuego1, 1000, 800, null);
@@ -1405,8 +1416,8 @@ public class GameView extends SurfaceView {
 
         if(tiempofuego==1){
             canvas.drawBitmap(bmpfuego2, 1400, 200, null);
-            canvas.drawBitmap(bmpfuego2, 200, 100, null);
-            canvas.drawBitmap(bmpfuego2, 500, 100, null);
+            canvas.drawBitmap(bmpfuego2, 200, 200, null);
+            canvas.drawBitmap(bmpfuego2, 500, 200, null);
             canvas.drawBitmap(bmpfuego2, 700, 500, null);
             canvas.drawBitmap(bmpfuego2, 900, 500, null);
             canvas.drawBitmap(bmpfuego2, 1000, 800, null);
