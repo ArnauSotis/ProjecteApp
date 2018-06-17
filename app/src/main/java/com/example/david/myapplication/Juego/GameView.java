@@ -24,15 +24,18 @@ public class GameView extends SurfaceView {
     private Bitmap bmpTextoAyuda, bmpAgua22,bmpRachola,bmpHierbaQuemada,bmpArbustoHquemado, bmpArbustoVquemado, bmpfuego1, bmpfuego2,bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre, bmpCofre3;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2, bmpCasa2, bmpTorre1, bmpTorre2,bmpPuente2, extraAgua1, extraAgua2, extraAgua3;
-    private Bitmap granja1, granja2, granja3;
+    private Bitmap granja1, granja2, granja3, bmpJefedeCara;
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
     //malos + personaje principal accion
-    private Bitmap bmpBlack,bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio;
+    private Bitmap bmpBlack,bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio, bmpmascotaDecara;
     //textos mapa1
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
     //textos mapa4
     private Bitmap  textoM4_1, textoM4_2, textoM4_3;
+    /// texto mapa2
+    private Bitmap  textoM2_1, textoM2_2, texto_pocion, textoM5;
+    private int contadorMapa2Texto2=1;
     //texto game over
     private Bitmap gameOver;
     private SurfaceHolder holder;
@@ -59,6 +62,9 @@ public class GameView extends SurfaceView {
     private int posPontX=1875;
     private int posCofre=1;
     private int posCofre3=1;
+    ///////////fase final
+    private boolean pintarMascota=false;
+    private int contadorFinal=1;
     //llave mapa 1
     private int llaveX = 230;
     private int llaveY = 150;
@@ -110,6 +116,10 @@ public class GameView extends SurfaceView {
     private int contadorText1M3=1,contadorText2M3=1,contadorText3M3=1;
     /////////mapa 0
     private int contadorTextM0=1;
+    /////mapa4 casa
+    private int contadorTextoPocion=1;
+    //mapa 5
+    private int contadorTextoM5=1;
 
     ///////////////////////////////
     private  String nombreJugador;
@@ -191,6 +201,9 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+        bmpmascotaDecara = BitmapFactory.decodeResource(getResources(),R.drawable.arbol_de_cara);
+        textoM5 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_final);
+        texto_pocion = BitmapFactory.decodeResource(getResources(),R.drawable.texto_tomar_pocion);
         bmpBlack = BitmapFactory.decodeResource(getResources(),R.drawable.black);
         bmpTextoAyuda = BitmapFactory.decodeResource(getResources(),R.drawable.texto_ayuda);
         bmpAgua22 =  BitmapFactory.decodeResource(getResources(),R.drawable.agua22);
@@ -275,7 +288,7 @@ public class GameView extends SurfaceView {
         bmpMalo23 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
         bmpMalo24 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
         bmpMalo25 = BitmapFactory.decodeResource(getResources(),R.drawable.malo1);
-
+        bmpJefedeCara =  BitmapFactory.decodeResource(getResources(),R.drawable.jefe_de_cara);
         bmpMalo1 = BitmapFactory.decodeResource(getResources(), R.drawable.malo1);
         spriteMalo1 =  new SpriteMalo1(this,bmpMalo1);
         spriteMalo21 =  new SpriteMalo1(this,bmpMalo21);
@@ -590,8 +603,8 @@ public class GameView extends SurfaceView {
             if (this.inici==1){
                 sprites.get(0).iniciNino(945,715);
                 sprites.get(0).setEstadoMapa(5);
-                this.generadorMatrizes.generarMapa4();
-                this.matrizMapa = generadorMatrizes.getMatrizMapa4();
+                this.generadorMatrizes.generarMapa5();
+                this.matrizMapa = generadorMatrizes.getMatrizMapa5();
                 sprites.get(0).setMatrizMapa(matrizMapa);
                 this.inici=0;
             }
@@ -600,7 +613,7 @@ public class GameView extends SurfaceView {
             //pintar el muñeco en el mapa
             sprites.get(0).onDraw(canvas);
 
-            Log.d("MAPA", "MAPA 4");
+            Log.d("MAPA", "MAPA 5");
         }
         if(mapa==0){
             dibujaMapa0(canvas,height,width);
@@ -743,6 +756,10 @@ public class GameView extends SurfaceView {
                             contadorText3M4=2;
                         }
                     }
+
+                    if(filaY==13 && columnaX==23 && contadorTextoPocion==1){
+                        contadorTextoPocion=2;
+                    }
                     ////////////////////////////hasat aqui map4
                     ////////mapa3
                     //cofre y=6 x=27
@@ -758,13 +775,17 @@ public class GameView extends SurfaceView {
                     if(filaY==20 && columnaX==14 || filaY==19 && columnaX==14){
                         tengoLlave3=true;
                     }
+                    ////mapa 5
 
+                    if((filaY==9 && columnaX==21 && contadorTextoM5==1) || (filaY==10 && columnaX==21 && contadorTextoM5==1)){
+                        contadorTextoM5=2;
+                    }
                     /////////////////////
                     //MAPA2
                     ////////////////////////////////
-
-
-
+                    if((contadorMapa2Texto2==1)&&(posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50)){
+                        contadorMapa2Texto2=2;
+                    }
 
                     ///////////
                     //////////////mapa 0
@@ -1059,6 +1080,7 @@ public class GameView extends SurfaceView {
                 canvas.drawBitmap(textoNoPuedesPasar, 550, 680, null);
             }
         }
+
         ///////////////////////
         //llave de la fuente
         //y=3 x=5 o y=4 x=5
@@ -1504,8 +1526,7 @@ public class GameView extends SurfaceView {
             canvas.drawBitmap(bmpvida25, height / 2, 50, null);
 
 
-        if((posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50))
-        {   textoayuda=true;}
+
 
         if (patrol2vivo1==true) {
             spriteMalo21.onDraw(canvas);
@@ -1526,24 +1547,42 @@ public class GameView extends SurfaceView {
         sprites.get(0).onDraw(canvas);
 
 
+//        if((posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50))
+//        {   textoayuda=true;}
+//        ///mensaje por arnau
+//        if ((textoayuda==true)&&(alerta<30)) {
+//            sprites.get(0).caminarPresion(posx, posy);
+//            canvas.drawBitmap(bmpTextoAyuda, 200, 500, null);
+//            alerta++;
+//        }
 
-        if ((textoayuda==true)&&(alerta<30)) {
-            sprites.get(0).caminarPresion(posx, posy);
-            canvas.drawBitmap(bmpTextoAyuda, 200, 500, null);
-            alerta++;
+        //mensaje prueba david
+        //private Bitmap  textoM2_1, textoM2_2;
+        //    private int contadorMapa2Texto2=1;
+
+
+        //SALVAS A LA AMIGA!!!!!!!! AQUI MENSAJE!!!!!!!
+        if((posx > 200 - 50) && (posx < 200 + 50) && (posy > 600 - 50) && (posy < 600 + 50)){
+            if (contadorMapa2Texto2==1){
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(bmpTextoAyuda, 200, 500, null);
+            }else{
+                patrol2vivo1=false;
+                patrol2vivo2=false;
+                patrol2vivo3=false;
+                patrol2vivo4=false;
+                patrol2vivo5=false;
+                if(vidaJugador != 100){
+                    vidaJugador = vidaJugador + 25;
+                }
+            }
         }
 
+        if ((posx > 250) && (posx < 470) && (posy > 950)) {
+            gameLoopThread.cambiarMapa(3);
+            deMapa2A3=true;
 
-            //SALVAS A LA AMIGA!!!!!!!! AQUI MENSAJE!!!!!!!
-
-
-
-
-                if ((posx > 250) && (posx < 470) && (posy > 950)) {
-                    gameLoopThread.cambiarMapa(3);
-                  deMapa2A3=true;
-
-                }
+        }
     }
 
     protected void dibujaMapa3 (Canvas canvas, int height, int width){
@@ -1837,7 +1876,14 @@ public class GameView extends SurfaceView {
                 haLlegado=true;
             }
         }
-
+        /////texto tomar pocion
+        if(posy/45==13 && posx/45==23){
+            if(contadorTextoPocion==1){
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(texto_pocion, 550, 680, null);
+                vidaJugador = vidaJugador + 25;
+            }
+        }
 
         if(haLlegado){
             if(matrizX==21 && matrizY==17 || matrizX==21 && matrizY==16 || matrizX==20 && matrizY==17 || matrizX==20 && matrizY==16){
@@ -1890,41 +1936,30 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(planta, 850, 775, null);
         canvas.drawBitmap(planta, 1060, 775, null);
         canvas.drawBitmap(alfombra, 910, 795, null);
-        canvas.drawBitmap(silla, 1185, 538, null);
-        canvas.drawBitmap(silla, 1185, 590, null);
-        canvas.drawBitmap(mesa, 1090, 560, null);
         canvas.drawBitmap(libreria, 700, 335, null);
         canvas.drawBitmap(libreria, 1100, 335, null);
         canvas.drawBitmap(logo, 940, 245, null);
         canvas.drawBitmap(luz, 1150, 255, null);
         canvas.drawBitmap(luz, 750, 255, null);
-        canvas.drawBitmap(pared_falsa, 630, 560, null);
-        canvas.drawBitmap(cama, 630, 660, null);
 
-        if(matrizX==24 && matrizY==8 || matrizX==25 && matrizY==8){
-            if(contadorText1M4==1) {
-                sprites.get(0).caminarPresion(posx, posy);
-                canvas.drawBitmap(textoM4_1, 550, 680, null);
-            }
 
-        }else{
-            contadorText1M4=1;
-        }
-        if(matrizX==16 && matrizY==8 || matrizX==15 && matrizY==8) {
-            if(contadorText2M4==1) {
+        canvas.drawBitmap(bmpJefedeCara, 945, 405, null);
+        if(matrizX==21 && matrizY==9 || matrizX==21 && matrizY==10) {
+            if (contadorTextoM5 == 1) {
                 sprites.get(0).caminarPresion(posx, posy);
-                canvas.drawBitmap(textoM4_2, 550, 680, null);
+                canvas.drawBitmap(textoM5, 550, 680, null);
             }
-        }else{
-            contadorText2M4=1;
+            else{
+                pintarMascota=true;
+            }
         }
-        if(matrizX==20 && matrizY==8){
-            if(contadorText3M4==1) {
-                sprites.get(0).caminarPresion(posx, posy);
-                canvas.drawBitmap(textoM4_3, 550, 680, null);
-            }
-        }else{
-            contadorText3M4=1;
+        if(pintarMascota){
+            canvas.drawBitmap(bmpmascotaDecara, 1000, 490, null);
+            contadorFinal++;
+        }
+        //pasamos a decir has ganado el juego falta ponerlo
+        if(contadorFinal==90){
+
         }
         if(!haLlegado){
             if(!soloUnaVez){
@@ -1935,7 +1970,6 @@ public class GameView extends SurfaceView {
                 haLlegado=true;
             }
         }
-
 
         if(haLlegado){
             if(matrizX==21 && matrizY==17 || matrizX==21 && matrizY==16 || matrizX==20 && matrizY==17 || matrizX==20 && matrizY==16){

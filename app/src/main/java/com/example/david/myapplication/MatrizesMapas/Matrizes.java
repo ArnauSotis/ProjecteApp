@@ -12,6 +12,7 @@ public class Matrizes {
     private Celda matrizMapa2 [][] = new Celda[24][43];
     private Celda matrizMapa3 [][] = new Celda[24][43];
     private Celda matrizMapa4 [][] = new Celda[24][43];
+    private Celda matrizMapa5 [][] = new Celda[24][43];
     private Celda celdaArbusto = new Celda (2);
     private Celda celdaAgua = new Celda(3);
     private Celda celdaHierba = new Celda(0);
@@ -43,8 +44,14 @@ public class Matrizes {
     public Celda[][] getMatrizMapa4() {
         return matrizMapa4;
     }
-    public void setMatrizMapa4(Celda[][] matrizMapa3) {
+    public void setMatrizMapa4(Celda[][] matrizMapa4) {
         this.matrizMapa4 = matrizMapa4;
+    }
+    public Celda[][] getMatrizMapa5() {
+        return matrizMapa5;
+    }
+    public void setMatrizMapa5(Celda[][] matrizMapa5) {
+        this.matrizMapa5 = matrizMapa5;
     }
 
 
@@ -410,6 +417,30 @@ public class Matrizes {
         this.matrizMapa4 [14][15] = this.celdaArbusto;
         this.matrizMapa4 [13][15] = this.celdaArbusto;
         this.matrizMapa4 [12][15] = this.celdaArbusto;
+
+    }
+    public void generarMapa5(){
+        for(int y=7;y<18;y++){
+            for(int x=14;x<29;x++){
+                this.matrizMapa5 [y][x] = this.celdaHierba;
+            }
+        }
+        for (int y=7;y<18;y++){
+            this.matrizMapa5 [y][13] = this.celdaArbusto;
+        }
+        for (int y=7;y<18;y++){
+            this.matrizMapa5 [y][28] = this.celdaArbusto;
+        }
+        for (int x=14;x<29;x++){
+            this.matrizMapa5 [7][x] = this.celdaArbusto;
+        }
+        for (int x=14;x<29;x++){
+            this.matrizMapa5 [18][x] = this.celdaArbusto;
+        }
+        this.matrizMapa5 [16][18] = this.celdaArbusto;
+        this.matrizMapa5 [16][22] = this.celdaArbusto;
+        this.matrizMapa5 [9][21] = this.celdaArbusto;
+        this.matrizMapa5 [9][20] = this.celdaArbusto;
 
     }
 
