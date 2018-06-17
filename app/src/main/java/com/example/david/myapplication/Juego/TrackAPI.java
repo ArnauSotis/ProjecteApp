@@ -34,4 +34,8 @@ public interface TrackAPI {
 
     @POST("json/ponPosYmapa")
     Call<Boolean> postPosYmapa (@Body Usuario usuario);
+
+
+    @POST("json/addObjectAUser")
+    Call<Boolean> Addobject (@Body Usuario usuario, int id);
 }

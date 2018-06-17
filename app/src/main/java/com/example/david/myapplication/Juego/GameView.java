@@ -26,7 +26,7 @@ public class GameView extends SurfaceView {
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2, bmpCasa2, bmpTorre1, bmpTorre2,bmpPuente2, extraAgua1, extraAgua2, extraAgua3;
     private Bitmap granja1, granja2, granja3, bmpJefedeCara;
     //interior de la casa
-    private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama;
+    private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama, textoMapa0_1, textoMapa0_2, textoCofreM1, textoCofreM3;
     //malos + personaje principal accion
     private Bitmap bmpBlack,bmpMalo25,bmpMalo21,bmpMalo22,bmpMalo23,bmpMalo24,bmpMalo1, bmpMalo2, bmpMalo3, bmpPerPrincipalMovPuente, bmpChicoRio, bmpmascotaDecara;
     //textos mapa1
@@ -63,12 +63,18 @@ public class GameView extends SurfaceView {
     private int posPontX=1875;
     private int posCofre=1;
     private int posCofre3=1;
+    ////////////enviar info del cofre al server
+    private boolean enviarAtaqueCofre1=false;
+    private boolean enviardefensaCofre3=false;
+    private boolean enviarLLave1=false;
+    private boolean enviarLlave3=false;
     ///////////fase final
     private boolean pintarMascota=false;
     private int contadorFinal=1;
     //llave mapa 1
     private int llaveX = 230;
     private int llaveY = 150;
+    private int textoCofre1=1;
     /////////inici del personarje principal en el mapa 1 depenen de on vingui
     private int iniciPrincipalMapa1=1;
     //igual pero del mapa2
@@ -142,6 +148,11 @@ public class GameView extends SurfaceView {
     Celda matrizMapa [][];
     Celda matrizMapa2 [][];
 
+    ////posicions i mapa
+    private int posicionX;
+    private int posicionY;
+    private int mapaActual;
+
     public int getPosPalanca() {
         return posPalanca;
     }
@@ -184,6 +195,8 @@ public class GameView extends SurfaceView {
 
             @Override
             public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+                //
+                //preguntasServer.postPosMapaVida(nombreJugador,vidaJugador,posicionX,posicionY,mapaActual);
             }
 
             @Override
@@ -202,6 +215,11 @@ public class GameView extends SurfaceView {
 
         });
         //asignamos a cada bitmap el dibujito que le toca
+        //textoMapa0_1, textoMapa0_2, textoCofreM1, textoCofreM3
+        textoMapa0_1 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_m0_1);
+        textoMapa0_2 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_m0_2);
+        textoCofreM1 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_cofre_mapa1);
+        textoCofreM3 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_cofre_mapa2);
         bmpPocion = BitmapFactory.decodeResource(getResources(),R.drawable.pocion);
         bmpmascotaDecara = BitmapFactory.decodeResource(getResources(),R.drawable.arbol_de_cara);
         textoM5 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_final);
@@ -346,6 +364,9 @@ public class GameView extends SurfaceView {
         int width = getWidth();
         int posx = sprites.get(0).getX();
         int posy = sprites.get(0).getY();
+        this.posicionX=posx;
+        this.posicionY=posy;
+        this.mapaActual=mapa;
         //Log.d( "this","alto" + height + "ancho"+width);
         //Cuando esta delante del puente y el puente esta tocando tierra podemos pasar al mapa 2
 
@@ -673,7 +694,12 @@ public class GameView extends SurfaceView {
                     if(filaY==11&&columnaX==7 || filaY==12&&columnaX==7|| filaY==11&&columnaX==8|| filaY==12&&columnaX==8|| filaY==12&&columnaX==6|| filaY==11&&columnaX==6){
                         posCofre=2;
                         Log.d("entra",":en abrir cofre");
+                        //treiem el text del cofre
+                        if(textoCofre1==2){
+                            textoCofre1++;
+                        }
                     }
+
                     //palanca mirar mas posiciones
                     if(filaY==9 && columnaX==34 || filaY==9 && columnaX==35 || filaY==9 && columnaX==33){
                         Log.d("entra",":mover puente");
@@ -800,6 +826,7 @@ public class GameView extends SurfaceView {
                     }else{
                         contadorTextM0++;
                     }
+
                 }else{
                     sprites.get(0).caminarPresion(x,y);
                 }
@@ -880,8 +907,13 @@ public class GameView extends SurfaceView {
         canvas.drawBitmap(bmpArbustoH, 400, 500, null);
         //sota el 7 posem cofre
         if(posCofre==2){
-            bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto); }
+            if(textoCofre1==1){
+                textoCofre1=2;
+            }
+            bmpCofre = BitmapFactory.decodeResource(getResources(), R.drawable.cofre_abierto);
+        }
         canvas.drawBitmap(bmpCofre, 320, 545, null);
+
         //8
         for(int x=1055;x<1235;x=x+90){
             canvas.drawBitmap(bmpArbustoH, x, 660, null);
@@ -1054,6 +1086,34 @@ public class GameView extends SurfaceView {
                 deMapa1A4=true;
             }
         }
+        ///mensaje cofre
+        //////////// enviamos la id del cofre y el nombre del jugador
+        ///////////
+
+        //VIP enviamos la id del cofre y el nombre del jugador
+
+        ////////////
+        if(textoCofre1==2){
+            //    private boolean enviarAtaqueCofre1=false;
+            //    private boolean enviardefensaCofre3=false;
+            //    private boolean enviarLLave1=false;
+            //    private boolean enviarLlave3=false;
+            /* VIP
+                                                                                                ///////////////////////////////////////////////////////////
+                                                                                                envio al server la espada con id 7
+
+            Envio el nombre del usuario y la espada hacia el server
+
+
+
+             */
+            if(!enviarAtaqueCofre1){
+                preguntasServer.postObjeto(nombreJugador,7);
+                enviarAtaqueCofre1=true;
+            }
+            sprites.get(0).caminarPresion(posx, posy);
+            canvas.drawBitmap(textoCofreM1, 550, 680, null);
+        }
         //mensaje de los 3 muñecos que no te dejan entrar en casa
         //y=19 x=15 casa 10
         //y=17 x=30 casa 13
@@ -1111,6 +1171,23 @@ public class GameView extends SurfaceView {
                     llaveX=2000;
                     llaveY=2000;
                 }
+            }
+            canvas.drawBitmap(bmpLlave, 600, 950, null);
+            //    private boolean enviarAtaqueCofre1=false;
+            //    private boolean enviardefensaCofre3=false;
+            //    private boolean enviarLLave1=false;
+            //    private boolean enviarLlave3=false;
+            /* VIP
+                                                                                                ///////////////////////////////////////////////////////////
+                                                                                                envio al server el nombre del jugador y la id de la llave1
+            Envio el nombre del usuario y el id de la llave 1
+
+
+
+             */
+            if(!enviarLLave1){
+                preguntasServer.postObjeto(nombreJugador,10);
+                enviarLLave1=true;
             }
         }
         canvas.drawBitmap(bmpLlave, llaveX, llaveY, null);
@@ -1743,6 +1820,22 @@ public class GameView extends SurfaceView {
         //llave de la torre
         if(!tengoLlave3){
             canvas.drawBitmap(bmpLlave, 600, 950, null);
+            //    private boolean enviarAtaqueCofre1=false;
+            //    private boolean enviardefensaCofre3=false;
+            //    private boolean enviarLLave1=false;
+            //    private boolean enviarLlave3=false;
+            /* VIP
+                                                                                                ///////////////////////////////////////////////////////////
+                                                                                                envio al server el nombre del jugador y la id de la llave3
+            Envio el nombre del usuario y el id de la llave 3
+
+
+
+             */
+            if(!enviarLlave3){
+                preguntasServer.postObjeto(nombreJugador,9);
+                enviarLlave3=true;
+            }
         }
 
 
@@ -1805,6 +1898,23 @@ public class GameView extends SurfaceView {
                 if(contadorText2M3!=5){
                     contadorText2M3++;
                 }
+            }
+            //    private boolean enviarAtaqueCofre1=false;
+            //    private boolean enviardefensaCofre3=false;
+            //    private boolean enviarLLave1=false;
+            //    private boolean enviarLlave3=false;
+            /* VIP
+                                                                                                ///////////////////////////////////////////////////////////
+                                                                                                envio al server el nombre del jugador y el id del escudo
+
+            Envio el nombre del usuario y el escudo hacia el server
+
+
+
+             */
+            if(!enviardefensaCofre3){
+                preguntasServer.postObjeto(nombreJugador,8);
+                enviardefensaCofre3=true;
             }
         }
         canvas.drawBitmap(bmpCofre3, 1230, 300, null);

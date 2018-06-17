@@ -19,10 +19,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class PreguntasServer {
     private Call<Usuario> calluser;
-    private Call<Boolean> callLog;
     private Call<Objeto> callobject;
+    private Call<Boolean> enviarObjeto;
+    private Call<Usuario> callPosYMapa;
+    private Call<Boolean> postPosYMapa;
+
     private Context context;
     private int vida=0;
+    private Usuario user = new Usuario();
     public static final String BASE_URL = "http://147.83.7.206:8080/myapp/";
     //public static final String BASE_URL ="http://localhost:8080/myapp/";
     //public static final String BASE_URL ="http://192.168.42.214:8080/myapp/";
@@ -65,12 +69,83 @@ public class PreguntasServer {
         });
         return vida;
     }
-    public void postObjeto(String nombreJugador){
 
+    public void postObjeto(String nombreJugador, int idObject){
+        Usuario u = new Usuario(nombreJugador,"x",0,0,0,0);
+        enviarObjeto = trackServices.Addobject(u,idObject);
+        enviarObjeto.enqueue(new Callback<Boolean>() {
+
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                int statusCode = response.code();
+                if (response.isSuccessful()) {
+                    Toast.makeText (context,"llave 1 almacenda",Toast.LENGTH_LONG).show();
+                    Log.d("vida", "code:" + Integer.toString(statusCode));
+                } else {
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
+                    Toast.makeText (context,"error comunicacion",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                // log error here since request failed
+                Log.d("Request: ", "error loading API" + t.toString());
+            }
+        });
     }
 
-    public void getPosYVida (String nombreJugador){
 
+
+    public Usuario getPosYVida (String nombreJugador){
+//        private Call<Usuario> callPosYMapa;
+        callPosYMapa = trackServices.getPosYmapa(nombreJugador);
+        callPosYMapa.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                int statusCode = response.code();
+                user = response.body();
+                if (response.isSuccessful()) {
+                    Toast.makeText (context,"datos de vida y mapa recibidos",Toast.LENGTH_LONG).show();
+                    Log.d("vida", "code:" + Integer.toString(statusCode));
+                } else {
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
+                    Toast.makeText (context,"error al recibir la vida y mapa",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                // log error here since request failed
+                Log.d("Request: ", "error loading API" + t.toString());
+            }
+        });
+        return user;
+    }
+    public void postPosMapaVida (String nombreJugador, int vida, int posx, int posy, int mapa){
+        //        private Call<Boolean> postPosYMapa;
+        Usuario u = new Usuario(nombreJugador, vida, posx, posy, mapa);
+        postPosYMapa = trackServices.postPosYmapa(u);
+        postPosYMapa.enqueue(new Callback<Boolean>() {
+
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                int statusCode = response.code();
+                if (response.isSuccessful()) {
+                    Toast.makeText (context,"datos de vida y mapa colocados",Toast.LENGTH_LONG).show();
+                    Log.d("vida", "code:" + Integer.toString(statusCode));
+                } else {
+                    Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
+                    Toast.makeText (context,"error al poner la vida y mapa",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                // log error here since request failed
+                Log.d("Request: ", "error loading API" + t.toString());
+            }
+        });
     }
 
 
