@@ -283,7 +283,9 @@ public class Matrizes {
         }
         //declaro el contorno de arbustos y el de agua
         for(int x=0; x<BMP_COLUMNS; x++ ){
-            this.matrizMapa3 [0][x] = this.celdaArbusto;
+            if(x!=1&&x!=2&&x!=3){
+                this.matrizMapa3 [0][x] = this.celdaArbusto;
+            }
         }
         for(int y=0; y<BMP_ROWS; y++ ){
             this.matrizMapa3 [y][0] = this.celdaArbusto;

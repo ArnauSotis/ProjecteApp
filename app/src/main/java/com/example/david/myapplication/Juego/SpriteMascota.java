@@ -22,27 +22,25 @@ public class SpriteMascota {
     private int currentFrame = 0;
     private int width;
     private int height;
-    private int movxfinal=550;
-    private int movyfinal=600;
-    private int movxini=10;
-    private int movyini=600;
-    private int direccion;
+    private float movx;
+    private float movy;
 
+    public int getX() {
+        return x;
+    }
 
-    public void setDireccion(int direccion) {
-        this.direccion = direccion;
+    public int getY() {
+        return y;
     }
 
     public void iniciNino (int x, int y){
         this.x = x;
         this.y = y;
-        this.movxini=x;
-        this.movyini=y;
     }
     //son las coordenadas de donde queremos ir, cuando pulsamos la pantalla
-    public void patron (int x, int y){
-        this.movxfinal = x;
-        this.movyfinal = y;
+    public void caminar (float x, float y){
+        this.movx = x;
+        this.movy = y;
     }
 
     public SpriteMascota(GameView gameView, Bitmap bmp) {
@@ -54,46 +52,36 @@ public class SpriteMascota {
 
     //actualiza la posición del muñeco lo va moviendo se actualiza cada poco ms esta declarado en GameLoopThread
     private void update() {
-        //patrulla horizontal
-        //hacia la derecha
-        if(direccion==1){
-            ySpeed=0;
-            xSpeed = +5;
-            x = x + 5;
-            if (x>=movxfinal){
-                this.direccion=2;
-            }
-        }
-        //hacia la izquierda
-        if(direccion==2){
-            ySpeed=0;
-            xSpeed = -5;
-            x = x - 5;
-            if (x<=movxini){
-                this.direccion=1;
-            }
-        }
+        int xp = x / 45;
+        Log.d("columna", ":" + xp);
+        int yp = y / 45;
+        Log.d("fila", ":" + yp);
+        // direction = 0 up, 1 left, 2 down, 3 right,
+        //moviment de x
+        int movxs = (int)movx/45;
+        int movys = (int)movy/45;
+        if (xp == movxs) {
+            xSpeed = 0;
+        } else if(x < movx) {
+            xSpeed = +7;
+            x = x + 7;
+        }else {
+            xSpeed = -7;
+            x = x - 7;
 
-        //patrulla vertical
-        //Hacia abajo
-        if(direccion==3){
-            xSpeed=0;
-            ySpeed = -5;
-            y = y - 5;
-            if (y>=movyfinal){
-                this.direccion=4;
-            }
         }
-        //hacia arriba
-        if(direccion==4){
-            xSpeed=0;
-            ySpeed = +5;
-            y = y + 5;
-            if (y<=movyini){
-                this.direccion=3;
-            }
-        }
+        //moviment de y
+        if (yp == movys) {
+            ySpeed = 0;
+        }else if(y < movy){
+            ySpeed = +7;
+            y = y + 7;
 
+        }else {
+            ySpeed = -7;
+            y = y - 7;
+
+        }
         currentFrame = ++currentFrame % BMP_COLUMNS;
     }
 

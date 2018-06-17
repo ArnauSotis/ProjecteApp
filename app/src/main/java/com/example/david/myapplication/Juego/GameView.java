@@ -33,6 +33,8 @@ public class GameView extends SurfaceView {
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
     //textos mapa4
     private Bitmap  textoM4_1, textoM4_2, textoM4_3;
+    //texto game over
+    private Bitmap gameOver;
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private int tiempofuego=0;
@@ -108,16 +110,22 @@ public class GameView extends SurfaceView {
     private int contadorText1M3=1,contadorText2M3=1,contadorText3M3=1;
     /////////mapa 0
     private int contadorTextM0=1;
-    //si ha hablado con el chico del rio para ir a la palanca si ha hablado por primera vez o no para sacar un mensaje o otro
-    private boolean hablarConChicoRio = false;
-    private boolean palancaOn=false;
-    private int tieneLaLlave = 1;
+
     ///////////////////////////////
     private  String nombreJugador;
     int fuego=1;
     private PreguntasServer preguntasServer;
     ///////////////////////LLAVES//////////////////////////////
     boolean llave1_Mapa1=false;
+    //si ha hablado con el chico del rio para ir a la palanca si ha hablado por primera vez o no para sacar un mensaje o otro
+    private boolean hablarConChicoRio = false;
+    private boolean palancaOn=false;
+    private int tieneLaLlave = 1;
+    ////////llave mapa 2////////
+
+    ////////////////
+    private boolean reInicio = false;
+
 
     Matrizes generadorMatrizes = new Matrizes();
     Celda matrizMapa [][];
@@ -295,6 +303,8 @@ public class GameView extends SurfaceView {
         logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         cama = BitmapFactory.decodeResource(getResources(), R.drawable.cama);
         pared_falsa = BitmapFactory.decodeResource(getResources(), R.drawable.pared_falsa);
+
+        gameOver = BitmapFactory.decodeResource(getResources(), R.drawable.game_over);
         //sprite = new Sprite(this,bmpPrincipal);
 
 
@@ -336,8 +346,20 @@ public class GameView extends SurfaceView {
             //
             //
             //
-
-
+        if(vidaJugador<=0){
+            canvas.drawColor(Color.BLACK);
+            //pongo un mapa que no existe
+            if(!reInicio){
+                gameLoopThread.cambiarMapa(6);
+                canvas.drawBitmap(gameOver, -100, 200, null);
+                mapa=6;
+            }else{
+                mapa=1;
+                gameLoopThread.cambiarMapa(1);
+                this.iniciPrincipalMapa1=1;
+                vidaJugador=100;
+            }
+        }
         if(deMapa1A2 && pasarAMapa2){
                 gameLoopThread.cambiarMapa(2);
                 mapa=2;
@@ -379,6 +401,26 @@ public class GameView extends SurfaceView {
             this.inici=1;
             this.iniciPrincipalMapa13=1;
             deMapa2A3=false;
+        }
+        if(deMapa3A2){
+            gameLoopThread.cambiarMapa(2);
+            mapa=2;
+            this.inici=1;
+            this.iniciPrincipalMapa12=2;
+            deMapa3A2=false;
+        }
+        if(deMapa3A5){
+            gameLoopThread.cambiarMapa(5);
+            mapa=5;
+            this.inici=1;
+            deMapa3A5=false;
+        }
+        if(deMapa5A3){
+            gameLoopThread.cambiarMapa(3);
+            mapa=3;
+            this.inici=1;
+            this.iniciPrincipalMapa13=2;
+            deMapa5A3=false;
         }
         // Esto nos permite pasar del mapa 1 al mapa 2 consecutivamente
 //        if (sprites.get(0).getX()>=1500 && sprites.get(0).getY() <100 && mapa ==1) {
@@ -425,7 +467,7 @@ public class GameView extends SurfaceView {
                 spriteMalo1.setDireccion(1);
                 spriteMalo2.setDireccion(1);
                 spriteMalo3.setDireccion(3);
-                spriteMascota.setDireccion(1);
+                //spriteMascota.setDireccion(1);
                 this.inici=0;
             }
 
@@ -499,18 +541,20 @@ public class GameView extends SurfaceView {
         if(mapa==3){
             if (this.inici==1){
                 if(iniciPrincipalMapa13==1){
-                    //aquest es el inici del principi del joc
-                    sprites.get(0).iniciNino(135,45);
+                    //quan ve del mapa 2
+                    sprites.get(0).iniciNino(135,60);
                 }else if(iniciPrincipalMapa13==2){
-                    //tornan del pont
-                    sprites.get(0).iniciNino(1820,270);
+                    //tornan desde la torre al mapa3 =32 && posy/45==8
+                    sprites.get(0).iniciNino(1440,405);
                 }else{
 
                 }
                 sprites.get(0).iniciNino(135,45);
                 sprites.get(0).setEstadoMapa(3);
-                spriteMascota.iniciNino(700,600);
-                spriteMascota.patron(1000,450);
+
+                spriteMascota.iniciNino(1450,550);
+                spriteMascota.caminar(1450,400);
+
                 this.generadorMatrizes.generarMapa3();
                 this.matrizMapa = generadorMatrizes.getMatrizMapa3();
                 sprites.get(0).setMatrizMapa(matrizMapa);
@@ -518,7 +562,9 @@ public class GameView extends SurfaceView {
             }
             gameLoopThread.cambiarMapa(3);
             dibujaMapa3(canvas,height,width);
-            spriteMascota.onDraw(canvas);
+            if(spriteMascota.getX()==1450 && spriteMascota.getY()>=400){
+                spriteMascota.onDraw(canvas);
+            }
             //pintar el muñeco en el mapa
             sprites.get(0).onDraw(canvas);
 
@@ -535,6 +581,22 @@ public class GameView extends SurfaceView {
             }
             dibujaMapa4(canvas,height,width);
             gameLoopThread.cambiarMapa(4);
+            //pintar el muñeco en el mapa
+            sprites.get(0).onDraw(canvas);
+
+            Log.d("MAPA", "MAPA 4");
+        }
+        if(mapa==5){
+            if (this.inici==1){
+                sprites.get(0).iniciNino(945,715);
+                sprites.get(0).setEstadoMapa(5);
+                this.generadorMatrizes.generarMapa4();
+                this.matrizMapa = generadorMatrizes.getMatrizMapa4();
+                sprites.get(0).setMatrizMapa(matrizMapa);
+                this.inici=0;
+            }
+            dibujaMapa5(canvas,height,width);
+            gameLoopThread.cambiarMapa(5);
             //pintar el muñeco en el mapa
             sprites.get(0).onDraw(canvas);
 
@@ -583,6 +645,9 @@ public class GameView extends SurfaceView {
                 float y = event.getY();
                 int posx = sprites.get(0).getX();
                 int posy = sprites.get(0).getY();
+                if(vidaJugador==0 && !reInicio){
+                    reInicio=true;
+                }
                 if(x>=1780 && y>=940){
                     int posX =sprites.get(0).getX();
                     int posY = sprites.get(0).getY();
@@ -1424,6 +1489,7 @@ public class GameView extends SurfaceView {
             patrol2vivo5 = false;
             vidaJugador = vidaJugador - 25;
         }
+
         /////////////////////////
         //Boton
         canvas.drawBitmap(botonAccion, 1780, 940, null);
@@ -1693,6 +1759,13 @@ public class GameView extends SurfaceView {
         }
         canvas.drawBitmap(bmpCofre3, 1230, 300, null);
 
+        if(posx/45==3 && posy/45==0 ||posx/45==1 && posy/45==0 || posx/45==2 && posy/45==0){
+            deMapa3A2=true;
+        }
+        if(posx/45==32 && posy/45==8){
+            deMapa3A5=true;
+        }
+
     }
     protected void dibujaMapa4 (Canvas canvas, int height, int width){
         //dibujamos el mapa
@@ -1786,6 +1859,88 @@ public class GameView extends SurfaceView {
             canvas.drawBitmap(textoM4_3, 550, 680, null);
         }else{
             deMapa0A1=true;
+        }
+
+        /////////////////////////
+        //Boton
+        canvas.drawBitmap(botonAccion, 1780, 940, null);
+    }
+    protected void dibujaMapa5 (Canvas canvas, int height, int width){
+        //dibujamos el mapa
+        int posx = sprites.get(0).getX();
+        int posy = sprites.get(0).getY();
+        int matrizX = sprites.get(0).getMatrizX();
+        int matrizY = sprites.get(0).getMatrizY();
+        //suelo
+        for(int y=405;y<=810;y=y+45)
+        {
+            for(int x=630;x<=1260;x=x+45)
+            {
+                canvas.drawBitmap(bmpSueloCasa, x, y, null);
+            }
+        }
+        //pared
+        for(int y=180;y<=360;y=y+45)
+        {
+            for(int x=630;x<=1260;x=x+45)
+            {
+                canvas.drawBitmap(pared, x, y, null);
+            }
+        }
+        canvas.drawBitmap(planta, 850, 775, null);
+        canvas.drawBitmap(planta, 1060, 775, null);
+        canvas.drawBitmap(alfombra, 910, 795, null);
+        canvas.drawBitmap(silla, 1185, 538, null);
+        canvas.drawBitmap(silla, 1185, 590, null);
+        canvas.drawBitmap(mesa, 1090, 560, null);
+        canvas.drawBitmap(libreria, 700, 335, null);
+        canvas.drawBitmap(libreria, 1100, 335, null);
+        canvas.drawBitmap(logo, 940, 245, null);
+        canvas.drawBitmap(luz, 1150, 255, null);
+        canvas.drawBitmap(luz, 750, 255, null);
+        canvas.drawBitmap(pared_falsa, 630, 560, null);
+        canvas.drawBitmap(cama, 630, 660, null);
+
+        if(matrizX==24 && matrizY==8 || matrizX==25 && matrizY==8){
+            if(contadorText1M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_1, 550, 680, null);
+            }
+
+        }else{
+            contadorText1M4=1;
+        }
+        if(matrizX==16 && matrizY==8 || matrizX==15 && matrizY==8) {
+            if(contadorText2M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_2, 550, 680, null);
+            }
+        }else{
+            contadorText2M4=1;
+        }
+        if(matrizX==20 && matrizY==8){
+            if(contadorText3M4==1) {
+                sprites.get(0).caminarPresion(posx, posy);
+                canvas.drawBitmap(textoM4_3, 550, 680, null);
+            }
+        }else{
+            contadorText3M4=1;
+        }
+        if(!haLlegado){
+            if(!soloUnaVez){
+                sprites.get(0).caminarPresion(945,580);
+                soloUnaVez=true;
+            }
+            if(posx>=945 && posy>=540){
+                haLlegado=true;
+            }
+        }
+
+
+        if(haLlegado){
+            if(matrizX==21 && matrizY==17 || matrizX==21 && matrizY==16 || matrizX==20 && matrizY==17 || matrizX==20 && matrizY==16){
+                deMapa5A3=true;
+            }
         }
 
         /////////////////////////
