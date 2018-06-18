@@ -10,6 +10,9 @@ import com.example.david.myapplication.Clases.Login;
 import com.example.david.myapplication.Clases.Objeto;
 import com.example.david.myapplication.Clases.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,19 +74,22 @@ public class PreguntasServer {
     }
 
     public void postObjeto(String nombreJugador, int idObject){
-        Usuario u = new Usuario(nombreJugador,"x",0,0,0,0);
-        enviarObjeto = trackServices.Addobject(u,idObject);
+        List<String> datos = new ArrayList<>();
+        datos.add(nombreJugador);
+        String id = Integer.toString(idObject);
+        datos.add(id);
+        enviarObjeto = trackServices.addObjectAUserDAO(datos);
         enviarObjeto.enqueue(new Callback<Boolean>() {
 
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 int statusCode = response.code();
                 if (response.isSuccessful()) {
-                    Toast.makeText (context,"llave 1 almacenda",Toast.LENGTH_LONG).show();
-                    Log.d("vida", "code:" + Integer.toString(statusCode));
+                    Toast.makeText (context,"objeto almacenado",Toast.LENGTH_LONG).show();
+                    Log.d("add objeto", "code:" + Integer.toString(statusCode));
                 } else {
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
-                    Toast.makeText (context,"error comunicacion",Toast.LENGTH_LONG).show();
+                    Toast.makeText (context,"ya tienes este ojeto",Toast.LENGTH_LONG).show();
                 }
             }
 

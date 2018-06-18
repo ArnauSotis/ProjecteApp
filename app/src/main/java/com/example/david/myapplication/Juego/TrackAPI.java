@@ -37,5 +37,5 @@ public interface TrackAPI {
 
 
     @POST("json/addObjectAUser")
-    Call<Boolean> Addobject (@Body Usuario usuario, int id);
+    Call<Boolean> addObjectAUserDAO (@Body List<String> datos);
 }

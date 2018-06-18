@@ -26,8 +26,8 @@ public class Juego extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //esto se tiene que descomentar para recibir el nombre del juego
-        //Bundle intentdata = getIntent().getExtras();
-        //nombreJugador = intentdata.getString("name");
+        Bundle intentdata = getIntent().getExtras();
+        nombreJugador = intentdata.getString("name");
         Log.d("NombreJugador",":"+nombreJugador);
 
         setContentView(new GameView(this,nombreJugador));

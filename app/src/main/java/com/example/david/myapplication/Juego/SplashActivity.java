@@ -26,8 +26,8 @@ public class SplashActivity extends AppCompatActivity{
         new Handler().postDelayed(new Runnable(){
             public void run(){
                 //Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
-                Intent intent = new Intent(SplashActivity.this, Juego.class);
-                //Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                //Intent intent = new Intent(SplashActivity.this, Juego.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             };

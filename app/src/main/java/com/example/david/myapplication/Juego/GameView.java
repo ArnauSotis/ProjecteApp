@@ -66,7 +66,7 @@ public class GameView extends SurfaceView {
     ////////////enviar info del cofre al server
     private boolean enviarAtaqueCofre1=false;
     private boolean enviardefensaCofre3=false;
-    private boolean enviarLLave1=false;
+    private int enviarLLave1=1;
     private boolean enviarLlave3=false;
     ///////////fase final
     private boolean pintarMascota=false;
@@ -133,6 +133,10 @@ public class GameView extends SurfaceView {
     private  String nombreJugador;
     int fuego=1;
     private PreguntasServer preguntasServer;
+    private boolean preguntaLlave1=false;
+    private boolean preguntaLlave3=false;
+    private boolean preguntaCofre1=false;
+    private boolean preguntaCofre3=false;
     ///////////////////////LLAVES//////////////////////////////
     boolean llave1_Mapa1=false;
     //si ha hablado con el chico del rio para ir a la palanca si ha hablado por primera vez o no para sacar un mensaje o otro
@@ -179,7 +183,7 @@ public class GameView extends SurfaceView {
     public GameView(Context context, String nombre) {
         super(context);
         //descomentar si queremos hacer preguntas al server
-        //preguntasServer = new PreguntasServer(context);
+        preguntasServer = new PreguntasServer(context);
         this.nombreJugador = nombre;
         gameLoopThread = new GameLoopThread(this);
         holder = getHolder();
@@ -198,6 +202,7 @@ public class GameView extends SurfaceView {
             public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
                 //
                 //preguntasServer.postPosMapaVida(nombreJugador,vidaJugador,posicionX,posicionY,mapaActual);
+
             }
 
             @Override
@@ -1116,17 +1121,17 @@ public class GameView extends SurfaceView {
             //    private boolean enviarLlave3=false;
             /* VIP
                                                                                                 ///////////////////////////////////////////////////////////
-                                                                                                envio al server la espada con id 7
+                                                                                                envio al server la espada con id 10
 
             Envio el nombre del usuario y la espada hacia el server
 
 
 
              */
-//            if(!enviarAtaqueCofre1){
-//                preguntasServer.postObjeto(nombreJugador,7);
-//                enviarAtaqueCofre1=true;
-//            }
+            if(!enviarAtaqueCofre1){
+                preguntasServer.postObjeto(nombreJugador,10);
+                enviarAtaqueCofre1=true;
+            }
             sprites.get(0).caminarPresion(posx, posy);
             canvas.drawBitmap(textoCofreM1, 550, 680, null);
         }
@@ -1169,6 +1174,7 @@ public class GameView extends SurfaceView {
                 if(contadorText4M1==1) {
                     sprites.get(0).caminarPresion(posx, posy);
                     canvas.drawBitmap(textoFuenteM1Op1, 550, 680, null);
+                    enviarLLave1=2;
                 }
                 if(contadorText4M1==2){
                     llaveX=2000;
@@ -1181,6 +1187,7 @@ public class GameView extends SurfaceView {
                 if(contadorText4M1==1) {
                     sprites.get(0).caminarPresion(posx, posy);
                     canvas.drawBitmap(textoFuenteM1Op2, 550, 680, null);
+                    enviarLLave1=2;
                 }
                 if(contadorText4M1==2){
                     tieneLaLlave=2;
@@ -1189,24 +1196,25 @@ public class GameView extends SurfaceView {
                 }
             }
             canvas.drawBitmap(bmpLlave, 600, 950, null);
-            //    private boolean enviarAtaqueCofre1=false;
-            //    private boolean enviardefensaCofre3=false;
-            //    private boolean enviarLLave1=false;
-            //    private boolean enviarLlave3=false;
+        }
+        canvas.drawBitmap(bmpLlave, llaveX, llaveY, null);
+        //    private boolean enviarLLave1=false;
+        //    private boolean enviarLlave3=false;
             /* VIP
                                                                                                 ///////////////////////////////////////////////////////////
-                                                                                                envio al server el nombre del jugador y la id de la llave1
+                                                                                                envio al server el nombre del jugador y la id 11 de la llave1
             Envio el nombre del usuario y el id de la llave 1
 
 
 
              */
-//            if(!enviarLLave1){
-//                preguntasServer.postObjeto(nombreJugador,10);
-//                enviarLLave1=true;
-//            }
+        if(enviarLLave1==2){
+            if(!preguntaLlave1){
+                preguntasServer.postObjeto(nombreJugador,11);
+                preguntaLlave1=true;
+            }
+            enviarLLave1=3;
         }
-        canvas.drawBitmap(bmpLlave, llaveX, llaveY, null);
         //palancas dos posiciones
         if(posPalanca==1){
             palancaOn=true;
@@ -1842,16 +1850,16 @@ public class GameView extends SurfaceView {
             //    private boolean enviarLlave3=false;
             /* VIP
                                                                                                 ///////////////////////////////////////////////////////////
-                                                                                                envio al server el nombre del jugador y la id de la llave3
+                                                                                                envio al server el nombre del jugador y la id 12 de la llave3
             Envio el nombre del usuario y el id de la llave 3
 
 
 
              */
-//            if(!enviarLlave3){
-//                preguntasServer.postObjeto(nombreJugador,9);
-//                enviarLlave3=true;
-//            }
+            if(!enviarLlave3){
+                preguntasServer.postObjeto(nombreJugador,12);
+                enviarLlave3=true;
+            }
         }
 
 
@@ -1928,10 +1936,10 @@ public class GameView extends SurfaceView {
 
 
              */
-//            if(!enviardefensaCofre3){
-//                preguntasServer.postObjeto(nombreJugador,8);
-//                enviardefensaCofre3=true;
-//            }
+            if(!enviardefensaCofre3){
+                preguntasServer.postObjeto(nombreJugador,9);
+                enviardefensaCofre3=true;
+            }
         }
         canvas.drawBitmap(bmpCofre3, 1230, 300, null);
 
