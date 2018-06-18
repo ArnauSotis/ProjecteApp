@@ -30,6 +30,16 @@ public class ArrayAdapterListaObjetos extends ArrayAdapter<Objeto> {
         if(u.getId()==2) Picasso.with(super.getContext()).load(R.drawable.escudo).into((ImageView) convertView.findViewById(R.id.avatar_image));
         if(u.getId()==3) Picasso.with(super.getContext()).load(R.drawable.armadura).into((ImageView) convertView.findViewById(R.id.avatar_image));
         if(u.getId()==4) Picasso.with(super.getContext()).load(R.drawable.pocion).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        //casco
+        if(u.getId()==5)Picasso.with(super.getContext()).load(R.drawable.casco).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        //espada de fuego
+        if(u.getId()==6)Picasso.with(super.getContext()).load(R.drawable.espada_fuego).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        //escudo del dragon
+        if(u.getId()==7)Picasso.with(super.getContext()).load(R.drawable.escudo_dragon).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        //llaves
+        if (u.getId() == 8) Picasso.with(super.getContext()).load(R.drawable.llave_exposicion).into((ImageView) convertView.findViewById(R.id.avatar_image));
+        if (u.getId() == 9) Picasso.with(super.getContext()).load(R.drawable.llave_exposicion).into((ImageView) convertView.findViewById(R.id.avatar_image));
+
         TextView et = (TextView)convertView.findViewById(R.id.nombre_txt);
         TextView et2 = (TextView)convertView.findViewById(R.id.tipo_txt);
 
