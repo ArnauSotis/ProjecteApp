@@ -34,6 +34,10 @@ public class Usuario implements Serializable {
     @Expose
     private int resistencia;
 
+    @SerializedName("money")
+    @Expose
+    private int money;
+
     @SerializedName("posX")
     @Expose
     private int posX;
@@ -46,13 +50,17 @@ public class Usuario implements Serializable {
     @Expose
     private int mapaActual;
 
-    public Usuario(String nombre, String password, int vida, int ataque, int defensa, int resistencia) {
+    public Usuario(String nombre, String password, int vida, int ataque, int defensa, int resistencia, int money, int posX, int posY, int mapaActual) {
         this.nombre = nombre;
         this.password = password;
         this.vida = vida;
         this.ataque = ataque;
         this.defensa = defensa;
         this.resistencia = resistencia;
+        this.money = money;
+        this.posX = posX;
+        this.posY = posY;
+        this.mapaActual = mapaActual;
     }
     public Usuario(String nombre, int vida, int posx, int posy, int mapa ) {
         this.nombre = nombre;

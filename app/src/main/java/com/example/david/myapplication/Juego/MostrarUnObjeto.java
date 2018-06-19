@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -86,6 +87,14 @@ public class MostrarUnObjeto extends AppCompatActivity{
                     if(idObjeto==2) Picasso.with(MostrarUnObjeto.this).load(R.drawable.escudo).into(foto);
                     if(idObjeto==3) Picasso.with(MostrarUnObjeto.this).load(R.drawable.armadura).into(foto);
                     if(idObjeto==4) Picasso.with(MostrarUnObjeto.this).load(R.drawable.pocion).into(foto);
+                    if(idObjeto==5) Picasso.with(MostrarUnObjeto.this).load(R.drawable.casco).into(foto);
+                    //espada
+                    if(idObjeto==10) Picasso.with(MostrarUnObjeto.this).load(R.drawable.espada_fuego).into(foto);
+                    //escudo
+                    if(idObjeto==9) Picasso.with(MostrarUnObjeto.this).load(R.drawable.escudo_dragon).into(foto);
+                    //laves
+                    if(idObjeto==11) Picasso.with(MostrarUnObjeto.this).load(R.drawable.llave_exposicion).into(foto);
+                    if(idObjeto==12) Picasso.with(MostrarUnObjeto.this).load(R.drawable.llave_exposicion).into(foto);
                     //al final de la tasca
                     pb1.setVisibility(ProgressBar.INVISIBLE);
 
@@ -104,6 +113,12 @@ public class MostrarUnObjeto extends AppCompatActivity{
                 Log.d("Request: ", "error loading API" + t.toString());
             }
         });
+    }
+
+    public void back (View view){
+        Intent intentOj = new Intent(MostrarUnObjeto.this, OpcionesMenu.class);
+
+        startActivity(intentOj);
     }
 
     @Override

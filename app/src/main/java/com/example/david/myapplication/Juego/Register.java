@@ -70,7 +70,7 @@ public class Register extends AppCompatActivity {
         //pb1.setVisibility(ProgressBar.VISIBLE);
         String user = txtuser.getText().toString();
         String pass = txtpassword.getText().toString();
-        Usuario usuario = new Usuario(user,pass,0,0,0,0);
+        Usuario usuario = new Usuario(user,pass,100,50,50,50,1000,0,0,0);
         calluser = trackServices.register(usuario);
         calluser.enqueue(new Callback<Boolean>(){
 

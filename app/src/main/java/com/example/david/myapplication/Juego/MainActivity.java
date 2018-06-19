@@ -3,6 +3,7 @@ package com.example.david.myapplication.Juego;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Request: ", "error loading API" + t.toString());
             }
         });
+    }
+    public void goToWeb (View view){
+        Uri uri = Uri.parse("http://147.83.7.206:8080/");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     @Override

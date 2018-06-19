@@ -24,7 +24,7 @@ public class GameView extends SurfaceView {
     private Bitmap bmpPocion, bmpTextoAyuda, bmpAgua22,bmpRachola,bmpHierbaQuemada,bmpArbustoHquemado, bmpArbustoVquemado, bmpfuego1, bmpfuego2,bmpMascota2,bmpvida100,bmpvida75,bmpvida50,bmpvida25, bmpHierba,bmpAgua,bmpArbustoH,bmpArbustoV,bmpCasa1,bmpPuente, bmpPrincipal, bmpVallaV, bmpVallaH,bmpTexto, bmpPatrolderecha, bmpPatrolizquierda,bmpMascota,bmpCofre, bmpCofre3;
     private Bitmap bmpAmiga1PosD,bmpAmiga1PosC, bmpAmiga2PosC, bmpAmigo3PosC, bmpFuente1, bmpCajaNormal, bmpCajitas, bmpArbolCortado, bmpCaseta, bmpPiedra1, bmpPiedra2, bmpPiedra3, bmpConjuntoArbustos, bmpLlave;
     private Bitmap bandera, pensament1, pensament2, pensament3, pensament4, pensaInterrogant, pensaExclamacio, palanca, botonAccion, bmpSueloCasa, bmpPerfilPrincipal, bmpAgua2, bmpCasa2, bmpTorre1, bmpTorre2,bmpPuente2, extraAgua1, extraAgua2, extraAgua3;
-    private Bitmap granja1, granja2, granja3, bmpJefedeCara;
+    private Bitmap granja1, granja2, granja3, bmpJefedeCara, textochicaGRANJA;
     //interior de la casa
     private Bitmap alfombra, libreria, luz, mesa, pared,planta, silla, logo, pared_falsa, cama, textoMapa0_1, textoMapa0_2, textoCofreM1, textoCofreM3;
     //malos + personaje principal accion
@@ -32,10 +32,11 @@ public class GameView extends SurfaceView {
     //textos mapa1
     private Bitmap  textoM1_1, textoEspigaOp1, textoEspigaOp2, textoChicoPuenteOp1, textoChicoPuenteOp2, textoFuenteM1Op1, textoFuenteM1Op2, textodespuesPalanca, textoNoPuedesPasar;
     //textos mapa4
-    private Bitmap  textoM4_1, textoM4_2, textoM4_3;
+    private Bitmap  textoM4_1, textoM4_2, textoM4_3, victoria;
     /// texto mapa2
     private Bitmap  textoM2_1, textoM2_2, texto_pocion, textoM5;
     private int contadorMapa2Texto2=1;
+    private int contadorMapa3ChicaGranja=1;
     //texto game over
     private Bitmap gameOver;
     private SurfaceHolder holder;
@@ -202,7 +203,7 @@ public class GameView extends SurfaceView {
             public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
                 //
                 //preguntasServer.postPosMapaVida(nombreJugador,vidaJugador,posicionX,posicionY,mapaActual);
-
+                preguntasServer.save();
             }
 
             @Override
@@ -217,11 +218,14 @@ public class GameView extends SurfaceView {
                         // DO NOTHING
                     }
                 }
+                preguntasServer.save();
             }
 
         });
         //asignamos a cada bitmap el dibujito que le toca
         //textoMapa0_1, textoMapa0_2, textoCofreM1, textoCofreM3
+        victoria = BitmapFactory.decodeResource(getResources(),R.drawable.victoria);
+        textochicaGRANJA = BitmapFactory.decodeResource(getResources(),R.drawable.texto_chica_granjas_m3);
         textoMapa0_1 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_m0_1);
         textoMapa0_2 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_m0_2);
         textoCofreM1 = BitmapFactory.decodeResource(getResources(),R.drawable.texto_cofre_mapa1);
@@ -661,8 +665,10 @@ public class GameView extends SurfaceView {
         }
         if(mapa==7){
             //falta poner el texto de has ganado
-            deMapa0A1=true;
-            vidaJugador=100;
+//            deMapa0A1=true;
+//            vidaJugador=100;
+            canvas.drawBitmap(victoria, -100, 200, null);
+
         }
         if(mapa==6){
             canvas.drawBitmap(gameOver, -100, 200, null);
@@ -821,6 +827,13 @@ public class GameView extends SurfaceView {
                     //llave
                     if(filaY==20 && columnaX==14 || filaY==19 && columnaX==14){
                         tengoLlave3=true;
+                        if(!enviarLlave3){
+                            preguntasServer.postObjeto(nombreJugador,12);
+                            enviarLlave3=true;
+                        }
+                    }
+                    if(columnaX==16 && filaY==3 || columnaX==17 && filaY==3){
+                        contadorMapa3ChicaGranja=2;
                     }
                     ////mapa 5
 
@@ -1856,9 +1869,13 @@ public class GameView extends SurfaceView {
 
 
              */
-            if(!enviarLlave3){
-                preguntasServer.postObjeto(nombreJugador,12);
-                enviarLlave3=true;
+        }
+
+        ///texto chica granja
+        if(posx/45==16 && posy/45==3 || posx/45==17 && posy/45==3){
+            if(contadorMapa3ChicaGranja==1){
+                sprites.get(0).caminarPresion(posx,posy);
+                canvas.drawBitmap(textochicaGRANJA, 550, 680, null);
             }
         }
 

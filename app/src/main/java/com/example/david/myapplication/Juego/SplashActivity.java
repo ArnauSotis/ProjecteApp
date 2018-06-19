@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Tenemos una plantilla llamada splash.xml donde mostraremos la información que queramos (logotipo, etc.)
-        setContentView(R.layout.splash);
+        setContentView(R.layout.splash2);
 
         new Handler().postDelayed(new Runnable(){
             public void run(){

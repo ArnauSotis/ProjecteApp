@@ -85,11 +85,11 @@ public class PreguntasServer {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 int statusCode = response.code();
                 if (response.isSuccessful()) {
-                    Toast.makeText (context,"objeto almacenado",Toast.LENGTH_LONG).show();
+                    Toast.makeText (context,"Objeto almacenado.",Toast.LENGTH_LONG).show();
                     Log.d("add objeto", "code:" + Integer.toString(statusCode));
                 } else {
                     Log.d("onResponse", "onResponse. Code" + Integer.toString(statusCode));
-                    Toast.makeText (context,"ya tienes este ojeto",Toast.LENGTH_LONG).show();
+                    Toast.makeText (context,"Ya tienes este objeto.",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -152,6 +152,10 @@ public class PreguntasServer {
                 Log.d("Request: ", "error loading API" + t.toString());
             }
         });
+    }
+
+    public void save(){
+        Toast.makeText (context,"Game saved.",Toast.LENGTH_LONG).show();
     }
 
 
